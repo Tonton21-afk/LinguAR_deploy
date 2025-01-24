@@ -120,20 +120,37 @@ class _HomeScreenState extends State<HomeScreen> {
           ? AppBar(
               backgroundColor: Color(0xFFFEFFFE),
               elevation: 0,
-              title: Text(
-                'LinguaAR',
-                style: TextStyle(color: Colors.black, fontSize: 25),
+              title: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                child: RichText(
+                  text: TextSpan(
+                    style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
+                    children: [
+                      TextSpan(
+                        text: 'Lingua',
+                        style: TextStyle(color: Color(0xFF252525)),
+                      ),
+                      TextSpan(
+                        text: 'AR',
+                        style: TextStyle(color: Color(0xFFFFA786)),
+                      ),
+                    ],
+                  ),
+                ),
               ),
               actions: [
-                IconButton(
-                  icon: Icon(
-                    Icons.menu,
-                    color: Colors.black,
-                    size: 35.0,
+                Padding(
+                  padding: const EdgeInsets.only(right: 16.0),
+                  child: IconButton(
+                    icon: Icon(
+                      Icons.menu,
+                      color: Colors.black,
+                      size: 35.0,
+                    ),
+                    onPressed: () {
+                      // Handle menu button press
+                    },
                   ),
-                  onPressed: () {
-                    // Handle menu button press
-                  },
                 ),
               ],
             )
