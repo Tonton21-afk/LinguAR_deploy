@@ -17,6 +17,7 @@ class FoodDrinksPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Color(0xFFFEFFFE),
       appBar: AppBar(
         title: Text('Food and Drinks'),
       ),

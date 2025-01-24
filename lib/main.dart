@@ -120,25 +120,20 @@ class _HomeScreenState extends State<HomeScreen> {
           ? AppBar(
               backgroundColor: Color(0xFFFEFFFE),
               elevation: 0,
-              leading: Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: CircleAvatar(
-                  backgroundColor: Colors.orange,
-                  child: Text(
-                    'L',
-                    style: TextStyle(
-                        color: Colors.white, fontWeight: FontWeight.bold),
-                  ),
-                ),
-              ),
               title: Text(
-                'LinguaAR LOGO',
-                style: TextStyle(color: Colors.black, fontSize: 18),
+                'LinguaAR',
+                style: TextStyle(color: Colors.black, fontSize: 25),
               ),
               actions: [
                 IconButton(
-                  icon: Icon(Icons.notifications, color: Colors.grey),
-                  onPressed: () {},
+                  icon: Icon(
+                    Icons.menu,
+                    color: Colors.black,
+                    size: 35.0,
+                  ),
+                  onPressed: () {
+                    // Handle menu button press
+                  },
                 ),
               ],
             )

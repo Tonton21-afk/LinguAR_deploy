@@ -22,6 +22,7 @@ class HealthSafetyPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Color(0xFFFEFFFE),
       appBar: AppBar(
         title: Text('Health and Safety'),
       ),
