@@ -2,14 +2,17 @@ import 'package:flutter/material.dart';
 
 class CulturalValuesPage extends StatelessWidget {
   final List<String> phrases = [
-    "Family",
-    "Respect",
-    "Faith",
-    "Care",
+    "Pamilya",
+    "Respeto",
+    "Pananampalataya",
+    "Aruga",
     "Utang",
     "Pakikisama",
     "Mabuhay",
     "Tiwala",
+    "Bayanihan",
+    "Katapan",
+    "Relihiyoso",
   ];
 
   @override

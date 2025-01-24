@@ -2,15 +2,15 @@ import 'package:flutter/material.dart';
 
 class CommonExpressionsPage extends StatelessWidget {
   final List<String> phrases = [
-    "Sample Text",
-    "Sample Text",
-    "Sample Text",
-    "Sample Text",
-    "Sample Text",
-    "Sample Text",
-    "Sample Text",
-    "Sample Text",
-    "Sample Text",
+    "Walang anuman",
+    "Paalam",
+    "Sandali lang",
+    "Teka lang",
+    "Bahala na",
+    "Kayang-kaya",
+    "Ingat",
+    "Paumanhin",
+    "Pakiusap",
   ];
 
   @override

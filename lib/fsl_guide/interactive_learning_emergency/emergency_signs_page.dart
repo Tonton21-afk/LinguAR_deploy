@@ -2,15 +2,20 @@ import 'package:flutter/material.dart';
 
 class EmergencySignsPage extends StatelessWidget {
   final List<String> phrases = [
-    "Good Morning",
-    "Good Afternoon",
-    "Good Evening",
-    "Good Night",
-    "Good Noon",
-    "Hello",
-    "Hi",
-    "How are you?",
-    "Follow Me",
+    "Lumikas",
+    "Bawal Pumasok",
+    "Labasan",
+    "Panganib",
+    "Bawal Manigarilyo",
+    "Bantay-sunog",
+    "Bawal magtapon ng basura",
+    "Daanan ng tao",
+    "Huwag hawakan",
+    "Pindutin sa oras ng sakuna",
+    "Unang lunas",
+    "Telepono ng sakuna",
+    "Mabagal lang",
+    "Lugar ng tagpuan",
   ];
 
   @override

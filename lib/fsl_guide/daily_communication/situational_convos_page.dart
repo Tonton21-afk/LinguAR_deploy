@@ -2,15 +2,22 @@ import 'package:flutter/material.dart';
 
 class SituationalConvosPage extends StatelessWidget {
   final List<String> phrases = [
-    "Sample Text",
-    "Sample Text",
-    "Sample Text",
-    "Sample Text",
-    "Sample Text",
-    "Sample Text",
-    "Sample Text",
-    "Sample Text",
-    "Sample Text",
+    "Nasaan ang banyo?",
+    "Magkano po ito?",
+    "Pwede bang tunulong",
+    "Anong oras na?",
+    "May tanong ako",
+    "Saan ang sakayan?",
+    "Anong pangalan mo?",
+    "Pwede po bang magtanong",
+    "Saan banda?",
+    "Ano'ng nagyari?",
+    "Anong ibig sabihin nito?",
+    "May kilala ka bang doktor?",
+    "Pwede ba akong makisabay?",
+    "Nagugutom na ako",
+    "Uhaw na ako",
+    "Ako'y nalulumbay sa aking pagiisa",
   ];
 
   @override

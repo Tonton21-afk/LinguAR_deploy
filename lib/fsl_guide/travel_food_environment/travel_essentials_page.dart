@@ -2,15 +2,16 @@ import 'package:flutter/material.dart';
 
 class TravelEssentialsPage extends StatelessWidget {
   final List<String> phrases = [
-    "Good Morning",
-    "Good Afternoon",
-    "Good Evening",
-    "Good Night",
-    "Good Noon",
-    "Hello",
-    "Hi",
-    "How are you?",
-    "Follow Me",
+    "Bag",
+    "Maleta",
+    "Pasaporte",
+    "Mapa",
+    "Tiket",
+    "Kamera",
+    "Payong",
+    "Damit",
+    "Sapatos",
+    "Salamin sa araw",
   ];
 
   @override

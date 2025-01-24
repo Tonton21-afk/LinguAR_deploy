@@ -2,15 +2,23 @@ import 'package:flutter/material.dart';
 
 class LeisuresHobbiesPage extends StatelessWidget {
   final List<String> phrases = [
-    "Good Morning",
-    "Good Afternoon",
-    "Good Evening",
-    "Good Night",
-    "Good Noon",
-    "Hello",
-    "Hi",
-    "How are you?",
-    "Follow Me",
+    "Pagbabasa",
+    "Pagsusulat",
+    "Pagsusulat",
+    "Pagpipinta",
+    "Pagkanta",
+    "Pagsasayaw",
+    "Pagluluto",
+    "Paglalakbay",
+    "Panonood ng pelikula",
+    "Panood ng pelikula",
+    "Paglalaro ng musika",
+    "Pag-aalaga ng halaman",
+    "Pagkuha ng litrato",
+    "Pag-eensayo",
+    "Pangigisda",
+    "Paglalaro ng sports",
+    "Pagtatahi",
   ];
 
   @override

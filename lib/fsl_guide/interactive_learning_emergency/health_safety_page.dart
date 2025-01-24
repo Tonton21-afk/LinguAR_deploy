@@ -2,15 +2,21 @@ import 'package:flutter/material.dart';
 
 class HealthSafetyPage extends StatelessWidget {
   final List<String> phrases = [
-    "Good Morning",
-    "Good Afternoon",
-    "Good Evening",
-    "Good Night",
-    "Good Noon",
-    "Hello",
-    "Hi",
-    "How are you?",
-    "Follow Me",
+    "Kaligtasan",
+    "Unang Tulong",
+    "Pahinga",
+    "Ligtas",
+    "Maghugas ng kamay",
+    "Bawal mag-ingay",
+    "May sakit",
+    "Gamot",
+    "Bakuna",
+    "Panganib sa kalusugan",
+    "Tamang nutrisyon",
+    "Iwasan ang aksidente",
+    "Mag-ingat sa kalsada",
+    "Magsuot ng maskara",
+    "Magtawag ng doktor",
   ];
 
   @override

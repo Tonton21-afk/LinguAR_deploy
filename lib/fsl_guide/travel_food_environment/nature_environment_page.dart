@@ -2,15 +2,16 @@ import 'package:flutter/material.dart';
 
 class NatureEnvironmentPage extends StatelessWidget {
   final List<String> phrases = [
-    "Good Morning",
-    "Good Afternoon",
-    "Good Evening",
-    "Good Night",
-    "Good Noon",
-    "Hello",
-    "Hi",
-    "How are you?",
-    "Follow Me",
+    "Kalisakasan",
+    "Halaman",
+    "Puno",
+    "Bundok",
+    "Lawa",
+    "Ilog",
+    "Dagat",
+    "Hangin",
+    "Araw",
+    "Buwan",
   ];
 
   @override

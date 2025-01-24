@@ -12,6 +12,9 @@ class SocialGatheringsPage extends StatelessWidget {
     "Ipinagmamalaki",
     "Pagasa",
     "Ipagdiwang",
+    "Handaan",
+    "Harana",
+    "Harapang Pagbati",
   ];
 
   @override

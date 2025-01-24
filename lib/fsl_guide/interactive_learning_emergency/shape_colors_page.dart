@@ -2,15 +2,29 @@ import 'package:flutter/material.dart';
 
 class ShapeColorsPage extends StatelessWidget {
   final List<String> phrases = [
-    "Good Morning",
-    "Good Afternoon",
-    "Good Evening",
-    "Good Night",
-    "Good Noon",
-    "Hello",
-    "Hi",
-    "How are you?",
-    "Follow Me",
+    "Bilog",
+    "Parisukat",
+    "Tatsulok",
+    "Rektanggulo",
+    "Ovalo",
+    "Pentagon",
+    "Hexagon",
+    "Bituin",
+    "Hugis puso",
+    "Arko",
+    "Pula",
+    "Bughaw",
+    "Dilaw",
+    "Berde",
+    "Kahel",
+    "Rosas",
+    "Lila",
+    "Itim",
+    "Puti",
+    "Kayumanggi",
+    "Abo",
+    "Ginto",
+    "Pilak",
   ];
 
   @override

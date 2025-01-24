@@ -2,15 +2,16 @@ import 'package:flutter/material.dart';
 
 class TransportationPage extends StatelessWidget {
   final List<String> phrases = [
-    "Good Morning",
-    "Good Afternoon",
-    "Good Evening",
-    "Good Night",
-    "Good Noon",
-    "Hello",
-    "Hi",
-    "How are you?",
-    "Follow Me",
+    "Sasakyan",
+    "Tren",
+    "Dyip",
+    "Bus",
+    "Eroplano",
+    "Bangka",
+    "Bisiklita",
+    "Motor",
+    "Taxi",
+    "Tulay",
   ];
 
   @override
