@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:lingua_arv1/screens/get_started/get_started_page1.dart';
 import 'home/home_page.dart';
 import 'fsl_translate/fsl_translate_page.dart';
 import 'fsl_guide/fsl_guide_page.dart';
@@ -28,11 +29,11 @@ class _SplashScreenState extends State<SplashScreen> {
   @override
   void initState() {
     super.initState();
-    // Navigate to HomeScreen after 3 seconds
+    // Navigate to GetStartedPage1 after 3 seconds
     Future.delayed(Duration(seconds: 3), () {
       Navigator.pushReplacement(
         context,
-        MaterialPageRoute(builder: (context) => HomeScreen()),
+        MaterialPageRoute(builder: (context) => GetStartedPage1()),
       );
     });
   }
@@ -40,58 +41,25 @@ class _SplashScreenState extends State<SplashScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color(0xFF27314A), // Background color: #27314A
+      backgroundColor: Color(0xFF273236),
       body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            // Main logo text
-            RichText(
-              text: TextSpan(
-                style: TextStyle(
-                  fontSize: 24, // Reduced font size
-                  fontWeight: FontWeight.bold,
-                ),
-                children: [
-                  TextSpan(
-                    text: 'Lingua',
-                    style: TextStyle(
-                      color: Color(0xFFFFFFFF),
-                    ),
-                  ),
-                  TextSpan(
-                    text: 'AR',
-                    style: TextStyle(
-                      color: Color(0xFFFFA786),
-                    ),
-                  ),
-                ],
+        child: Container(
+          width: 150,
+          height: 150,
+          decoration: BoxDecoration(
+            shape: BoxShape.circle,
+            color: Color(0xFF4A90E2),
+          ),
+          child: Center(
+            child: Text(
+              'LOGO',
+              style: TextStyle(
+                fontSize: 24,
+                fontWeight: FontWeight.bold,
+                color: Colors.white,
               ),
             ),
-            SizedBox(height: 20),
-            RichText(
-              text: TextSpan(
-                style: TextStyle(
-                  fontSize: 14,
-                  fontWeight: FontWeight.normal,
-                ),
-                children: [
-                  TextSpan(
-                    text: 'Bridging Communities',
-                    style: TextStyle(
-                      color: Color(0xFFFFA786),
-                    ),
-                  ),
-                  TextSpan(
-                    text: ', Empowering Communication',
-                    style: TextStyle(
-                      color: Color(0xFFFFFFFF),
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          ],
+          ),
         ),
       ),
     );
@@ -128,11 +96,11 @@ class _HomeScreenState extends State<HomeScreen> {
                     children: [
                       TextSpan(
                         text: 'Lingua',
-                        style: TextStyle(color: Color(0xFF252525)),
+                        style: TextStyle(color: Color(0xFF000000)),
                       ),
                       TextSpan(
                         text: 'AR',
-                        style: TextStyle(color: Color(0xFFFFA786)),
+                        style: TextStyle(color: Color(0xFF4A90E2)),
                       ),
                     ],
                   ),
@@ -148,11 +116,13 @@ class _HomeScreenState extends State<HomeScreen> {
                       size: 35.0,
                     ),
                     onPressed: () {
-                      // Handle menu button press
+                      // Handle menu button press (if needed)
                     },
                   ),
                 ),
               ],
+              // To prevent the back button from appearing, you could set `automaticallyImplyLeading` to false
+              automaticallyImplyLeading: false,
             )
           : null,
       body: _pages[_currentIndex],
@@ -164,8 +134,8 @@ class _HomeScreenState extends State<HomeScreen> {
             _currentIndex = index;
           });
         },
-        selectedItemColor: Color(0xFFFFA786), // Color for selected item
-        unselectedItemColor: Colors.grey, // Color for unselected items
+        selectedItemColor: Color(0xFF4A90E2),
+        unselectedItemColor: Colors.grey,
         items: [
           BottomNavigationBarItem(
             icon: Icon(Icons.home),
