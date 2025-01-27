@@ -135,7 +135,7 @@ class _HomeScreenState extends State<HomeScreen> {
           });
         },
         selectedItemColor: Color(0xFF4A90E2),
-        unselectedItemColor: Colors.grey,
+        unselectedItemColor: Colors.black,
         items: [
           BottomNavigationBarItem(
             icon: Icon(Icons.home),

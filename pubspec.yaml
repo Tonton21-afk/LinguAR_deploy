@@ -56,6 +56,8 @@ flutter:
   assets:
     - assets/illustrations/welcome.png
     - assets/illustrations/all_set.png
+    - assets/icons/camera-02.1024x918.png
+    - assets/icons/home-simple.1024x989.png
   
 
   # The following line ensures that the Material Icons font is
