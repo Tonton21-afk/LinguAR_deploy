@@ -135,19 +135,19 @@ class _HomeScreenState extends State<HomeScreen> {
           });
         },
         selectedItemColor: Color(0xFF4A90E2),
-        unselectedItemColor: Colors.black,
+        unselectedItemColor: Colors.grey,
         items: [
           BottomNavigationBarItem(
             icon: Icon(Icons.home),
             label: 'Home',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.translate),
-            label: 'FSL Translate',
+            icon: Icon(Icons.menu_book),
+            label: 'Lessons',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.menu_book),
-            label: 'FSL Guide',
+            icon: Icon(Icons.camera),
+            label: 'FSL',
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.settings),

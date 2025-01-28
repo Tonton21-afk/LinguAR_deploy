@@ -1,7 +1,15 @@
 import 'package:flutter/material.dart';
-import 'package:lingua_arv1/screens/get_started/get_started_page3.dart'; // Assuming this is the next page
+import 'package:lingua_arv1/screens/get_started/get_started_page3.dart';
 
-class GetStartedPage2 extends StatelessWidget {
+class GetStartedPage2 extends StatefulWidget {
+  @override
+  _GetStartedPage2State createState() => _GetStartedPage2State();
+}
+
+class _GetStartedPage2State extends State<GetStartedPage2> {
+  // Track selected indices
+  Set<int> selectedIndices = {};
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -24,140 +32,50 @@ class GetStartedPage2 extends StatelessWidget {
                 ),
                 SizedBox(height: 20),
 
-                // Option 1: "I want to learn Filipino Sign Language"
-                GestureDetector(
-                  onTap: () {
-                    print("I want to learn Filipino Sign Language clicked");
-                  },
-                  child: SizedBox(
-                    width: double.infinity,
-                    height: 80,
-                    child: Card(
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(12.0),
-                      ),
-                      color: Color(0xFF4A90E2),
-                      child: Center(
-                        child: Text(
-                          "I want to learn Filipino Sign Language",
-                          textAlign: TextAlign.center,
-                          style: TextStyle(
-                            fontSize: 18,
-                            color: Colors.white,
-                            fontWeight: FontWeight.w500,
-                          ),
-                        ),
-                      ),
-                    ),
-                  ),
+                // Options list
+                _buildOptionCard(
+                  title: "I want to learn Filipino Sign Language",
+                  index: 0,
+                  color: Color(0xFF4A90E2),
                 ),
-
                 SizedBox(height: 12),
-
-                // Option 2: "I need real-time translations"
-                GestureDetector(
-                  onTap: () {
-                    print("I need real-time translations clicked");
-                  },
-                  child: SizedBox(
-                    width: double.infinity,
-                    height: 80,
-                    child: Card(
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(12.0),
-                      ),
-                      color: Color(0xFF273236),
-                      child: Center(
-                        child: Text(
-                          "I need real-time translations",
-                          textAlign: TextAlign.center,
-                          style: TextStyle(
-                            fontSize: 18,
-                            color: Colors.white,
-                            fontWeight: FontWeight.w500,
-                          ),
-                        ),
-                      ),
-                    ),
-                  ),
+                _buildOptionCard(
+                  title: "I need real-time translations",
+                  index: 1,
+                  color: Color(0xFF273236),
                 ),
-
                 SizedBox(height: 12),
-
-                // Option 3: "I want to connect with others"
-                GestureDetector(
-                  onTap: () {
-                    print("I want to connect with others clicked");
-                  },
-                  child: SizedBox(
-                    width: double.infinity,
-                    height: 80,
-                    child: Card(
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(12.0),
-                      ),
-                      color: Color(0xFF4A90E2),
-                      child: Center(
-                        child: Text(
-                          "I want to connect with others",
-                          textAlign: TextAlign.center,
-                          style: TextStyle(
-                            fontSize: 18,
-                            color: Colors.white,
-                            fontWeight: FontWeight.w500,
-                          ),
-                        ),
-                      ),
-                    ),
-                  ),
+                _buildOptionCard(
+                  title: "I want to connect with others",
+                  index: 2,
+                  color: Color(0xFF4A90E2),
                 ),
-
                 SizedBox(height: 12),
-
-                // Option 4: "Explore all features"
-                GestureDetector(
-                  onTap: () {
-                    print("Explore all features clicked");
-                  },
-                  child: SizedBox(
-                    width: double.infinity,
-                    height: 80,
-                    child: Card(
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(12.0),
-                      ),
-                      color: Color(0xFF273236),
-                      child: Center(
-                        child: Text(
-                          "Explore all features",
-                          textAlign: TextAlign.center,
-                          style: TextStyle(
-                            fontSize: 18,
-                            color: Colors.white,
-                            fontWeight: FontWeight.w500,
-                          ),
-                        ),
-                      ),
-                    ),
-                  ),
+                _buildOptionCard(
+                  title: "Explore all features",
+                  index: 3,
+                  color: Color(0xFF273236),
                 ),
-
                 SizedBox(height: 30),
 
                 Align(
                   alignment: Alignment.bottomCenter,
                   child: ElevatedButton(
-                    onPressed: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => GetStartedPage3(),
-                        ),
-                      );
-                    },
+                    onPressed: selectedIndices.isNotEmpty
+                        ? () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => GetStartedPage3(),
+                              ),
+                            );
+                          }
+                        : null,
                     style: ElevatedButton.styleFrom(
                       shape: CircleBorder(),
-                      backgroundColor: Color(0xFF4A90E2),
+                      backgroundColor: selectedIndices.isNotEmpty
+                          ? Color(0xFF4A90E2) // Active color
+                          : Colors.grey, // Disabled color
                       padding: EdgeInsets.all(20),
                     ),
                     child: Icon(
@@ -168,6 +86,64 @@ class GetStartedPage2 extends StatelessWidget {
                   ),
                 ),
               ],
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildOptionCard({
+    required String title,
+    required int index,
+    required Color color,
+  }) {
+    bool isSelected = selectedIndices.contains(index);
+
+    return GestureDetector(
+      onTap: () {
+        setState(() {
+          if (isSelected) {
+            selectedIndices.remove(index); // Deselect if already selected
+          } else {
+            selectedIndices.add(index); // Select if not already selected
+          }
+        });
+        print('$title clicked');
+      },
+      child: AnimatedContainer(
+        duration: Duration(milliseconds: 300),
+        curve: Curves.easeInOut,
+        width: isSelected ? double.infinity * 1.02 : double.infinity,
+        height: isSelected ? 90 : 80,
+        decoration: BoxDecoration(
+          color: isSelected ? color.withOpacity(0.8) : color,
+          borderRadius: BorderRadius.circular(12.0),
+          boxShadow: isSelected
+              ? [
+                  BoxShadow(
+                    color: color.withOpacity(0.7),
+                    blurRadius: 15,
+                    spreadRadius: 3,
+                  ),
+                ]
+              : [],
+          border: Border.all(
+            color: isSelected ? color.withOpacity(0.9) : Colors.transparent,
+            width: isSelected ? 6 : 0,
+          ),
+        ),
+        child: Center(
+          child: AnimatedDefaultTextStyle(
+            duration: Duration(milliseconds: 300),
+            style: TextStyle(
+              fontSize: isSelected ? 16 : 14,
+              color: Colors.white,
+              fontWeight: isSelected ? FontWeight.bold : FontWeight.w500,
+            ),
+            child: Text(
+              title,
+              textAlign: TextAlign.center,
             ),
           ),
         ),

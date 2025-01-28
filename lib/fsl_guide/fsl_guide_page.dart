@@ -26,6 +26,7 @@ class FSLGuidePage extends StatelessWidget {
     return Scaffold(
       backgroundColor: Color(0xFFFEFFFE),
       appBar: AppBar(
+        automaticallyImplyLeading: false,
         backgroundColor: Color(0xFFFEFFFE),
         title: Row(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -33,7 +34,7 @@ class FSLGuidePage extends StatelessWidget {
             Text(
               'FSL Guide',
               style: TextStyle(
-                fontSize: 18, // Reduced font size
+                fontSize: 18,
                 fontWeight: FontWeight.bold,
               ),
             ),
@@ -126,8 +127,9 @@ class FSLGuidePage extends StatelessWidget {
       child: Text(
         title,
         style: TextStyle(
-          fontSize: 16, // Reduced font size
+          fontSize: 16,
           fontWeight: FontWeight.bold,
+          color: Colors.black,
         ),
       ),
     );
@@ -138,9 +140,9 @@ class FSLGuidePage extends StatelessWidget {
       shrinkWrap: true,
       physics: NeverScrollableScrollPhysics(),
       crossAxisCount: 2,
-      crossAxisSpacing: 8, // Reduced spacing
-      mainAxisSpacing: 8, // Reduced spacing
-      childAspectRatio: 1, // Adjusted ratio for smaller cards
+      crossAxisSpacing: 8,
+      mainAxisSpacing: 8,
+      childAspectRatio: 1,
       children: cards,
     );
   }
@@ -159,21 +161,20 @@ class FSLGuidePage extends StatelessWidget {
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(8),
         ),
-        elevation: 2, // Reduced elevation
+        elevation: 2,
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             CircleAvatar(
-              radius: 20, // Reduced radius
-              child: Icon(icon,
-                  size: 20, color: Colors.white), // Adjusted icon size
+              radius: 20,
+              child: Icon(icon, size: 20, color: Colors.white),
               backgroundColor: iconColor,
             ),
-            SizedBox(height: 6), // Reduced spacing
+            SizedBox(height: 6),
             Text(
               text,
               style: TextStyle(
-                fontSize: 12, // Reduced font size
+                fontSize: 12,
                 fontWeight: FontWeight.w500,
               ),
               textAlign: TextAlign.center,

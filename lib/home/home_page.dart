@@ -27,7 +27,13 @@ class HomePage extends StatelessWidget {
                 children: [
                   GestureDetector(
                     onTap: () {
-                      // Placeholder for function
+                      // Navigate to Filipino Sign Language page
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => FilipinoSignLanguagePage(),
+                        ),
+                      );
                     },
                     child: SizedBox(
                       width: 140,
@@ -35,14 +41,20 @@ class HomePage extends StatelessWidget {
                       child: ShortcutButton(
                         icon: Icons.fingerprint,
                         label: 'Gesture Translator',
-                        backgroundColor: Colors.blueAccent,
+                        backgroundColor: Color(0xFF4A90E2),
                       ),
                     ),
                   ),
                   const SizedBox(width: 15),
                   GestureDetector(
                     onTap: () {
-                      // Placeholder for function
+                      // Navigate to Text to Speech page
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => TextToSpeechPage(),
+                        ),
+                      );
                     },
                     child: SizedBox(
                       width: 140,
@@ -50,7 +62,7 @@ class HomePage extends StatelessWidget {
                       child: ShortcutButton(
                         icon: Icons.volume_up,
                         label: 'Text to Speech',
-                        backgroundColor: Colors.black87,
+                        backgroundColor: Color(0xFF273236),
                       ),
                     ),
                   ),
@@ -222,4 +234,37 @@ class FavoriteCard extends StatelessWidget {
       ),
     );
   }
+}
+
+// Filipino Sign Language Feature Page
+class FilipinoSignLanguagePage extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(title: const Text('Filipino Sign Language')),
+      body: const Center(
+        child: Text('Welcome to the Filipino Sign Language feature!'),
+      ),
+    );
+  }
+}
+
+// Text to Speech Feature Page
+class TextToSpeechPage extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(title: const Text('Text to Speech')),
+      body: const Center(
+        child: Text('Welcome to the Text to Speech feature!'),
+      ),
+    );
+  }
+}
+
+void main() {
+  runApp(MaterialApp(
+    home: HomePage(),
+    debugShowCheckedModeBanner: false, // To remove the debug banner
+  ));
 }
