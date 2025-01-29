@@ -14,6 +14,9 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
+      theme: ThemeData(
+        fontFamily: 'Jost',
+      ),
       home: SplashScreen(),
     );
   }
@@ -92,7 +95,10 @@ class _HomeScreenState extends State<HomeScreen> {
                 padding: const EdgeInsets.symmetric(horizontal: 16.0),
                 child: RichText(
                   text: TextSpan(
-                    style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
+                    style: TextStyle(
+                        fontSize: 25,
+                        fontWeight: FontWeight.bold,
+                        fontFamily: 'Jost'),
                     children: [
                       TextSpan(
                         text: 'Lingua',
@@ -121,7 +127,6 @@ class _HomeScreenState extends State<HomeScreen> {
                   ),
                 ),
               ],
-              // To prevent the back button from appearing, you could set `automaticallyImplyLeading` to false
               automaticallyImplyLeading: false,
             )
           : null,
@@ -146,7 +151,7 @@ class _HomeScreenState extends State<HomeScreen> {
             label: 'Lessons',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.camera),
+            icon: Icon(Icons.bookmark),
             label: 'FSL',
           ),
           BottomNavigationBarItem(

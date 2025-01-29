@@ -27,7 +27,6 @@ class HomePage extends StatelessWidget {
                 children: [
                   GestureDetector(
                     onTap: () {
-                      // Navigate to Filipino Sign Language page
                       Navigator.push(
                         context,
                         MaterialPageRoute(
@@ -48,7 +47,6 @@ class HomePage extends StatelessWidget {
                   const SizedBox(width: 15),
                   GestureDetector(
                     onTap: () {
-                      // Navigate to Text to Speech page
                       Navigator.push(
                         context,
                         MaterialPageRoute(
@@ -70,44 +68,35 @@ class HomePage extends StatelessWidget {
               ),
               const SizedBox(height: 30),
 
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  const Text(
-                    'Currently Playing',
-                    style: TextStyle(
-                      fontSize: 16,
-                      fontWeight: FontWeight.bold,
+              const Text(
+                'Currently Playing',
+                style: TextStyle(
+                  fontSize: 16,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              const SizedBox(height: 12),
+              GestureDetector(
+                onTap: () {},
+                child: Container(
+                  width: double.infinity,
+                  height: 70,
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(12),
+                    border: Border.all(
+                      color: Colors.grey,
+                      width: 1.5,
                     ),
                   ),
-                  const SizedBox(height: 12),
-                  GestureDetector(
-                    onTap: () {
-                      // Placeholder for function
-                    },
-                    child: SizedBox(
-                      width: double.infinity,
-                      child: Container(
-                        height: 70,
-                        decoration: BoxDecoration(
-                          color: Colors.white,
-                          borderRadius: BorderRadius.circular(12),
-                          border: Border.all(
-                            color: Colors.grey,
-                            width: 1.5,
-                          ),
-                        ),
-                        child: const Center(
-                          child: Text(
-                            'Daily Communication, Basic Phrases',
-                            textAlign: TextAlign.center,
-                            style: TextStyle(fontSize: 14),
-                          ),
-                        ),
-                      ),
+                  child: const Center(
+                    child: Text(
+                      'Daily Communication, Basic Phrases',
+                      textAlign: TextAlign.center,
+                      style: TextStyle(fontSize: 14),
                     ),
                   ),
-                ],
+                ),
               ),
               const SizedBox(height: 30),
 
@@ -123,9 +112,7 @@ class HomePage extends StatelessWidget {
                     ),
                   ),
                   TextButton(
-                    onPressed: () {
-                      // Placeholder for function
-                    },
+                    onPressed: () {},
                     style: TextButton.styleFrom(
                       foregroundColor: Colors.white,
                       backgroundColor: const Color(0xFF4A90E2),
@@ -136,24 +123,21 @@ class HomePage extends StatelessWidget {
               ),
               const SizedBox(height: 20),
 
-              // Cards section
+              // Favorite Cards styled with new design
               Expanded(
-                child: GridView.builder(
-                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                    crossAxisCount: 2,
-                    crossAxisSpacing: 16,
-                    mainAxisSpacing: 16,
-                    childAspectRatio: 0.7,
-                  ),
-                  itemBuilder: (context, index) => GestureDetector(
-                    onTap: () {
-                      // Placeholder for function
-                    },
-                    child: FavoriteCard(
-                      title: index == 0 ? 'Sample Text' : 'Sample Text',
-                    ),
-                  ),
+                child: ListView.builder(
                   itemCount: 2,
+                  itemBuilder: (context, index) {
+                    return Padding(
+                      padding: const EdgeInsets.only(bottom: 12.0),
+                      child: FavoriteCard(
+                        chapter: 'Chapter ${index + 1}',
+                        title: 'Basic Phrases',
+                        progress: '0 of 10 lessons completed',
+                        isLocked: index == 1,
+                      ),
+                    );
+                  },
                 ),
               ),
             ],
@@ -183,37 +167,44 @@ class ShortcutButton extends StatelessWidget {
         color: backgroundColor,
         borderRadius: BorderRadius.circular(25),
       ),
-      child: Center(
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            Icon(icon, color: Colors.white, size: 32),
-            const SizedBox(height: 8),
-            Text(
-              label,
-              textAlign: TextAlign.center,
-              style: const TextStyle(color: Colors.white, fontSize: 14),
-            ),
-          ],
-        ),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Icon(icon, color: Colors.white, size: 32),
+          const SizedBox(height: 8),
+          Text(
+            label,
+            textAlign: TextAlign.center,
+            style: const TextStyle(color: Colors.white, fontSize: 14),
+          ),
+        ],
       ),
     );
   }
 }
 
 class FavoriteCard extends StatelessWidget {
+  final String chapter;
   final String title;
+  final String progress;
+  final bool isLocked;
 
-  const FavoriteCard({required this.title});
+  const FavoriteCard({
+    required this.chapter,
+    required this.title,
+    required this.progress,
+    this.isLocked = false,
+  });
 
   @override
   Widget build(BuildContext context) {
     return Container(
+      width: double.infinity,
+      padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
-        color: Colors.grey[100],
-        borderRadius: BorderRadius.circular(12),
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(15),
+        border: Border.all(color: Colors.grey, width: 1.5),
         boxShadow: [
           BoxShadow(
             color: Colors.grey.withOpacity(0.2),
@@ -222,21 +213,50 @@ class FavoriteCard extends StatelessWidget {
           ),
         ],
       ),
-      child: Center(
-        child: Text(
-          title,
-          textAlign: TextAlign.center,
-          style: const TextStyle(
-            fontSize: 14,
-            fontWeight: FontWeight.bold,
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                chapter,
+                style: const TextStyle(
+                  fontSize: 14,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.blueGrey,
+                ),
+              ),
+              const SizedBox(height: 4),
+              Text(
+                title,
+                style: const TextStyle(
+                  fontSize: 16,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              const SizedBox(height: 8),
+              Text(
+                progress,
+                style: const TextStyle(
+                  fontSize: 12,
+                  color: Colors.grey,
+                ),
+              ),
+            ],
           ),
-        ),
+          if (isLocked)
+            const Icon(
+              Icons.lock,
+              color: Colors.grey,
+              size: 24,
+            ),
+        ],
       ),
     );
   }
 }
 
-// Filipino Sign Language Feature Page
 class FilipinoSignLanguagePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -249,7 +269,6 @@ class FilipinoSignLanguagePage extends StatelessWidget {
   }
 }
 
-// Text to Speech Feature Page
 class TextToSpeechPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -265,6 +284,6 @@ class TextToSpeechPage extends StatelessWidget {
 void main() {
   runApp(MaterialApp(
     home: HomePage(),
-    debugShowCheckedModeBanner: false, // To remove the debug banner
+    debugShowCheckedModeBanner: false,
   ));
 }

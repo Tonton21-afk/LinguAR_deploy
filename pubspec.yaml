@@ -36,6 +36,9 @@ dependencies:
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^1.0.8
   video_player: ^2.9.2
+  flutter_animate: ^4.5.2
+  speech_to_text: ^5.3.0
+  
 
 dev_dependencies:
   flutter_test:
@@ -56,9 +59,17 @@ flutter:
   assets:
     - assets/illustrations/welcome.png
     - assets/illustrations/all_set.png
+    - assets/illustrations/especial.png
     # - assets/illustrations/mic.png
     - assets/icons/camera-02.1024x918.png
     - assets/icons/home-simple.1024x989.png
+
+  fonts:
+    - family: Jost
+      fonts:
+        - asset: fonts/Jost-Regular.ttf
+        - asset: fonts/Jost-Bold.ttf
+          weight: 700
 
   # The following line ensures that the Material Icons font is
   # included with your application, so that you can use the icons in

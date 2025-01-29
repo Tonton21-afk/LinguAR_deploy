@@ -157,7 +157,7 @@ class FSLGuidePage extends StatelessWidget {
         );
       },
       child: Card(
-        color: Color(0xFFFEFFFE),
+        color: iconColor,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(8),
         ),
@@ -167,8 +167,12 @@ class FSLGuidePage extends StatelessWidget {
           children: [
             CircleAvatar(
               radius: 20,
-              child: Icon(icon, size: 20, color: Colors.white),
-              backgroundColor: iconColor,
+              child: Icon(
+                icon,
+                size: 20,
+                color: iconColor,
+              ),
+              backgroundColor: Colors.white,
             ),
             SizedBox(height: 6),
             Text(
