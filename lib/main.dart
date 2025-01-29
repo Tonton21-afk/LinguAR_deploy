@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:lingua_arv1/screens/get_started/get_started_page1.dart';
 import 'home/home_page.dart';
 import 'fsl_translate/fsl_translate_page.dart';
@@ -22,7 +23,7 @@ class MyApp extends StatelessWidget {
   }
 }
 
-// Splash Screen
+// Splash Screen with SVG Icon in a Circle
 class SplashScreen extends StatefulWidget {
   @override
   _SplashScreenState createState() => _SplashScreenState();
@@ -46,21 +47,15 @@ class _SplashScreenState extends State<SplashScreen> {
     return Scaffold(
       backgroundColor: Color(0xFF273236),
       body: Center(
-        child: Container(
-          width: 150,
-          height: 150,
-          decoration: BoxDecoration(
-            shape: BoxShape.circle,
-            color: Color(0xFF4A90E2),
-          ),
-          child: Center(
-            child: Text(
-              'LOGO',
-              style: TextStyle(
-                fontSize: 24,
-                fontWeight: FontWeight.bold,
-                color: Colors.white,
-              ),
+        child: ClipOval(
+          child: Container(
+            color: Colors.white, // Background color of the circular shape
+            width: 150, // Width of the circle
+            height:
+                150, // Height of the circle (same as width to keep it circular)
+            child: SvgPicture.asset(
+              'assets/icons/fsl.svg', // SVG file as the splash screen logo
+              fit: BoxFit.contain, // Ensure the SVG fits within the circle
             ),
           ),
         ),
@@ -69,6 +64,7 @@ class _SplashScreenState extends State<SplashScreen> {
   }
 }
 
+// Home Screen
 class HomeScreen extends StatefulWidget {
   @override
   _HomeScreenState createState() => _HomeScreenState();

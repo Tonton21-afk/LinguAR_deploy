@@ -28,6 +28,7 @@ class FSLGuidePage extends StatelessWidget {
       appBar: AppBar(
         automaticallyImplyLeading: false,
         backgroundColor: Color(0xFFFEFFFE),
+        centerTitle: true,
         title: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [

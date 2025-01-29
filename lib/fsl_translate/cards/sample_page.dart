@@ -5,12 +5,8 @@ class SamplePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Center(
-          child: Text(
-            'Sample Page',
-            style: TextStyle(fontSize: 18),
-          ),
-        ),
+        title: const Text('Text to Speech'),
+        centerTitle: true,
       ),
       backgroundColor: Color(0xFFFEFFFE), // Sets the background color
       body: Padding(

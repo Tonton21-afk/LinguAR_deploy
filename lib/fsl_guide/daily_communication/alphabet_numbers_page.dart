@@ -78,6 +78,7 @@ class PhraseDetailPage extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: Text(phrase),
+        centerTitle: true,
       ),
       body: Center(
         child: Text(

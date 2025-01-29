@@ -26,6 +26,7 @@ class SituationalConvosPage extends StatelessWidget {
       backgroundColor: Color(0xFFFEFFFE),
       appBar: AppBar(
         title: Text('Situational Convos'),
+        centerTitle: true,
       ),
       body: ListView.builder(
         itemCount: phrases.length,

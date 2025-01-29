@@ -38,6 +38,9 @@ dependencies:
   video_player: ^2.9.2
   flutter_animate: ^4.5.2
   speech_to_text: ^5.3.0
+  flutter_svg: ^2.0.17
+  url_launcher: ^6.3.1
+  package_info_plus: ^8.1.4
   
 
 dev_dependencies:
@@ -60,9 +63,10 @@ flutter:
     - assets/illustrations/welcome.png
     - assets/illustrations/all_set.png
     - assets/illustrations/especial.png
-    # - assets/illustrations/mic.png
+    - assets/illustrations/mic.png
     - assets/icons/camera-02.1024x918.png
     - assets/icons/home-simple.1024x989.png
+    - assets/icons/fsl.svg
 
   fonts:
     - family: Jost

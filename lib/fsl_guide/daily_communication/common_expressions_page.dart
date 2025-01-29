@@ -19,6 +19,7 @@ class CommonExpressionsPage extends StatelessWidget {
       backgroundColor: Color(0xFFFEFFFE),
       appBar: AppBar(
         title: Text('Common Expressions'),
+        centerTitle: true,
       ),
       body: ListView.builder(
         itemCount: phrases.length,

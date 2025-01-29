@@ -18,6 +18,7 @@ class BasicPhrasesPage extends StatelessWidget {
       backgroundColor: Color(0xFFFEFFFE),
       appBar: AppBar(
         title: Text('Basic Phrases'),
+        centerTitle: true,
       ),
       body: ListView.builder(
         itemCount: phrases.length,
@@ -60,7 +61,7 @@ class _PhraseDetailPageState extends State<PhraseDetailPage> {
     super.initState();
     _controller = VideoPlayerController.asset(widget.videoPath)
       ..initialize().then((_) {
-        setState(() {}); // Refresh to display the initialized video
+        setState(() {});
       });
   }
 

@@ -1,4 +1,13 @@
 import 'package:flutter/material.dart';
+import 'feature/gesture_translator.dart';
+import 'feature/text_to_speech.dart';
+
+void main() {
+  runApp(MaterialApp(
+    home: HomePage(),
+    debugShowCheckedModeBanner: false,
+  ));
+}
 
 class HomePage extends StatelessWidget {
   @override
@@ -25,43 +34,41 @@ class HomePage extends StatelessWidget {
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  GestureDetector(
-                    onTap: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => FilipinoSignLanguagePage(),
-                        ),
-                      );
-                    },
-                    child: SizedBox(
-                      width: 140,
-                      height: 120,
-                      child: ShortcutButton(
-                        icon: Icons.fingerprint,
-                        label: 'Gesture Translator',
-                        backgroundColor: Color(0xFF4A90E2),
-                      ),
+                  SizedBox(
+                    width: 140,
+                    height: 120,
+                    child: ShortcutButton(
+                      icon: Icons.fingerprint,
+                      label: 'Gesture Translator',
+                      backgroundColor: Color(0xFF4A90E2),
+                      onTap: () {
+                        // Navigate to Gesture Translator screen
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => GestureTranslator(),
+                          ),
+                        );
+                      },
                     ),
                   ),
                   const SizedBox(width: 15),
-                  GestureDetector(
-                    onTap: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => TextToSpeechPage(),
-                        ),
-                      );
-                    },
-                    child: SizedBox(
-                      width: 140,
-                      height: 120,
-                      child: ShortcutButton(
-                        icon: Icons.volume_up,
-                        label: 'Text to Speech',
-                        backgroundColor: Color(0xFF273236),
-                      ),
+                  SizedBox(
+                    width: 140,
+                    height: 120,
+                    child: ShortcutButton(
+                      icon: Icons.volume_up,
+                      label: 'Text to Speech',
+                      backgroundColor: Color(0xFF273236),
+                      onTap: () {
+                        // Navigate to Text to Speech screen
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => TextToSpeech(),
+                          ),
+                        );
+                      },
                     ),
                   ),
                 ],
@@ -88,6 +95,13 @@ class HomePage extends StatelessWidget {
                       color: Colors.grey,
                       width: 1.5,
                     ),
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.black.withOpacity(0.2),
+                        blurRadius: 8,
+                        offset: Offset(2, 4),
+                      ),
+                    ],
                   ),
                   child: const Center(
                     child: Text(
@@ -120,64 +134,45 @@ class ShortcutButton extends StatelessWidget {
   final IconData icon;
   final String label;
   final Color backgroundColor;
+  final VoidCallback onTap; // added onTap callback
 
   const ShortcutButton({
     required this.icon,
     required this.label,
     required this.backgroundColor,
+    required this.onTap, // initialized onTap
   });
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.all(16),
-      decoration: BoxDecoration(
-        color: backgroundColor,
-        borderRadius: BorderRadius.circular(25),
-      ),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Icon(icon, color: Colors.white, size: 32),
-          const SizedBox(height: 8),
-          Text(
-            label,
-            textAlign: TextAlign.center,
-            style: const TextStyle(color: Colors.white, fontSize: 14),
-          ),
-        ],
-      ),
-    );
-  }
-}
-
-class FilipinoSignLanguagePage extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(title: const Text('Filipino Sign Language')),
-      body: const Center(
-        child: Text('Welcome to the Filipino Sign Language feature!'),
+    return GestureDetector(
+      onTap: onTap, // use the onTap here
+      child: Container(
+        padding: const EdgeInsets.all(16),
+        decoration: BoxDecoration(
+          color: backgroundColor,
+          borderRadius: BorderRadius.circular(25),
+          boxShadow: [
+            BoxShadow(
+              color: Colors.black.withOpacity(0.2),
+              blurRadius: 8,
+              offset: Offset(2, 4),
+            ),
+          ],
+        ),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Icon(icon, color: Colors.white, size: 32),
+            const SizedBox(height: 8),
+            Text(
+              label,
+              textAlign: TextAlign.center,
+              style: const TextStyle(color: Colors.white, fontSize: 14),
+            ),
+          ],
+        ),
       ),
     );
   }
-}
-
-class TextToSpeechPage extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(title: const Text('Text to Speech')),
-      body: const Center(
-        child: Text('Welcome to the Text to Speech feature!'),
-      ),
-    );
-  }
-}
-
-void main() {
-  runApp(MaterialApp(
-    home: HomePage(),
-    debugShowCheckedModeBanner: false,
-  ));
 }
