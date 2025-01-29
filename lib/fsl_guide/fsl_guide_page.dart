@@ -159,7 +159,7 @@ class FSLGuidePage extends StatelessWidget {
       child: Card(
         color: iconColor,
         shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(8),
+          borderRadius: BorderRadius.circular(25), // updated radius here
         ),
         elevation: 2,
         child: Column(
