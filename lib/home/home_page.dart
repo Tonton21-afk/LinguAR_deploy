@@ -100,44 +100,12 @@ class HomePage extends StatelessWidget {
               ),
               const SizedBox(height: 30),
 
-              // Favorites section
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  const Text(
-                    'Favorites',
-                    style: TextStyle(
-                      fontSize: 16,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                  TextButton(
-                    onPressed: () {},
-                    style: TextButton.styleFrom(
-                      foregroundColor: Colors.white,
-                      backgroundColor: const Color(0xFF4A90E2),
-                    ),
-                    child: const Text('Add +'),
-                  ),
-                ],
-              ),
-              const SizedBox(height: 20),
-
-              // Favorite Cards styled with new design
-              Expanded(
-                child: ListView.builder(
-                  itemCount: 2,
-                  itemBuilder: (context, index) {
-                    return Padding(
-                      padding: const EdgeInsets.only(bottom: 12.0),
-                      child: FavoriteCard(
-                        chapter: 'Chapter ${index + 1}',
-                        title: 'Basic Phrases',
-                        progress: '0 of 10 lessons completed',
-                        isLocked: index == 1,
-                      ),
-                    );
-                  },
+              // History section
+              const Text(
+                'History',
+                style: TextStyle(
+                  fontSize: 16,
+                  fontWeight: FontWeight.bold,
                 ),
               ),
             ],
@@ -177,80 +145,6 @@ class ShortcutButton extends StatelessWidget {
             textAlign: TextAlign.center,
             style: const TextStyle(color: Colors.white, fontSize: 14),
           ),
-        ],
-      ),
-    );
-  }
-}
-
-class FavoriteCard extends StatelessWidget {
-  final String chapter;
-  final String title;
-  final String progress;
-  final bool isLocked;
-
-  const FavoriteCard({
-    required this.chapter,
-    required this.title,
-    required this.progress,
-    this.isLocked = false,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      width: double.infinity,
-      padding: const EdgeInsets.all(16),
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(15),
-        border: Border.all(color: Colors.grey, width: 1.5),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.grey.withOpacity(0.2),
-            blurRadius: 5,
-            spreadRadius: 2,
-          ),
-        ],
-      ),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                chapter,
-                style: const TextStyle(
-                  fontSize: 14,
-                  fontWeight: FontWeight.bold,
-                  color: Colors.blueGrey,
-                ),
-              ),
-              const SizedBox(height: 4),
-              Text(
-                title,
-                style: const TextStyle(
-                  fontSize: 16,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-              const SizedBox(height: 8),
-              Text(
-                progress,
-                style: const TextStyle(
-                  fontSize: 12,
-                  color: Colors.grey,
-                ),
-              ),
-            ],
-          ),
-          if (isLocked)
-            const Icon(
-              Icons.lock,
-              color: Colors.grey,
-              size: 24,
-            ),
         ],
       ),
     );

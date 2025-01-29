@@ -9,10 +9,7 @@ class BasicPhrasesPage extends StatelessWidget {
     {"phrase": "Kumusta", "video": "assets/videos/kumusta.mp4"},
     {"phrase": "Kumusta ka na?", "video": "assets/videos/kumusta_ka_na.mp4"},
     {"phrase": "Sundan mo ako", "video": "assets/videos/sundan_mo_ako.mp4"},
-    {
-      "phrase": "Miss na kita, Balik ka na",
-      "video": "assets/videos/sundan_mo_ako.mp4"
-    },
+    {"phrase": "Miss na kita", "video": "assets/videos/sundan_mo_ako.mp4"},
   ];
 
   @override
