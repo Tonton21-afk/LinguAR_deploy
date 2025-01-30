@@ -75,6 +75,24 @@ class _GetStartedPage3State extends State<GetStartedPage3> {
               onPressed: detectGesture,
               child: Text('Detect Gesture'),
             ),
+            SizedBox(height: 20),
+            ElevatedButton(
+              onPressed: () {
+                // Debug button to bypass gesture detection
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => GetStartedPage4()),
+                );
+              },
+              style: ElevatedButton.styleFrom(
+                backgroundColor: Colors.redAccent,
+                padding: EdgeInsets.symmetric(vertical: 12, horizontal: 24),
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(12)),
+              ),
+              child: Text('DEBUG: Skip Gesture Detection',
+                  style: TextStyle(fontSize: 14, color: Colors.white)),
+            ),
           ],
         ),
       ),
