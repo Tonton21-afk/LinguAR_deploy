@@ -4,28 +4,34 @@ import 'package:lingua_arv1/model/Authentication.dart';
 import 'package:lingua_arv1/repositories/register_repositories/register_repository.dart';
 
 class RegisterRepositoryImpl implements RegisterRepository {
-  final String apiUrl = 'http://127.0.0.1:5000/register';
+  final String apiUrl = 'http://10.0.2.2:5000/register'; 
 
   @override
   Future<Authentication> register(String email, String password) async {
+    print("Sending registration request to: $apiUrl");
+    print("Request payload: {email: $email, password: $password}");
+
     final response = await http.post(
       Uri.parse(apiUrl),
-      headers: <String, String>{
-        'Content-Type': 'application/json',
-      },
-      body: jsonEncode({
-        'email': email,
-        'password': password,
-      }),
+      headers: {'Content-Type': 'application/json'},
+      body: jsonEncode({'email': email, 'password': password}),
     );
 
+    print("Register Response Code: ${response.statusCode}");
+    print("Register Response Body: ${response.body}");
+
     if (response.statusCode == 201) {
+      // Registration successful
       final responseData = jsonDecode(response.body);
-      return Authentication.fromJson(responseData);  
-    } else if (response.statusCode == 400) {
-      throw Exception('User already exists');
+      return Authentication.fromJson({
+        'message': responseData['message'], 
+        'token': '', 
+        'email': email, 
+      });
     } else {
-      throw Exception('Failed to register user');
+      // Handle errors
+      final responseData = jsonDecode(response.body);
+      throw Exception(responseData['message'] ?? 'Failed to register user');
     }
   }
 }
