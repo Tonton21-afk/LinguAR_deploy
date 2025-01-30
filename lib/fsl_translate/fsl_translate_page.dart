@@ -37,7 +37,7 @@ class FSLTranslatePage extends StatelessWidget {
                     elevation: 5,
                     child: Container(
                       width: 350,
-                      height: 150,
+                      height: 170,
                       margin: EdgeInsets.symmetric(horizontal: 16),
                       padding: EdgeInsets.all(8),
                       child: Row(
