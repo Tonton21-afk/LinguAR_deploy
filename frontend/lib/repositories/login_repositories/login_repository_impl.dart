@@ -4,7 +4,7 @@ import 'package:lingua_arv1/model/Authentication.dart';
 import 'package:lingua_arv1/repositories/login_repositories/login_repository.dart';
 
 class LoginRepositoryImpl implements LoginRepository {
-  final String apiUrl = 'http://127.0.0.1:5000/login'; 
+  final String apiUrl = 'http://10.0.2.2:5000/login';
 
   @override
   Future<Authentication> login(String email, String password) async {
@@ -18,10 +18,12 @@ class LoginRepositoryImpl implements LoginRepository {
         'password': password,
       }),
     );
-
+    print('Response status: ${response.statusCode}');
+    print('Response body: ${response.body}');
     if (response.statusCode == 200) {
       final responseData = jsonDecode(response.body);
-      return Authentication.fromJson(responseData);  
+       print("Decoded Login Response: $responseData");
+      return Authentication.fromJson(responseData);
     } else if (response.statusCode == 400) {
       throw Exception('Invalid email or password');
     } else if (response.statusCode == 404) {
