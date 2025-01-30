@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:lingua_arv1/screens/get_started/get_started_page2.dart';
-// import 'get_started/get_started_page2.dart'; // Import next page in the sequence
+import 'package:lingua_arv1/screens/login_signup/login_page.dart'; // Import the login page
 
 class GetStartedPage1 extends StatelessWidget {
   @override
@@ -79,10 +78,12 @@ class GetStartedPage1 extends StatelessWidget {
 
                   ElevatedButton(
                     onPressed: () {
+                      // Navigate to the login page
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => GetStartedPage2(),
+                          builder: (context) =>
+                              LoginPage(), // Use the LoginPage
                         ),
                       );
                     },

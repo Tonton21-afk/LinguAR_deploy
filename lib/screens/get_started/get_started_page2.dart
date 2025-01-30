@@ -119,15 +119,14 @@ class _GetStartedPage2State extends State<GetStartedPage2> {
         decoration: BoxDecoration(
           color: isSelected ? color.withOpacity(0.8) : color,
           borderRadius: BorderRadius.circular(12.0),
-          boxShadow: isSelected
-              ? [
-                  BoxShadow(
-                    color: color.withOpacity(0.7),
-                    blurRadius: 15,
-                    spreadRadius: 3,
-                  ),
-                ]
-              : [],
+          boxShadow: [
+            BoxShadow(
+              color: Colors.black.withOpacity(0.2),
+              blurRadius: isSelected ? 12 : 6,
+              spreadRadius: isSelected ? 5 : 2,
+              offset: Offset(0, 4),
+            ),
+          ],
           border: Border.all(
             color: isSelected ? color.withOpacity(0.9) : Colors.transparent,
             width: isSelected ? 6 : 0,
