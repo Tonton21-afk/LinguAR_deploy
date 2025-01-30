@@ -22,6 +22,8 @@ users_collection = db.users
 @app.route('/register', methods=['POST'])
 def register():
     data = request.get_json()
+    email = data.get('email')
+    password = data.get('password')
     if 'email' not in data or 'password' not in data:
         return jsonify({'message': 'Email and password are required'}), 400
 
