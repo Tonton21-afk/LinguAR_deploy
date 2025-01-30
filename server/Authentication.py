@@ -4,6 +4,7 @@ import datetime
 from flask import Flask, request, jsonify
 from pymongo import MongoClient
 from werkzeug.security import generate_password_hash
+from werkzeug.security import check_password_hash
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = '79e026c5eaee509133e45e5004d457b0500cbbdc62c50b5f539497fdbd14e0d3'
