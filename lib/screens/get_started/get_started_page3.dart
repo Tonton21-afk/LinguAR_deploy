@@ -44,29 +44,32 @@ class _GetStartedPage3State extends State<GetStartedPage3> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color(0xFF273236),
-      appBar: AppBar(title: Text('Gesture Detection')),
+      backgroundColor: Color(0xFFFEFEFF),
+      appBar: AppBar(
+        automaticallyImplyLeading: false,
+        backgroundColor: Colors.transparent,
+      ),
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
+            Text(
+              "Place your hand inside the circle",
+              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+            ),
+            SizedBox(height: 10),
             Container(
-              width: 150,
-              height: 150,
+              width: 350,
+              height: 350,
               decoration: BoxDecoration(
                 shape: BoxShape.circle,
-                color: Color(0xFF4A90E2),
-              ),
-              child: Center(
-                child: Text(
-                  'Step 3',
-                  style: TextStyle(
-                    fontSize: 24,
-                    fontWeight: FontWeight.bold,
-                    color: Colors.white,
-                  ),
+                color: Color(0xFFFEFEFF),
+                border: Border.all(
+                  color: Color(0xFF4A90E2),
+                  width: 5,
                 ),
               ),
+              child: Center(),
             ),
             SizedBox(height: 40),
             Text(detectedLabel, style: TextStyle(fontSize: 24)),

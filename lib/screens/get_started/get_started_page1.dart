@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:lingua_arv1/screens/login_signup/login_page.dart'; // Import the login page
+import 'package:lingua_arv1/screens/login_signup/login_page.dart';
 
 class GetStartedPage1 extends StatelessWidget {
   @override
@@ -39,7 +39,6 @@ class GetStartedPage1 extends StatelessWidget {
                         color: Colors.white,
                       ),
                       children: [
-                        TextSpan(text: "Welcome to "),
                         TextSpan(
                           text: "Lingua",
                           style: TextStyle(color: Colors.white),
@@ -82,8 +81,7 @@ class GetStartedPage1 extends StatelessWidget {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (context) =>
-                              LoginPage(), // Use the LoginPage
+                          builder: (context) => LoginPage(),
                         ),
                       );
                     },
