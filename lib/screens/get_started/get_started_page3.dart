@@ -15,7 +15,8 @@ class _GetStartedPage3State extends State<GetStartedPage3> {
   // Function to send request to Python server and get the label
   Future<void> detectGesture() async {
     try {
-      final response = await http.get(Uri.parse('http://127.0.0.1:5000/detect'));
+      final response =
+          await http.get(Uri.parse('http://127.0.0.1:5000/detect'));
 
       if (response.statusCode == 200) {
         final Map<String, dynamic> data = json.decode(response.body);
@@ -26,10 +27,10 @@ class _GetStartedPage3State extends State<GetStartedPage3> {
         });
 
         // Navigate based on label using Navigator.push()
-        if (label == 'B') {
-          Navigator.pushReplacement(
+        if (RegExp(r'^[A-Z]$').hasMatch(label)) {
+          Navigator.push(
             context,
-            MaterialPageRoute(builder: (context) => GetStartedPage4()),  // Navigate to GetStartedPage4
+            MaterialPageRoute(builder: (context) => GetStartedPage4()),
           );
         }
       } else {
