@@ -8,15 +8,18 @@ class RegisterBloc extends Bloc<RegisterEvent, RegisterState> {
   final RegisterRepository _registerRepository;
 
   RegisterBloc(this._registerRepository) : super(RegisterInitial()) {
-    on<RegisterEvent>((event, emit) async {
-      if (event is RegisterButtonPressed) {
-        emit(RegisterLoading());
-        try {
-          final authentication = await _registerRepository.register(event.email, event.password);
-          emit(RegisterSuccess(authentication)); 
-        } catch (e) {
-          emit(RegisterFailure(e.toString()));
-        }
+    on<RegisterButtonPressed>((event, emit) async {
+      emit(RegisterLoading());
+      print("Registering user with email: ${event.email}");
+
+      try {
+        final authentication = await _registerRepository.register(event.email, event.password);
+
+        print("Registration Successful: Message = ${authentication.message}");
+        emit(RegisterSuccess(authentication));
+      } catch (e) {
+        print("Registration Failed: $e");
+        emit(RegisterFailure(e.toString()));
       }
     });
   }
