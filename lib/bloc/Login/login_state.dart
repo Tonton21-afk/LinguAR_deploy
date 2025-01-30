@@ -1,4 +1,5 @@
-part of 'login_bloc.dart';
+
+import 'package:lingua_arv1/model/Authentication.dart';
 
 abstract class LoginState {}
 

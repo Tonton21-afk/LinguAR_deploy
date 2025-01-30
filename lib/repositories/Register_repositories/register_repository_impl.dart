@@ -1,13 +1,13 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:lingua_arv1/model/Authentication.dart';
-import 'package:lingua_arv1/repositories/login_repositories/login_repository.dart';
+import 'package:lingua_arv1/repositories/register_repositories/register_repository.dart';
 
-class LoginRepositoryImpl implements LoginRepository {
-  final String apiUrl = 'http://127.0.0.1:5000/login'; 
+class RegisterRepositoryImpl implements RegisterRepository {
+  final String apiUrl = 'http://127.0.0.1:5000/register';
 
   @override
-  Future<Authentication> login(String email, String password) async {
+  Future<Authentication> register(String email, String password) async {
     final response = await http.post(
       Uri.parse(apiUrl),
       headers: <String, String>{
@@ -19,15 +19,13 @@ class LoginRepositoryImpl implements LoginRepository {
       }),
     );
 
-    if (response.statusCode == 200) {
+    if (response.statusCode == 201) {
       final responseData = jsonDecode(response.body);
       return Authentication.fromJson(responseData);  
     } else if (response.statusCode == 400) {
-      throw Exception('Invalid email or password');
-    } else if (response.statusCode == 404) {
-      throw Exception('User not found');
+      throw Exception('User already exists');
     } else {
-      throw Exception('Failed to log in');
+      throw Exception('Failed to register user');
     }
   }
 }

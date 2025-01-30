@@ -1,9 +1,9 @@
 import 'package:bloc/bloc.dart';
+import 'package:lingua_arv1/bloc/Login/login_state.dart';
 import 'package:lingua_arv1/model/Authentication.dart';
-import '../repositories/login_repositories/login_repository.dart';
+import '../../repositories/login_repositories/login_repository.dart';
+part '../login_event.dart';
 
-part 'login_event.dart';
-part 'login_state.dart';
 
 class LoginBloc extends Bloc<LoginEvent, LoginState> {
   final LoginRepository _loginRepository;
