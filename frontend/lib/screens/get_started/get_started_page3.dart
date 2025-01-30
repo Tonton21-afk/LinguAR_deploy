@@ -107,27 +107,40 @@ class _GetStartedPage3State extends State<GetStartedPage3> {
     }
 
     return Scaffold(
-      backgroundColor: Color(0xFF273236),
-      appBar: AppBar(title: Text('Gesture Detection')),
+      backgroundColor: Color(0xFFFEFEFF),
+      appBar: AppBar(
+        automaticallyImplyLeading: false,
+        backgroundColor: Colors.transparent,
+      ),
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
+            const Text(
+              "Place your hand inside the circle",
+              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+            ),
+            SizedBox(height: 10),
+
             // Circular Container with Camera Preview
             Container(
-              width: 300, // Adjust the size of the circle
-              height: 300, // Adjust the size of the circle
+              width: 350, // Adjust the size of the circle
+              height: 350, // Adjust the size of the circle
               decoration: BoxDecoration(
                 shape: BoxShape.circle,
-                color: Color(0xFF4A90E2),
+                color: const Color(0xFF4A90E2),
+                border: Border.all(
+                  color: Color(0xFF4A90E2),
+                  width: 5,
+                ),
               ),
               child: ClipOval(
                 child: CameraPreview(_cameraController!),
               ),
             ),
-            SizedBox(height: 20),
+            SizedBox(height: 40),
             Text(detectedLabel, style: TextStyle(fontSize: 24)),
-            SizedBox(height: 20),
+            SizedBox(height: 40),
             ElevatedButton(
               onPressed: () {
                 Navigator.push(
