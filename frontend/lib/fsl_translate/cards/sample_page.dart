@@ -5,7 +5,7 @@ class SamplePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Text to Speech'),
+        title: const Text('Sample Nav Page'),
         centerTitle: true,
       ),
       backgroundColor: Color(0xFFFEFFFE), // Sets the background color

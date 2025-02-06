@@ -98,6 +98,25 @@ class _SettingsPageState extends State<SettingsPage> {
                 context, 'Privacy Policy', '', Icons.privacy_tip, []),
             _buildListTile(
                 context, 'Feedback and Support', '', Icons.support, []),
+            // Logout button
+            Padding(
+              padding:
+                  const EdgeInsets.symmetric(vertical: 16.0, horizontal: 16.0),
+              child: ListTile(
+                leading: Icon(Icons.exit_to_app, color: Colors.red),
+                title: Text(
+                  'Logout',
+                  style: TextStyle(
+                      fontSize: 16,
+                      fontWeight: FontWeight.w500,
+                      color: Colors.red),
+                ),
+                onTap: () {
+                  // Handle logout logic here
+                  _showLogoutDialog(context);
+                },
+              ),
+            ),
           ],
         ),
       ),
@@ -252,6 +271,35 @@ By using LinguaAR, you agree to this Privacy Policy.
             TextButton(
               onPressed: () => Navigator.of(context).pop(),
               child: Text('Close', style: TextStyle(color: Colors.blue)),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  void _showLogoutDialog(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          backgroundColor: Color(0xFFFEFFFE),
+          title: Text('Logout'),
+          content: Text('Are you sure you want to logout?'),
+          actions: [
+            TextButton(
+              onPressed: () {
+                // Handle logout functionality here
+                Navigator.of(context).pop();
+              },
+              child: Text('Cancel', style: TextStyle(color: Colors.blue)),
+            ),
+            TextButton(
+              onPressed: () {
+                // Perform logout actions here
+                Navigator.of(context).pop();
+              },
+              child: Text('Logout', style: TextStyle(color: Colors.red)),
             ),
           ],
         );
