@@ -107,13 +107,6 @@ class _GetStartedPage3State extends State<GetStartedPage3> {
 
   @override
   Widget build(BuildContext context) {
-    if (_cameraController == null || !_cameraController!.value.isInitialized) {
-      return Scaffold(
-        backgroundColor: Color(0xFF273236),
-        body: Center(child: CircularProgressIndicator()),
-      );
-    }
-
     return Scaffold(
       backgroundColor: Color(0xFFFEFEFF),
       appBar: AppBar(
@@ -130,34 +123,50 @@ class _GetStartedPage3State extends State<GetStartedPage3> {
             ),
             SizedBox(height: 10),
 
-            // Circular Container with Camera Preview
-            Container(
-              width: 350, // Adjust the size of the circle
-              height: 350, // Adjust the size of the circle
-              decoration: BoxDecoration(
-                shape: BoxShape.circle,
-                color: const Color(0xFF4A90E2),
-                border: Border.all(
-                  color: Color(0xFF4A90E2),
-                  width: 5,
+            // Circular Container with Camera Preview (Only if initialized)
+            if (_cameraController != null &&
+                _cameraController!.value.isInitialized)
+              Container(
+                width: 350,
+                height: 350,
+                decoration: BoxDecoration(
+                  shape: BoxShape.circle,
+                  color: const Color(0xFF4A90E2),
+                  border: Border.all(
+                    color: Color(0xFF4A90E2),
+                    width: 5,
+                  ),
                 ),
+                child: ClipOval(
+                  child: CameraPreview(_cameraController!),
+                ),
+              )
+            else
+              Container(
+                width: 350,
+                height: 350,
+                decoration: BoxDecoration(
+                  shape: BoxShape.circle,
+                  color: Colors.black12, // Placeholder before camera loads
+                  border: Border.all(
+                    color: Color(0xFF4A90E2),
+                    width: 5,
+                  ),
+                ),
+                child: Center(child: CircularProgressIndicator()),
               ),
-              child: ClipOval(
-                child: CameraPreview(_cameraController!),
-              ),
-            ),
             SizedBox(height: 40),
             Text(detectedLabel, style: TextStyle(fontSize: 24)),
             SizedBox(height: 40),
+
+            // Button appears immediately
             ElevatedButton(
               onPressed: () {
+                _timer?.cancel();
                 Navigator.push(
                   context,
                   MaterialPageRoute(builder: (context) => GetStartedPage4()),
                 );
-                // Cancel the timer and stop the camera when skipping
-                _timer?.cancel();
-                _cameraController?.dispose();
               },
               style: ElevatedButton.styleFrom(
                 backgroundColor: Colors.redAccent,
