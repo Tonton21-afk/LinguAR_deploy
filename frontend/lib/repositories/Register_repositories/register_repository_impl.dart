@@ -4,7 +4,8 @@ import 'package:lingua_arv1/model/Authentication.dart';
 import 'package:lingua_arv1/repositories/register_repositories/register_repository.dart';
 
 class RegisterRepositoryImpl implements RegisterRepository {
-  final String apiUrl = 'http://10.0.2.2:5000/register'; 
+  // final String apiUrl = 'http://10.0.2.2:5000/register';
+  final String apiUrl = 'http://127.0.0.1:5000/register';
 
   @override
   Future<Authentication> register(String email, String password) async {
@@ -24,9 +25,9 @@ class RegisterRepositoryImpl implements RegisterRepository {
       // Registration successful
       final responseData = jsonDecode(response.body);
       return Authentication.fromJson({
-        'message': responseData['message'], 
-        'token': '', 
-        'email': email, 
+        'message': responseData['message'],
+        'token': '',
+        'email': email,
       });
     } else {
       // Handle errors
