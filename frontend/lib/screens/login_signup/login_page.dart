@@ -8,9 +8,15 @@ import '../../repositories/login_repositories/login_repository.dart';
 import 'package:lingua_arv1/screens/get_started/get_started_page2.dart';
 import 'package:lingua_arv1/screens/login_signup/signup_page.dart';
 
-class LoginPage extends StatelessWidget {
+class LoginPage extends StatefulWidget {
+  @override
+  _LoginPageState createState() => _LoginPageState();
+}
+
+class _LoginPageState extends State<LoginPage> {
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
+  bool _obscurePassword = true;
 
   @override
   Widget build(BuildContext context) {
@@ -30,7 +36,6 @@ class LoginPage extends StatelessWidget {
                 barrierDismissible: false,
                 builder: (context) => Center(
                   child: CircularProgressIndicator(),
-                  
                 ),
               );
             } else if (state is LoginSuccess) {
@@ -79,13 +84,25 @@ class LoginPage extends StatelessWidget {
                   SizedBox(height: 20),
                   TextField(
                     controller: passwordController,
-                    obscureText: true,
+                    obscureText: _obscurePassword,
                     decoration: InputDecoration(
                       labelText: 'Password',
                       border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(12)),
                       contentPadding:
                           EdgeInsets.symmetric(vertical: 16, horizontal: 16),
+                      suffixIcon: IconButton(
+                        icon: Icon(
+                          _obscurePassword
+                              ? Icons.visibility_off
+                              : Icons.visibility,
+                        ),
+                        onPressed: () {
+                          setState(() {
+                            _obscurePassword = !_obscurePassword;
+                          });
+                        },
+                      ),
                     ),
                   ),
                   Align(
@@ -107,7 +124,8 @@ class LoginPage extends StatelessWidget {
                         if (email.isEmpty || password.isEmpty) {
                           ScaffoldMessenger.of(context).showSnackBar(
                             SnackBar(
-                                content: Text('Email and password are required')),
+                                content:
+                                    Text('Email and password are required')),
                           );
                           return;
                         }
@@ -132,13 +150,14 @@ class LoginPage extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Text("Don’t have an account? ",
-                            style:
-                                TextStyle(fontSize: 16, color: Color(0xFF273236))),
+                            style: TextStyle(
+                                fontSize: 16, color: Color(0xFF273236))),
                         TextButton(
                           onPressed: () {
                             Navigator.push(
                               context,
-                              MaterialPageRoute(builder: (context) => SignUpPage()),
+                              MaterialPageRoute(
+                                  builder: (context) => SignUpPage()),
                             );
                           },
                           child: Text(
