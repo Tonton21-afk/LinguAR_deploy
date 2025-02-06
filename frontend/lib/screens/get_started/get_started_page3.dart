@@ -16,7 +16,6 @@ class _GetStartedPage3State extends State<GetStartedPage3> {
   CameraController? _cameraController;
   List<CameraDescription>? cameras;
   Timer? _timer; // Timer for automatic detection
-  bool isNavigating = false; // Flag to track if navigation has already occurred
 
   @override
   void initState() {
@@ -27,7 +26,7 @@ class _GetStartedPage3State extends State<GetStartedPage3> {
   Future<void> _initializeCamera() async {
     cameras = await availableCameras();
     _cameraController = CameraController(
-      cameras![1],
+      cameras![0],
       ResolutionPreset.medium,
     );
     await _cameraController!.initialize();
@@ -40,10 +39,8 @@ class _GetStartedPage3State extends State<GetStartedPage3> {
 
   void _startAutomaticDetection() {
     // Set a timer to capture and process images every 2 seconds
-    _timer = Timer.periodic(Duration(seconds: 1), (timer) async {
-      if (_cameraController != null &&
-          _cameraController!.value.isInitialized &&
-          !isNavigating) {
+    _timer = Timer.periodic(Duration(seconds: 2), (timer) async {
+      if (_cameraController != null && _cameraController!.value.isInitialized) {
         await detectGesture();
       }
     });
@@ -56,9 +53,7 @@ class _GetStartedPage3State extends State<GetStartedPage3> {
 
       final request = http.MultipartRequest(
         'POST',
-        Uri.parse('http://192.168.100.53:5000/gesture/detect'),
-        //Uri.parse('http://10.0.2.2:5000/gesture/detect'),
-        //Uri.parse('http://127.0.0.1:5000/gesture/detect'),
+        Uri.parse('http://127.0.0.1:5000/detect'),
       );
 
       // Add the image file to the request
@@ -82,9 +77,6 @@ class _GetStartedPage3State extends State<GetStartedPage3> {
         // Navigate based on label using Navigator.push()
         if (RegExp(r'^[A-Z]$').hasMatch(label)) {
           _timer?.cancel(); // Stop the timer before navigating
-          setState(() {
-            isNavigating = true; // Mark navigation flag as true
-          });
           Navigator.push(
             context,
             MaterialPageRoute(builder: (context) => GetStartedPage4()),
@@ -101,7 +93,7 @@ class _GetStartedPage3State extends State<GetStartedPage3> {
   @override
   void dispose() {
     _timer?.cancel(); // Cancel the timer when the widget is disposed
-    _cameraController?.dispose(); // Dispose the camera when leaving the page
+    _cameraController?.dispose();
     super.dispose();
   }
 
@@ -155,9 +147,6 @@ class _GetStartedPage3State extends State<GetStartedPage3> {
                   context,
                   MaterialPageRoute(builder: (context) => GetStartedPage4()),
                 );
-                // Cancel the timer and stop the camera when skipping
-                _timer?.cancel();
-                _cameraController?.dispose();
               },
               style: ElevatedButton.styleFrom(
                 backgroundColor: Colors.redAccent,
