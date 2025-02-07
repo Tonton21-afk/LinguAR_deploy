@@ -16,6 +16,7 @@ class _GetStartedPage3State extends State<GetStartedPage3> {
   CameraController? _cameraController;
   List<CameraDescription>? cameras;
   Timer? _timer; // Timer for automatic detection
+  bool isNavigating = false; // Flag to track if navigation has already occurred
 
   @override
   void initState() {
@@ -26,7 +27,7 @@ class _GetStartedPage3State extends State<GetStartedPage3> {
   Future<void> _initializeCamera() async {
     cameras = await availableCameras();
     _cameraController = CameraController(
-      cameras![0],
+      cameras![1],
       ResolutionPreset.medium,
     );
     await _cameraController!.initialize();
@@ -40,8 +41,13 @@ class _GetStartedPage3State extends State<GetStartedPage3> {
   void _startAutomaticDetection() {
     // Set a timer to capture and process images every 2 seconds
     _timer = Timer.periodic(Duration(seconds: 2), (timer) async {
-      if (_cameraController != null && _cameraController!.value.isInitialized) {
+      if (_cameraController != null &&
+          _cameraController!.value.isInitialized &&
+          !isNavigating) {
+        print("Timer triggered: Detecting gesture...");
         await detectGesture();
+      } else {
+        print("Timer skipped: Camera not initialized or already navigating.");
       }
     });
   }
@@ -53,7 +59,9 @@ class _GetStartedPage3State extends State<GetStartedPage3> {
 
       final request = http.MultipartRequest(
         'POST',
-        Uri.parse('http://127.0.0.1:5000/detect'),
+        //Uri.parse('http://192.168.100.53:5000/gesture/detect'),
+        //Uri.parse('http://192.168.147.118:5000/gesture/detect'),
+        Uri.parse('http://192.168.16.118:5000/gesture/detect'),
       );
 
       // Add the image file to the request
@@ -74,13 +82,25 @@ class _GetStartedPage3State extends State<GetStartedPage3> {
           detectedLabel = label;
         });
 
+        print("Detected label: $label");
+
         // Navigate based on label using Navigator.push()
         if (RegExp(r'^[A-Z]$').hasMatch(label)) {
+          print("Valid gesture detected. Stopping timer and navigating...");
           _timer?.cancel(); // Stop the timer before navigating
+          setState(() {
+            isNavigating = true; // Mark navigation flag as true
+          });
           Navigator.push(
             context,
             MaterialPageRoute(builder: (context) => GetStartedPage4()),
-          );
+          ).then((_) {
+            // This callback runs when the user returns to this page
+            print("Navigated back to GetStartedPage3.");
+            setState(() {
+              isNavigating = false; // Reset the flag if the user comes back
+            });
+          });
         }
       } else {
         throw Exception('Failed to detect gesture');
@@ -92,8 +112,9 @@ class _GetStartedPage3State extends State<GetStartedPage3> {
 
   @override
   void dispose() {
+    print("Disposing GetStartedPage3...");
     _timer?.cancel(); // Cancel the timer when the widget is disposed
-    _cameraController?.dispose();
+    _cameraController?.dispose(); // Dispose the camera when leaving the page
     super.dispose();
   }
 
@@ -154,6 +175,7 @@ class _GetStartedPage3State extends State<GetStartedPage3> {
             // Button appears immediately
             ElevatedButton(
               onPressed: () {
+                print("DEBUG: Skipping gesture detection.");
                 _timer?.cancel();
                 Navigator.push(
                   context,

@@ -5,8 +5,11 @@ import 'package:lingua_arv1/repositories/login_repositories/login_repository.dar
 
 class LoginRepositoryImpl implements LoginRepository {
   //final String apiUrl = 'http://10.0.2.2:5000/auth/login';
-  final String apiUrl = 'http://127.0.0.1:5000/auth/login';
-  // final String apiUrl = 'http://192.168.100.53:5000/auth/login';
+  //final String apiUrl = 'http://127.0.0.1:5000/auth/login';
+  //final String apiUrl = 'http://192.168.100.53:5000/auth/login';
+  final String apiUrl = 'http://192.168.16.118:5000/auth/login';
+  //final String apiUrl = 'http://10.40.98.3:5000/auth/login';
+
 
   @override
   Future<Authentication> login(String email, String password) async {
@@ -17,7 +20,7 @@ class LoginRepositoryImpl implements LoginRepository {
       },
       body: jsonEncode({
         'email': email,
-        'password': password,
+        'password': password, 
       }),
     );
     print('Response status: ${response.statusCode}');

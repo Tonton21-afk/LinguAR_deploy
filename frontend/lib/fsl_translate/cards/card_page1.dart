@@ -6,6 +6,7 @@ class CardPage1 extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: Text('Card Page 1'),
+        centerTitle: true,
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),

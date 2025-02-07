@@ -5,8 +5,10 @@ import 'package:lingua_arv1/repositories/register_repositories/register_reposito
 
 class RegisterRepositoryImpl implements RegisterRepository {
   //final String apiUrl = 'http://10.0.2.2:5000/auth/register';
-  final String apiUrl = 'http://127.0.0.1:5000/auth/register';
+  //final String apiUrl = 'http://127.0.0.1:5000/auth/register';
   // final String apiUrl = 'http://192.168.100.53/auth/register';
+    final String apiUrl = 'http://192.168.16.118:5000/auth/register';
+
 
   @override
   Future<Authentication> register(String email, String password) async {

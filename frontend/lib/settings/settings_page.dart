@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:lingua_arv1/screens/login_signup/login_page.dart';
 
 class SettingsPage extends StatefulWidget {
   @override
@@ -7,7 +8,7 @@ class SettingsPage extends StatefulWidget {
 
 class _SettingsPageState extends State<SettingsPage> {
   Map<String, String> settings = {
-    'Theme': 'Auto',
+    'Theme': 'Light',
     'Language': 'English',
     'Name': 'Jose P. Rizal',
     'Email': 'pepe.rizal@gmail.com',
@@ -297,7 +298,10 @@ By using LinguaAR, you agree to this Privacy Policy.
             TextButton(
               onPressed: () {
                 // Perform logout actions here
-                Navigator.of(context).pop();
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => LoginPage()),
+                );
               },
               child: Text('Logout', style: TextStyle(color: Colors.red)),
             ),
