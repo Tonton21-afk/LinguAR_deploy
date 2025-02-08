@@ -3,10 +3,11 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:lingua_arv1/bloc/Login/login_bloc.dart';
 import 'package:lingua_arv1/bloc/Login/login_event.dart';
 import 'package:lingua_arv1/bloc/Login/login_state.dart';
+import 'package:lingua_arv1/forgot_password/forgot_password_sheet.dart';
 import 'package:lingua_arv1/repositories/login_repositories/login_repository_impl.dart';
-// import '../../repositories/login_repositories/login_repository.dart';
 import 'package:lingua_arv1/screens/get_started/get_started_page2.dart';
 import 'package:lingua_arv1/screens/login_signup/signup_page.dart';
+// import 'package:lingua_arv1/widgets/forgot_password_sheet.dart';
 
 class LoginPage extends StatefulWidget {
   @override
@@ -34,18 +35,17 @@ class _LoginPageState extends State<LoginPage> {
               showDialog(
                 context: context,
                 barrierDismissible: false,
-                builder: (context) => Center(
-                  child: CircularProgressIndicator(),
-                ),
+                builder: (context) =>
+                    Center(child: CircularProgressIndicator()),
               );
             } else if (state is LoginSuccess) {
-              Navigator.pop(context); // Close loading dialog
+              Navigator.pop(context);
               Navigator.pushReplacement(
                 context,
                 MaterialPageRoute(builder: (context) => GetStartedPage2()),
               );
             } else if (state is LoginFailure) {
-              Navigator.pop(context); // Close loading dialog
+              Navigator.pop(context);
               ScaffoldMessenger.of(context).showSnackBar(
                 SnackBar(content: Text(state.errorMessage)),
               );
@@ -60,10 +60,9 @@ class _LoginPageState extends State<LoginPage> {
                   Text(
                     'Welcome Back!',
                     style: TextStyle(
-                      fontSize: 28,
-                      fontWeight: FontWeight.bold,
-                      color: Color(0xFF273236),
-                    ),
+                        fontSize: 28,
+                        fontWeight: FontWeight.bold,
+                        color: Color(0xFF273236)),
                   ),
                   SizedBox(height: 8),
                   Text(
@@ -92,11 +91,9 @@ class _LoginPageState extends State<LoginPage> {
                       contentPadding:
                           EdgeInsets.symmetric(vertical: 16, horizontal: 16),
                       suffixIcon: IconButton(
-                        icon: Icon(
-                          _obscurePassword
-                              ? Icons.visibility_off
-                              : Icons.visibility,
-                        ),
+                        icon: Icon(_obscurePassword
+                            ? Icons.visibility_off
+                            : Icons.visibility),
                         onPressed: () {
                           setState(() {
                             _obscurePassword = !_obscurePassword;
@@ -108,7 +105,16 @@ class _LoginPageState extends State<LoginPage> {
                   Align(
                     alignment: Alignment.centerRight,
                     child: TextButton(
-                      onPressed: () {},
+                      onPressed: () {
+                        showModalBottomSheet(
+                          context: context,
+                          shape: RoundedRectangleBorder(
+                            borderRadius:
+                                BorderRadius.vertical(top: Radius.circular(20)),
+                          ),
+                          builder: (context) => ForgotPasswordSheet(),
+                        );
+                      },
                       child: Text('Forgot password?',
                           style: TextStyle(color: Color(0xFF4A90E2))),
                     ),
@@ -120,7 +126,6 @@ class _LoginPageState extends State<LoginPage> {
                       onPressed: () {
                         final email = emailController.text.trim();
                         final password = passwordController.text.trim();
-
                         if (email.isEmpty || password.isEmpty) {
                           ScaffoldMessenger.of(context).showSnackBar(
                             SnackBar(
@@ -129,7 +134,6 @@ class _LoginPageState extends State<LoginPage> {
                           );
                           return;
                         }
-
                         BlocProvider.of<LoginBloc>(context).add(
                           LoginButtonPressed(email: email, password: password),
                         );
@@ -160,13 +164,11 @@ class _LoginPageState extends State<LoginPage> {
                                   builder: (context) => SignUpPage()),
                             );
                           },
-                          child: Text(
-                            'Sign up',
-                            style: TextStyle(
-                                fontSize: 16,
-                                color: Color(0xFF4A90E2),
-                                fontWeight: FontWeight.bold),
-                          ),
+                          child: Text('Sign up',
+                              style: TextStyle(
+                                  fontSize: 16,
+                                  color: Color(0xFF4A90E2),
+                                  fontWeight: FontWeight.bold)),
                         ),
                       ],
                     ),

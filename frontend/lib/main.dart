@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
+import 'package:lottie/lottie.dart';
 import 'package:lingua_arv1/screens/get_started/get_started_page1.dart';
 import 'home/home_page.dart';
 import 'fsl_translate/fsl_translate_page.dart';
@@ -23,16 +23,25 @@ class MyApp extends StatelessWidget {
   }
 }
 
-// Splash Screen with SVG Icon in a Circle
+// Splash Screen with Circular Lottie Animation
 class SplashScreen extends StatefulWidget {
   @override
   _SplashScreenState createState() => _SplashScreenState();
 }
 
-class _SplashScreenState extends State<SplashScreen> {
+class _SplashScreenState extends State<SplashScreen>
+    with SingleTickerProviderStateMixin {
+  late AnimationController _controller;
+
   @override
   void initState() {
     super.initState();
+
+    // Initialize animation controller for speed control
+    _controller =
+        AnimationController(vsync: this, duration: Duration(seconds: 3));
+    _controller.forward();
+
     // Navigate to GetStartedPage1 after 3 seconds
     Future.delayed(Duration(seconds: 3), () {
       Navigator.pushReplacement(
@@ -43,19 +52,28 @@ class _SplashScreenState extends State<SplashScreen> {
   }
 
   @override
+  void dispose() {
+    _controller.dispose(); // Dispose the controller to prevent memory leaks
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Color(0xFF273236),
       body: Center(
         child: ClipOval(
+          // Circular animation
           child: Container(
-            color: Colors.white, // Background color of the circular shape
-            width: 150, // Width of the circle
-            height:
-                150, // Height of the circle (same as width to keep it circular)
-            child: SvgPicture.asset(
-              'assets/icons/fsl.svg', // SVG file as the splash screen logo
-              fit: BoxFit.contain, // Ensure the SVG fits within the circle
+            color: Colors.white,
+            width: 200,
+            height: 200,
+            child: Lottie.asset(
+              'assets/animations/FSL blue.json',
+              fit: BoxFit.cover,
+              repeat: true,
+              animate: true,
+              controller: _controller,
             ),
           ),
         ),
@@ -108,21 +126,6 @@ class _HomeScreenState extends State<HomeScreen> {
                   ),
                 ),
               ),
-              actions: [
-                Padding(
-                  padding: const EdgeInsets.only(right: 16.0),
-                  child: IconButton(
-                    icon: Icon(
-                      Icons.menu,
-                      color: Colors.black,
-                      size: 35.0,
-                    ),
-                    onPressed: () {
-                      // Handle menu button press (if needed)
-                    },
-                  ),
-                ),
-              ],
               automaticallyImplyLeading: false,
             )
           : null,
@@ -144,11 +147,11 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.menu_book),
-            label: 'Lessons',
+            label: 'FSL Quiz',
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.bookmark),
-            label: 'FSL',
+            label: 'FSL Dictionary',
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.settings),

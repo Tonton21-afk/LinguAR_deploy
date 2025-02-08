@@ -44,6 +44,8 @@ dependencies:
   bloc: ^9.0.0
   flutter_bloc: ^9.0.0
   camera: ^0.10.0+1  
+  animate_do: ^3.3.7
+  lottie: ^3.3.1
 
   
 
@@ -71,6 +73,7 @@ flutter:
     - assets/icons/camera-02.1024x918.png
     - assets/icons/home-simple.1024x989.png
     - assets/icons/fsl.svg
+    - assets/animations/FSL blue.json
 
   fonts:
     - family: Jost
