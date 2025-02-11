@@ -131,10 +131,11 @@ class _GetStartedPage4State extends State<GetStartedPage4> {
               style: ElevatedButton.styleFrom(
                 backgroundColor: Colors.red,
               ),
-              onPressed: () async {
-                // Simulate voice input (for debugging)
-                String simulatedVoiceInput = "Mabuhay";
-                await _sendVoiceData(simulatedVoiceInput, context);
+              onPressed: () {
+                Navigator.pushReplacement(
+                  context,
+                  MaterialPageRoute(builder: (context) => GetStartedPage5()),
+                );
               },
               child: Text(
                 "DEBUG: Skip Voice Detection",

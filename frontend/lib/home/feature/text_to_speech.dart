@@ -1,6 +1,11 @@
 import 'package:flutter/material.dart';
 
-class TextToSpeech extends StatelessWidget {
+class TextToSpeech extends StatefulWidget {
+  @override
+  State<TextToSpeech> createState() => _TextToSpeechState();
+}
+
+class _TextToSpeechState extends State<TextToSpeech> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
