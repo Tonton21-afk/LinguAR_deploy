@@ -17,7 +17,8 @@ class _GetStartedPage4State extends State<GetStartedPage4> {
 
   // Function to send voice data to the backend
   Future<void> _sendVoiceData(String voiceData, BuildContext context) async {
-    final url = Uri.parse('http://192.168.100.66:5000/recognize'); // Replace with your backend URL
+    final url = Uri.parse(
+        'http://192.168.100.66:5000/recognize'); // Replace with your backend URL
     final response = await http.post(
       url,
       headers: {'Content-Type': 'application/json'},
@@ -38,36 +39,37 @@ class _GetStartedPage4State extends State<GetStartedPage4> {
     }
   }
 
-void _startListening() async {
-  // Check and request microphone permission
-  var status = await Permission.microphone.status;
-  if (!status.isGranted) {
-    status = await Permission.microphone.request();
-  }
-
-  if (status.isGranted) {
-    bool available = await _speech.initialize();
-    print('Speech recognition available: $available'); // Debug log
-    if (available) {
-      setState(() => _isListening = true);
-      _speech.listen(
-        onResult: (result) {
-          setState(() {
-            _voiceText = result.recognizedWords;
-          });
-
-          if (_voiceText.toLowerCase().contains('mabuhay')) {
-            _sendVoiceData(_voiceText, context);
-          }
-        },
-      );
-    } else {
-      print('Speech recognition not available on this device');
+  void _startListening() async {
+    // Check and request microphone permission
+    var status = await Permission.microphone.status;
+    if (!status.isGranted) {
+      status = await Permission.microphone.request();
     }
-  } else {
-    print('Microphone permission denied');
+
+    if (status.isGranted) {
+      bool available = await _speech.initialize();
+      print('Speech recognition available: $available'); // Debug log
+      if (available) {
+        setState(() => _isListening = true);
+        _speech.listen(
+          onResult: (result) {
+            setState(() {
+              _voiceText = result.recognizedWords;
+            });
+
+            if (_voiceText.toLowerCase().contains('mabuhay')) {
+              _sendVoiceData(_voiceText, context);
+            }
+          },
+        );
+      } else {
+        print('Speech recognition not available on this device');
+      }
+    } else {
+      print('Microphone permission denied');
+    }
   }
-}
+
   // Function to stop listening
   void _stopListening() {
     if (_isListening) {
