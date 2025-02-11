@@ -1,6 +1,7 @@
 from flask import Flask
 from routes.auth_routes import create_auth_routes
 from routes.gesture_routes import create_gesture_routes
+from routes.speech_recognition_routes import create_speech_recognition_routes
 
 def create_app():
     app = Flask(__name__)
@@ -9,6 +10,8 @@ def create_app():
     # Register routes
     create_auth_routes(app)
     create_gesture_routes(app)
+    create_speech_recognition_routes(app)  
+
 
     return app
 
