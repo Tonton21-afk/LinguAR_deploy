@@ -2,7 +2,6 @@ from flask import Flask
 from routes.auth_routes import create_auth_routes
 from routes.gesture_routes import create_gesture_routes
 from routes.speech_recognition_routes import create_speech_recognition_routes
-from routes.speech_recognition_main_routes import create_speech_recognition__main_routes
 
 def create_app():
     app = Flask(__name__)
