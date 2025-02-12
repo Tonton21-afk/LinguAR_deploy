@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:speech_to_text/speech_to_text.dart' as stt;
+import 'package:flutter_tts/flutter_tts.dart';
 
 class TextToSpeech extends StatefulWidget {
   @override
@@ -6,6 +8,70 @@ class TextToSpeech extends StatefulWidget {
 }
 
 class _TextToSpeechState extends State<TextToSpeech> {
+  // Speech-to-Text
+  stt.SpeechToText _speech = stt.SpeechToText();
+  bool _isListening = false;
+  String _recognizedText = 'Kumusta ka aking kaibigan!';
+
+  // Text-to-Speech
+  FlutterTts _flutterTts = FlutterTts();
+
+  @override
+  void initState() {
+    super.initState();
+    _initializeSpeech();
+    _initializeTts();
+  }
+
+  // Initialize Speech-to-Text
+  void _initializeSpeech() async {
+    bool available = await _speech.initialize(
+      onStatus: (status) => print('Speech status: $status'),
+      onError: (error) => print('Speech error: $error'),
+    );
+    if (available) {
+      print('Speech-to-Text initialized');
+    } else {
+      print('Speech-to-Text not available');
+    }
+  }
+
+  // Initialize Text-to-Speech
+  void _initializeTts() async {
+    await _flutterTts.setLanguage('en-US');
+    await _flutterTts.setPitch(1.0);
+    await _flutterTts.setSpeechRate(0.5);
+    print('Text-to-Speech initialized');
+  }
+
+  // Start listening for Speech-to-Text
+  void _startListening() async {
+    if (!_isListening) {
+      bool available = await _speech.initialize();
+      if (available) {
+        setState(() => _isListening = true);
+        _speech.listen(
+          onResult: (result) => setState(() {
+            _recognizedText = result.recognizedWords;
+          }),
+        );
+      }
+    }
+  }
+
+  // Stop listening for Speech-to-Text
+  void _stopListening() async {
+    if (_isListening) {
+      setState(() => _isListening = false);
+      _speech.stop();
+    }
+  }
+
+  // Speak the text using Text-to-Speech
+  void _speakText() async {
+    await _flutterTts.speak(_recognizedText);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -35,7 +101,6 @@ class _TextToSpeechState extends State<TextToSpeech> {
                   const Text('Results'),
                   TextButton(
                     onPressed: () {
-                      // Handle button press
                       print("See History clicked");
                     },
                     child: Row(
@@ -65,21 +130,19 @@ class _TextToSpeechState extends State<TextToSpeech> {
                     width: 2,
                   ),
                 ),
-                child: const Text(
-                  'Kumusta ka aking kaibigan!',
+                child: Text(
+                  _recognizedText,
                   style: TextStyle(fontSize: 22),
                   textAlign: TextAlign.center,
                 ),
               ),
-              const SizedBox(height: 100),
+              const SizedBox(height: 4),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  // Mute button with white background
+                  // Volume button for Text-to-Speech
                   GestureDetector(
-                    onTap: () {
-                      print("Mute button clicked");
-                    },
+                    onTap: _speakText,
                     child: Container(
                       padding: const EdgeInsets.all(12.0),
                       decoration: BoxDecoration(
@@ -94,7 +157,7 @@ class _TextToSpeechState extends State<TextToSpeech> {
                         ],
                       ),
                       child: const Icon(
-                        Icons.volume_off, // Mute icon
+                        Icons.volume_up, // Volume icon
                         size: 32,
                         color: Colors.black,
                       ),
@@ -102,15 +165,15 @@ class _TextToSpeechState extends State<TextToSpeech> {
                   ),
                   const SizedBox(width: 30),
 
+                  // Mic button for Speech-to-Text
                   GestureDetector(
                     onTapDown: (_) {
+                      _startListening();
                       print('Mic button pressed');
                     },
                     onTapUp: (_) {
+                      _stopListening();
                       print('Mic button released');
-                    },
-                    onTap: () {
-                      print('Mic button clicked');
                     },
                     child: Container(
                       padding: const EdgeInsets.all(12.0),
@@ -118,16 +181,21 @@ class _TextToSpeechState extends State<TextToSpeech> {
                         color: Colors.blueAccent,
                         shape: BoxShape.circle,
                       ),
-                      child: const Icon(
-                        Icons.mic,
+                      child: Icon(
+                        _isListening ? Icons.mic : Icons.mic_none,
                         size: 60,
                         color: Colors.white,
                       ),
                     ),
                   ),
-                  const SizedBox(width: 30), // Space between buttons
+                  const SizedBox(width: 30),
+
+                  // Reset button
                   GestureDetector(
                     onTap: () {
+                      setState(() {
+                        _recognizedText = '';
+                      });
                       print("Reset button clicked");
                     },
                     child: Container(
