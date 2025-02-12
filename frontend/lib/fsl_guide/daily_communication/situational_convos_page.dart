@@ -9,7 +9,7 @@ class SituationalConvosPage extends StatelessWidget {
     "May tanong ako",
     "Saan ang sakayan?",
     "Anong pangalan mo?",
-    "Pwede po bang magtanong",
+    "Pwede po bang magtanong?",
     "Saan banda?",
     "Ano'ng nagyari?",
     "Anong ibig sabihin nito?",
