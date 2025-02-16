@@ -58,11 +58,11 @@ class FSLGuidePage extends StatelessWidget {
             children: [
               _buildSectionTitle('Daily Communication'),
               _buildGridView(context, [
-                _buildCard(context, Icons.language, 'Basic Phrases',
+                _buildCard(context, Icons.language, 'Pronouns',
                     BasicPhrasesPage(), Color(0xFFC3CDD1)),
                 _buildCard(context, Icons.numbers, 'Alphabet & Numbers',
                     AlphabetNumbersPage(), Color(0xFFFEE6DF)),
-                _buildCard(context, Icons.chat, 'Situational Convos',
+                _buildCard(context, Icons.chat, 'Basic Phrases',
                     SituationalConvosPage(), Color(0xFFACCFFB)),
                 // _buildCard(
                 //     context,

@@ -7,8 +7,7 @@ class RegisterRepositoryImpl implements RegisterRepository {
   //final String apiUrl = 'http://10.0.2.2:5000/auth/register';
   //final String apiUrl = 'http://127.0.0.1:5000/auth/register';
   // final String apiUrl = 'http://192.168.100.53/auth/register';
-    final String apiUrl = 'http://192.168.100.66:5000/auth/register';
-
+  final String apiUrl = 'http://192.168.157.7:5000/auth/register';
 
   @override
   Future<Authentication> register(String email, String password) async {

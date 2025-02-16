@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
@@ -13,6 +12,7 @@ class _FamilyFriendsPageState extends State<FamilyFriendsPage> {
   String _gifUrl = '';
   bool _isLoading = false;
   String _errorMessage = '';
+  String _currentPhrase = ''; // New variable to store the current phrase
   http.Client? _httpClient; // To cancel ongoing requests
 
   final List<String> phrases = [
@@ -49,6 +49,7 @@ class _FamilyFriendsPageState extends State<FamilyFriendsPage> {
       _isLoading = true;
       _errorMessage = '';
       _gifUrl = ''; // Clear previous GIF
+      _currentPhrase = phrase; // Set the current phrase
     });
 
     String url = '';
@@ -160,9 +161,9 @@ class _FamilyFriendsPageState extends State<FamilyFriendsPage> {
     }
 
     if (publicId.isNotEmpty) {
-      url = 'http://192.168.100.53:5000/cloudinary/get_gif?public_id=$publicId';
+      url = 'http://192.168.157.7:5000/cloudinary/get_gif?public_id=$publicId';
     } else if (imageUrl.isNotEmpty) {
-      url = 'http://192.168.100.53:5000/cloudinary/get_gif?url=$imageUrl';
+      url = 'http://192.168.157.7:5000/cloudinary/get_gif?url=$imageUrl';
     }
 
     _httpClient = http.Client(); // Initialize HTTP client
@@ -209,38 +210,51 @@ class _FamilyFriendsPageState extends State<FamilyFriendsPage> {
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          content: Container(
-            width: 400, // Fixed width for the container
-            height: 700, // Fixed height for the container
-            decoration: BoxDecoration(
-              border: Border.all(color: Colors.grey),
-            ),
-            child: Stack(
-              alignment: Alignment.center,
-              children: [
-                if (_gifUrl.isNotEmpty)
-                  Image.network(
-                    _gifUrl,
-                    fit: BoxFit.cover, // Ensure the GIF fits inside the container
-                  ),
-                if (_isLoading)
-                  CircularProgressIndicator(), // Show loading indicator
-                if (_errorMessage.isNotEmpty)
-                  Center(
-                    child: Text(
-                      _errorMessage,
-                      style: TextStyle(color: Colors.red),
-                    ),
-                  ),
-                if (_gifUrl.isEmpty && !_isLoading && _errorMessage.isEmpty)
-                  Center(
-                    child: Text(
-                      'GIF will appear here',
-                      style: TextStyle(color: Colors.grey),
-                    ),
-                  ),
-              ],
-            ),
+          content: Column(
+            mainAxisSize: MainAxisSize.min, // Use minimum space
+            children: [
+              // Text above the container
+              Text(
+                _currentPhrase,
+                style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+              ),
+              SizedBox(height: 10), // Add some spacing
+              // Container for the GIF
+              Container(
+                width: 500, // Fixed width for the container
+                height: 410, // Fixed height for the container
+                decoration: BoxDecoration(
+                  border: Border.all(color: Colors.grey),
+                ),
+                child: Stack(
+                  alignment: Alignment.center,
+                  children: [
+                    if (_gifUrl.isNotEmpty)
+                      Image.network(
+                        _gifUrl,
+                        fit: BoxFit
+                            .cover, // Ensure the GIF fits inside the container
+                      ),
+                    if (_isLoading)
+                      CircularProgressIndicator(), // Show loading indicator
+                    if (_errorMessage.isNotEmpty)
+                      Center(
+                        child: Text(
+                          _errorMessage,
+                          style: TextStyle(color: Colors.red),
+                        ),
+                      ),
+                    if (_gifUrl.isEmpty && !_isLoading && _errorMessage.isEmpty)
+                      Center(
+                        child: Text(
+                          'GIF will appear here',
+                          style: TextStyle(color: Colors.grey),
+                        ),
+                      ),
+                  ],
+                ),
+              ),
+            ],
           ),
           actions: [
             TextButton(
@@ -259,7 +273,8 @@ class _FamilyFriendsPageState extends State<FamilyFriendsPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('GIF Fetcher'),
+        title: Text('Family and Friends'),
+        centerTitle: true,
         leading: IconButton(
           icon: Icon(Icons.arrow_back),
           onPressed: () {

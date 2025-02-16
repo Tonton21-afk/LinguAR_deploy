@@ -61,7 +61,7 @@ class _GetStartedPage3State extends State<GetStartedPage3> {
         'POST',
         //Uri.parse('http://192.168.100.53:5000/gesture/detect'),
         //Uri.parse('http://192.168.147.118:5000/gesture/detect'),
-        Uri.parse('http://192.168.100.66:5000/gesture/detect'),
+        Uri.parse('http://192.168.157.7:5000/gesture/detect'),
       );
 
       // Add the image file to the request
