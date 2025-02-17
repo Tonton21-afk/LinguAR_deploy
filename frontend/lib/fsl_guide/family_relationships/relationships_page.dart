@@ -261,7 +261,7 @@ class _RelationshipsPageState extends State<RelationshipsPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Family and Friends'),
+        title: Text('Relationships'),
         centerTitle: true,
         leading: IconButton(
           icon: Icon(Icons.arrow_back),
