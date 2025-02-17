@@ -1,199 +1,38 @@
 import 'package:flutter/material.dart';
-import 'package:http/http.dart' as http;
-import 'dart:convert';
-import 'dart:async'; // For CancelToken
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:lingua_arv1/api/basic_phrases.dart';
+import 'package:lingua_arv1/bloc/Gif/gif_bloc.dart';
+import 'package:lingua_arv1/bloc/Gif/gif_event.dart';
+import 'package:lingua_arv1/bloc/Gif/gif_state.dart';
 
-class BasicPhrasesPage extends StatefulWidget {
-  @override
-  State<BasicPhrasesPage> createState() => _SituationalConvosPageState();
-}
+class BasicPhrasesPage extends StatelessWidget {
+  final List<String> phrases = basicPhrasesMappings.keys.toList();
 
-class _SituationalConvosPageState extends State<BasicPhrasesPage> {
-  String _gifUrl = '';
-  bool _isLoading = false;
-  String _errorMessage = '';
-  String _currentPhrase = ''; // New variable to store the current phrase
-  http.Client? _httpClient;
-
-  final List<String> phrases = [
-    "Magandang Gabi",
-    "Magandang Hapon",
-    "Tara, Kain!",
-    "Magandang Umaga",
-    "Hello",
-    "Anong pangalan mo?",
-    "Matulog ka nang mahimbing",
-    "Are you deaf?",
-  ];
-
-  @override
-  void dispose() {
-    // Cancel any ongoing requests
-    _httpClient?.close();
-    super.dispose();
-  }
-
-  Future<void> _fetchGif(String phrase) async {
-    setState(() {
-      _isLoading = true;
-      _errorMessage = '';
-      _gifUrl = ''; // Clear previous GIF
-      _currentPhrase = phrase; // Set the current phrase
-    });
-
-    String url = '';
-    String publicId = '';
-    String imageUrl = '';
-
-    switch (phrase) {
-      case "Magandang Gabi":
-        imageUrl =
-            "https://res.cloudinary.com/dqthtm7gt/image/upload/v1739467789/LinguaAR/Anthony/Relasyon/Valentines-book.gif";
-        publicId = "LinguaAR/Dal/Situational Convos/MagandangGabi";
-        break;
-      case "Magandang Hapon":
-        imageUrl =
-            "https://res.cloudinary.com/dqthtm7gt/image/upload/v1739467811/LinguaAR/Anthony/Relasyon/Valentines-card.gif";
-        publicId = "LinguaAR/Dal/Situational Convos/MagandangHapon";
-        break;
-      case "Tara, Kain!":
-        imageUrl =
-            "https://res.cloudinary.com/dqthtm7gt/image/upload/v1739467846/LinguaAR/Anthony/Relasyon/Valentines-day.gif";
-        publicId = "LinguaAR/Dal/Situational Convos/TaraKain";
-        break;
-      case "Magandang Umaga":
-        imageUrl =
-            "https://res.cloudinary.com/dqthtm7gt/image/upload/v1739467884/LinguaAR/Anthony/Relasyon/Bulaklak.gif";
-        publicId = "LinguaAR/Dal/Situational Convos/MagandangUmaga";
-        break;
-      case "Hello":
-        imageUrl =
-            "https://res.cloudinary.com/dqthtm7gt/image/upload/v1739467903/LinguaAR/Anthony/Relasyon/Halik.gif";
-        publicId = "LinguaAR/Dal/Situational Convos/Hello";
-        break;
-      case "Anong Pangalan Mo?":
-        imageUrl =
-            "https://res.cloudinary.com/dqthtm7gt/image/upload/v1739467827/LinguaAR/Anthony/Relasyon/Nobyo.gif";
-        publicId = "LinguaAR/Dal/Situational Convos/AnongPangalanMo";
-        break;
-      case "Matulog ka nang mahimbing":
-        imageUrl =
-            "https://res.cloudinary.com/dqthtm7gt/image/upload/v1739467925/LinguaAR/Anthony/Relasyon/Nobya.gif";
-        publicId = "LinguaAR/Dal/Situational Convos/MatulogKaNangMahimbing";
-        break;
-      case "Are you deaf?":
-        imageUrl =
-            "https://res.cloudinary.com/dqthtm7gt/image/upload/v1739467940/LinguaAR/Anthony/Relasyon/Mahal-kita.gif";
-        publicId = "LinguaAR/Dal/Situational Convos/Areyoudeaf";
-        break;
-      default:
-        setState(() {
-          _isLoading = false;
-          _errorMessage = 'No GIF found for this phrase.';
-        });
-        return;
-    }
-
-    if (publicId.isNotEmpty) {
-      url = 'http://192.168.100.30:5000/cloudinary/get_gif?public_id=$publicId';
-    } else if (imageUrl.isNotEmpty) {
-      url = 'http://192.168.100.30:5000/cloudinary/get_gif?url=$imageUrl';
-    }
-
-    _httpClient = http.Client(); // Initialize HTTP client
-
-    try {
-      final response = await _httpClient!.get(Uri.parse(url)).timeout(
-        Duration(seconds: 10),
-        onTimeout: () {
-          throw TimeoutException('Request timed out');
-        },
-      );
-
-      if (response.statusCode == 200) {
-        var jsonResponse = jsonDecode(response.body);
-        setState(() {
-          _gifUrl = jsonResponse['gif_url'];
-          _isLoading = false;
-        });
-      } else {
-        setState(() {
-          _isLoading = false;
-          _errorMessage = 'Failed to fetch GIF from server.';
-        });
-      }
-    } catch (error) {
-      if (error is TimeoutException) {
-        setState(() {
-          _isLoading = false;
-          _errorMessage = 'Request timed out. Please try again.';
-        });
-      } else {
-        setState(() {
-          _isLoading = false;
-          _errorMessage = 'Error occurred: $error';
-        });
-      }
-    } finally {
-      _httpClient?.close(); // Close the HTTP client
-    }
-  }
-
-  void _showGifPopup(BuildContext context) {
+  void _showGifPopup(BuildContext context, String phrase, String gifUrl) {
     showDialog(
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
           content: Column(
-            mainAxisSize: MainAxisSize.min, // Use minimum space
+            mainAxisSize: MainAxisSize.min,
             children: [
-              // Text above the container
               Text(
-                _currentPhrase,
+                phrase,
                 style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
               ),
-              SizedBox(height: 10), // Add some spacing
-              // Container for the GIF
+              SizedBox(height: 10),
               Container(
-                width: 500, // Fixed width for the container
-                height: 410, // Fixed height for the container
-                decoration: BoxDecoration(
-                  border: Border.all(color: Colors.grey),
-                ),
-                child: Stack(
-                  alignment: Alignment.center,
-                  children: [
-                    if (_gifUrl.isNotEmpty)
-                      Image.network(
-                        _gifUrl,
-                        fit: BoxFit
-                            .cover, // Ensure the GIF fits inside the container
-                      ),
-                    if (_isLoading)
-                      CircularProgressIndicator(), // Show loading indicator
-                    if (_errorMessage.isNotEmpty)
-                      Center(
-                        child: Text(
-                          _errorMessage,
-                          style: TextStyle(color: Colors.red),
-                        ),
-                      ),
-                    if (_gifUrl.isEmpty && !_isLoading && _errorMessage.isEmpty)
-                      Center(
-                        child: Text(
-                          'GIF will appear here',
-                          style: TextStyle(color: Colors.grey),
-                        ),
-                      ),
-                  ],
-                ),
+                width: 500,
+                height: 410,
+                decoration: BoxDecoration(border: Border.all(color: Colors.grey)),
+                child: Image.network(gifUrl, fit: BoxFit.cover),
               ),
             ],
           ),
           actions: [
             TextButton(
               onPressed: () {
-                Navigator.of(context).pop(); // Close the pop-up
+                Navigator.of(context).pop();
               },
               child: Text('Back'),
             ),
@@ -205,30 +44,49 @@ class _SituationalConvosPageState extends State<BasicPhrasesPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text('Basic Phrases'),
-        centerTitle: true,
-        leading: IconButton(
-          icon: Icon(Icons.arrow_back),
-          onPressed: () {
-            // Cancel ongoing requests and pop the page
-            _httpClient?.close();
-            Navigator.of(context).pop();
+    return BlocProvider(
+      create: (context) => GifBloc(),
+      child: Scaffold(
+        appBar: AppBar(
+          title: Text('Basic Phrases'),
+          centerTitle: true,
+          leading: IconButton(
+            icon: Icon(Icons.arrow_back),
+            onPressed: () {
+              Navigator.of(context).pop();
+            },
+          ),
+        ),
+        body: ListView.builder(
+          itemCount: phrases.length,
+          itemBuilder: (context, index) {
+            return ListTile(
+              title: Text(phrases[index]),
+              onTap: () {
+                String phrase = phrases[index];
+                String publicId = basicPhrasesMappings[phrase] ?? '';
+
+                if (publicId.isNotEmpty) {
+                  context.read<GifBloc>().add(FetchGif(phrase: phrase, publicId: publicId));
+                }
+              },
+            );
           },
         ),
-      ),
-      body: ListView.builder(
-        itemCount: phrases.length,
-        itemBuilder: (context, index) {
-          return ListTile(
-            title: Text(phrases[index]),
-            onTap: () async {
-              await _fetchGif(phrases[index]); // Fetch the GIF
-              _showGifPopup(context); // Show the pop-up
-            },
-          );
-        },
+        bottomSheet: BlocBuilder<GifBloc, GifState>(
+          builder: (context, state) {
+            if (state is GifLoading) {
+              return Center(child: CircularProgressIndicator());
+            } else if (state is GifLoaded) {
+              WidgetsBinding.instance.addPostFrameCallback((_) {
+                _showGifPopup(context, state.phrase, state.gifUrl);
+              });
+            } else if (state is GifError) {
+              return Center(child: Text(state.message, style: TextStyle(color: Colors.red)));
+            }
+            return SizedBox.shrink();
+          },
+        ),
       ),
     );
   }
