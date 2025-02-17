@@ -1,0 +1,16 @@
+final Map<String, String> educationMappings = {
+  "Krayola": "LinguaAR/Zhyrex/Education/crayons",
+  "Pambura": "LinguaAR/Zhyrex/Education/pambura",
+  "Gunting": "LinguaAR/Zhyrex/Education/gunting",
+  "Bag": "LinguaAR/Zhyrex/Education/bag",
+  "Papel": "LinguaAR/Zhyrex/Education/papel",
+  "Sapatos": "LinguaAR/Zhyrex/Education/sapatos",
+  "Uniporme": "LinguaAR/Zhyrex/Education/uniforme",
+  "Paaralan": "LinguaAR/Zhyrex/Education/paaralan",
+  "Itim na Pisara": "LinguaAR/Zhyrex/Education/blackboard",
+  "Upuan": "LinguaAR/Zhyrex/Education/upuan",
+  "Watawat": "LinguaAR/Zhyrex/Education/watawat",
+  "Silid Aralan": "LinguaAR/Zhyrex/Education/silidaralan",
+  "Itim na Sapatos": "LinguaAR/Zhyrex/Education/blackshoes",
+  "Lapis": "LinguaAR/Zhyrex/Education/lapis",
+};
