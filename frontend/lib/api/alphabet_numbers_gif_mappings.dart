@@ -35,4 +35,5 @@ final Map<String, String> alphabetNumbersMappings = {
   "Walo": "LinguaAR/Dal/Alphabet and Numbers/Walo",
   "Siyam": "LinguaAR/Dal/Alphabet and Numbers/Siyam",
   "Sampu": "LinguaAR/Dal/Alphabet and Numbers/Sampu",
+  
 };
