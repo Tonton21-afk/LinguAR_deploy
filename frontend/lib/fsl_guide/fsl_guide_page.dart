@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:lingua_arv1/fsl_guide/daily_communication/alphabet_numbers_page.dart';
-import 'package:lingua_arv1/fsl_guide/daily_communication/basic_phrases_page.dart';
+import 'package:lingua_arv1/fsl_guide/daily_communication/pronouns_page.dart';
 import 'package:lingua_arv1/fsl_guide/daily_communication/common_expressions_page.dart';
-import 'package:lingua_arv1/fsl_guide/daily_communication/situational_convos_page.dart';
+import 'package:lingua_arv1/fsl_guide/daily_communication/basic_phrases_page.dart';
 import 'package:lingua_arv1/fsl_guide/family_relationships/cultural_values_page.dart';
 import 'package:lingua_arv1/fsl_guide/family_relationships/family_friends_page.dart';
 import 'package:lingua_arv1/fsl_guide/family_relationships/relationships_page.dart';
@@ -59,11 +59,11 @@ class FSLGuidePage extends StatelessWidget {
               _buildSectionTitle('Daily Communication'),
               _buildGridView(context, [
                 _buildCard(context, Icons.language, 'Pronouns',
-                    BasicPhrasesPage(), Color(0xFFC3CDD1)),
+                    PronounsPage(), Color(0xFFC3CDD1)),
                 _buildCard(context, Icons.numbers, 'Alphabet & Numbers',
                     AlphabetNumbersPage(), Color(0xFFFEE6DF)),
                 _buildCard(context, Icons.chat, 'Basic Phrases',
-                    SituationalConvosPage(), Color(0xFFACCFFB)),
+                    BasicPhrasesPage(), Color(0xFFACCFFB)),
                 // _buildCard(
                 //     context,
                 //     Icons.sentiment_satisfied,

@@ -3,27 +3,38 @@ import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'dart:async'; // For CancelToken
 
-class BasicPhrasesPage extends StatefulWidget {
+class PronounsPage extends StatefulWidget {
   @override
-  State<BasicPhrasesPage> createState() => _SituationalConvosPageState();
+  State<PronounsPage> createState() => _BasicPhrasesPageState();
 }
 
-class _SituationalConvosPageState extends State<BasicPhrasesPage> {
+class _BasicPhrasesPageState extends State<PronounsPage> {
   String _gifUrl = '';
   bool _isLoading = false;
   String _errorMessage = '';
-  String _currentPhrase = ''; // New variable to store the current phrase
+  String _currentPhrase = '';
   http.Client? _httpClient;
-
+  // To cancel ongoing requests
   final List<String> phrases = [
-    "Magandang Gabi",
-    "Magandang Hapon",
-    "Tara, Kain!",
-    "Magandang Umaga",
-    "Hello",
-    "Anong pangalan mo?",
-    "Matulog ka nang mahimbing",
-    "Are you deaf?",
+    "Mga Ito",
+    "Sila",
+    "Ito",
+    "Aking Sarili/Sarili ko",
+    "Iyan",
+    "Ikaw",
+    "Akin",
+    "Mga Iyan",
+    "Siya (Lalaki)",
+    "Atin",
+    "Siya (Babae)",
+    "Kanila",
+    "Sa Kanila",
+    "Kanya (Lalaki)",
+    "Sa Kanya (Lalaki)",
+    "Tayo",
+    "Ako",
+    "Sa Kanya (Babae)",
+    "Sayo",
   ];
 
   @override
@@ -46,45 +57,100 @@ class _SituationalConvosPageState extends State<BasicPhrasesPage> {
     String imageUrl = '';
 
     switch (phrase) {
-      case "Magandang Gabi":
+      case "Mga Ito":
         imageUrl =
-            "https://res.cloudinary.com/dqthtm7gt/image/upload/v1739467789/LinguaAR/Anthony/Relasyon/Valentines-book.gif";
-        publicId = "LinguaAR/Dal/Situational Convos/MagandangGabi";
+            "https://res.cloudinary.com/dqthtm7gt/image/upload/v1739469945/LinguaAR/Dal/Alphabet%20and%20Numbers/A.gif";
+        publicId = "LinguaAR/Dal/Basic Phrases/These";
         break;
-      case "Magandang Hapon":
+      case "Sila":
         imageUrl =
-            "https://res.cloudinary.com/dqthtm7gt/image/upload/v1739467811/LinguaAR/Anthony/Relasyon/Valentines-card.gif";
-        publicId = "LinguaAR/Dal/Situational Convos/MagandangHapon";
+            "https://res.cloudinary.com/dqthtm7gt/image/upload/v1739469964/LinguaAR/Dal/Alphabet%20and%20Numbers/B.gif";
+        publicId = "LinguaAR/Dal/Basic Phrases/Sila";
         break;
-      case "Tara, Kain!":
+      case "Ito":
         imageUrl =
-            "https://res.cloudinary.com/dqthtm7gt/image/upload/v1739467846/LinguaAR/Anthony/Relasyon/Valentines-day.gif";
-        publicId = "LinguaAR/Dal/Situational Convos/TaraKain";
+            "https://res.cloudinary.com/dqthtm7gt/image/upload/v1739469950/LinguaAR/Dal/Alphabet%20and%20Numbers/C.gif";
+        publicId = "LinguaAR/Dal/Basic Phrases/It";
         break;
-      case "Magandang Umaga":
+      case "Aking Sarili/Sarili ko":
         imageUrl =
-            "https://res.cloudinary.com/dqthtm7gt/image/upload/v1739467884/LinguaAR/Anthony/Relasyon/Bulaklak.gif";
-        publicId = "LinguaAR/Dal/Situational Convos/MagandangUmaga";
+            "https://res.cloudinary.com/dqthtm7gt/image/upload/v1739469948/LinguaAR/Dal/Alphabet%20and%20Numbers/D.gif";
+        publicId = "LinguaAR/Dal/Basic Phrases/Myself";
         break;
-      case "Hello":
+      case "Iyan":
         imageUrl =
             "https://res.cloudinary.com/dqthtm7gt/image/upload/v1739467903/LinguaAR/Anthony/Relasyon/Halik.gif";
-        publicId = "LinguaAR/Dal/Situational Convos/Hello";
+        publicId = "LinguaAR/Dal/Basic Phrases/Iyan";
         break;
-      case "Anong Pangalan Mo?":
+      case "Ikaw":
         imageUrl =
             "https://res.cloudinary.com/dqthtm7gt/image/upload/v1739467827/LinguaAR/Anthony/Relasyon/Nobyo.gif";
-        publicId = "LinguaAR/Dal/Situational Convos/AnongPangalanMo";
+        publicId = "LinguaAR/Dal/Basic Phrases/Ikaw";
         break;
-      case "Matulog ka nang mahimbing":
+      case "Akin":
         imageUrl =
             "https://res.cloudinary.com/dqthtm7gt/image/upload/v1739467925/LinguaAR/Anthony/Relasyon/Nobya.gif";
-        publicId = "LinguaAR/Dal/Situational Convos/MatulogKaNangMahimbing";
+        publicId = "LinguaAR/Dal/Basic Phrases/Akin";
         break;
-      case "Are you deaf?":
+      case "Mga Iyan":
         imageUrl =
             "https://res.cloudinary.com/dqthtm7gt/image/upload/v1739467940/LinguaAR/Anthony/Relasyon/Mahal-kita.gif";
-        publicId = "LinguaAR/Dal/Situational Convos/Areyoudeaf";
+        publicId = "LinguaAR/Dal/Basic Phrases/MgaIyan";
+        break;
+      case "Siya (Lalaki)":
+        imageUrl =
+            "https://res.cloudinary.com/dqthtm7gt/image/upload/v1739467958/LinguaAR/Anthony/Relasyon/Mahal.gif";
+        publicId = "LinguaAR/Dal/Basic Phrases/He";
+        break;
+      case "Atin":
+        imageUrl =
+            "https://res.cloudinary.com/dqthtm7gt/image/upload/v1739467974/LinguaAR/Anthony/Relasyon/Gusto.gif";
+        publicId = "LinguaAR/Dal/Basic Phrases/Atin";
+        break;
+      case "Siya (Babae)":
+        imageUrl =
+            "https://res.cloudinary.com/dqthtm7gt/image/upload/v1739467992/LinguaAR/Anthony/Relasyon/Yakap.gif";
+        publicId = "LinguaAR/Dal/Basic Phrases/She";
+        break;
+      case " Sa Kanila":
+        imageUrl =
+            "https://res.cloudinary.com/dqthtm7gt/image/upload/v1739468008/LinguaAR/Anthony/Relasyon/Paghanga.gif";
+        publicId = "LinguaAR/Dal/Basic Phrases/Them";
+        break;
+      case "Kanya (Lalaki)":
+        imageUrl =
+            "https://res.cloudinary.com/dqthtm7gt/image/upload/v1739467863/LinguaAR/Anthony/Relasyon/Gwapo.gif";
+        publicId = "LinguaAR/Dal/Basic Phrases/Him";
+        break;
+      case "Sa Kanya (Lalaki)":
+        imageUrl =
+            "https://res.cloudinary.com/dqthtm7gt/image/upload/v1739467863/LinguaAR/Anthony/Relasyon/Gwapo.gif";
+        publicId = "LinguaAR/Dal/Basic Phrases/Him";
+        break;
+      case "Tayo":
+        imageUrl =
+            "https://res.cloudinary.com/dqthtm7gt/image/upload/v1739468067/LinguaAR/Anthony/Relasyon/Maganda.gif";
+        publicId = "LinguaAR/Dal/Basic Phrases/Tayo";
+        break;
+      case "Ako":
+        imageUrl =
+            "https://res.cloudinary.com/dqthtm7gt/image/upload/v1739468256/LinguaAR/Anthony/Relasyon/Naakit.gif";
+        publicId = "LinguaAR/Dal/Basic Phrases/Ako";
+        break;
+      case "Sa Kanya (Babae)":
+        imageUrl =
+            "https://res.cloudinary.com/dqthtm7gt/image/upload/v1739468329/LinguaAR/Anthony/Relasyon/Lagi.gif";
+        publicId = "LinguaAR/Dal/Basic Phrases/Her";
+        break;
+      case "Kanila":
+        imageUrl =
+            "https://res.cloudinary.com/dqthtm7gt/image/upload/v1739468348/LinguaAR/Anthony/Relasyon/Kasal.gif";
+        publicId = "LinguaAR/Dal/Basic Phrases/Kanila";
+        break;
+      case "Sayo":
+        imageUrl =
+            "https://res.cloudinary.com/dqthtm7gt/image/upload/v1739468348/LinguaAR/Anthony/Relasyon/Kasal.gif";
+        publicId = "LinguaAR/Dal/Basic Phrases/Sayo";
         break;
       default:
         setState(() {
@@ -95,7 +161,8 @@ class _SituationalConvosPageState extends State<BasicPhrasesPage> {
     }
 
     if (publicId.isNotEmpty) {
-      url = 'http://192.168.100.30:5000/cloudinary/get_gif?public_id=$publicId';
+      url =
+          'http://192.168.100.30:5000/cloudinary/get_gif?public_id=$publicId';
     } else if (imageUrl.isNotEmpty) {
       url = 'http://192.168.100.30:5000/cloudinary/get_gif?url=$imageUrl';
     }
@@ -207,7 +274,7 @@ class _SituationalConvosPageState extends State<BasicPhrasesPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Basic Phrases'),
+        title: Text('Pronouns'),
         centerTitle: true,
         leading: IconButton(
           icon: Icon(Icons.arrow_back),
