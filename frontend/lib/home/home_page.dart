@@ -15,115 +15,115 @@ class HomePage extends StatelessWidget {
     return Scaffold(
       backgroundColor: const Color(0xFFFEFFFE),
       body: SafeArea(
-        child: Padding(
-          padding: const EdgeInsets.all(16.0),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              // Shortcuts section title
-              const Text(
-                'Shortcuts',
-                style: TextStyle(
-                  fontSize: 16,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-              const SizedBox(height: 12),
-
-              // Shortcuts section with adjusted spacing
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
+        child: LayoutBuilder(
+          builder: (context, constraints) {
+            return Padding(
+              padding: const EdgeInsets.all(16.0),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  SizedBox(
-                    width: 140,
-                    height: 120,
-                    child: ShortcutButton(
-                      icon: Icons.fingerprint,
-                      label: 'Gesture Translator',
-                      backgroundColor: Color(0xFF4A90E2),
-                      onTap: () {
-                        // Navigate to Gesture Translator screen
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => GestureTranslator(),
-                          ),
-                        );
-                      },
+                  const Text(
+                    'Shortcuts',
+                    style: TextStyle(
+                      fontSize: 16,
+                      fontWeight: FontWeight.bold,
                     ),
                   ),
-                  const SizedBox(width: 15),
-                  SizedBox(
-                    width: 140,
-                    height: 120,
-                    child: ShortcutButton(
-                      icon: Icons.volume_up,
-                      label: 'Text to Speech',
-                      backgroundColor: Color(0xFF273236),
-                      onTap: () {
-                        // Navigate to Text to Speech screen
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => TextToSpeech(),
+                  const SizedBox(height: 12),
+
+                  // Responsive shortcut buttons
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Expanded(
+                        child: AspectRatio(
+                          aspectRatio: 1,
+                          child: ShortcutButton(
+                            icon: Icons.fingerprint,
+                            label: 'Gesture Translator',
+                            backgroundColor: Color(0xFF4A90E2),
+                            onTap: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => GestureTranslator(),
+                                ),
+                              );
+                            },
                           ),
-                        );
-                      },
+                        ),
+                      ),
+                      const SizedBox(width: 15),
+                      Expanded(
+                        child: AspectRatio(
+                          aspectRatio: 1,
+                          child: ShortcutButton(
+                            icon: Icons.volume_up,
+                            label: 'Text to Speech',
+                            backgroundColor: Color(0xFF273236),
+                            onTap: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => TextToSpeech(),
+                                ),
+                              );
+                            },
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                  const SizedBox(height: 30),
+
+                  const Text(
+                    'Currently Playing',
+                    style: TextStyle(
+                      fontSize: 16,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  const SizedBox(height: 12),
+
+                  Container(
+                    width: double.infinity,
+                    height: 70,
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(12),
+                      border: Border.all(
+                        color: Colors.grey,
+                        width: 1.5,
+                      ),
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.black.withOpacity(0.2),
+                          blurRadius: 8,
+                          offset: Offset(2, 4),
+                        ),
+                      ],
+                    ),
+                    child: const Center(
+                      child: Text(
+                        'Daily Communication, Basic Phrases',
+                        textAlign: TextAlign.center,
+                        style: TextStyle(fontSize: 14),
+                      ),
+                    ),
+                  ),
+                  const SizedBox(height: 30),
+
+                  const Text(
+                    'History',
+                    style: TextStyle(
+                      fontSize: 16,
+                      fontWeight: FontWeight.bold,
                     ),
                   ),
                 ],
               ),
-              const SizedBox(height: 30),
-
-              const Text(
-                'Currently Playing',
-                style: TextStyle(
-                  fontSize: 16,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-              const SizedBox(height: 12),
-              GestureDetector(
-                onTap: () {},
-                child: Container(
-                  width: double.infinity,
-                  height: 70,
-                  decoration: BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.circular(12),
-                    border: Border.all(
-                      color: Colors.grey,
-                      width: 1.5,
-                    ),
-                    boxShadow: [
-                      BoxShadow(
-                        color: Colors.black.withOpacity(0.2),
-                        blurRadius: 8,
-                        offset: Offset(2, 4),
-                      ),
-                    ],
-                  ),
-                  child: const Center(
-                    child: Text(
-                      'Daily Communication, Basic Phrases',
-                      textAlign: TextAlign.center,
-                      style: TextStyle(fontSize: 14),
-                    ),
-                  ),
-                ),
-              ),
-              const SizedBox(height: 30),
-
-              // History section
-              const Text(
-                'History',
-                style: TextStyle(
-                  fontSize: 16,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-            ],
-          ),
+            );
+          },
         ),
       ),
     );
@@ -134,19 +134,19 @@ class ShortcutButton extends StatelessWidget {
   final IconData icon;
   final String label;
   final Color backgroundColor;
-  final VoidCallback onTap; // added onTap callback
+  final VoidCallback onTap;
 
   const ShortcutButton({
     required this.icon,
     required this.label,
     required this.backgroundColor,
-    required this.onTap, // initialized onTap
+    required this.onTap,
   });
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: onTap, // use the onTap here
+      onTap: onTap,
       child: Container(
         padding: const EdgeInsets.all(16),
         decoration: BoxDecoration(
