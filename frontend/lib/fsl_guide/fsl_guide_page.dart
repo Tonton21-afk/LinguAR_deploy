@@ -76,15 +76,6 @@ class _FSLGuidePageState extends State<FSLGuidePage> {
           padding: EdgeInsets.all(screenWidth * 0.02),
           child: ListView(
             children: [
-              _buildSectionTitle('Daily Communication', screenWidth),
-              _buildGridView(context, [
-                _buildCard(context, Icons.language, 'Pronouns', PronounsPage(),
-                    Color(0xFFC3CDD1)),
-                _buildCard(context, Icons.numbers, 'Alphabet & Numbers',
-                    AlphabetNumbersPage(), Color(0xFFFEE6DF)),
-                _buildCard(context, Icons.chat, 'Basic Phrases',
-                    BasicPhrasesPage(), Color(0xFFACCFFB)),
-              ]),
               _buildSectionTitle(
                   'Family, Relationships & Social Life', screenWidth),
               _buildGridView(context, [
@@ -93,29 +84,41 @@ class _FSLGuidePageState extends State<FSLGuidePage> {
                 _buildCard(context, Icons.favorite, 'Relationships',
                     RelationshipsPage(), Color(0xFFFEE6DF)),
               ]),
-              _buildSectionTitle('Learning, Work & Technology', screenWidth),
+              _buildSectionTitle('Learning & Work', screenWidth),
               _buildGridView(context, [
                 _buildCard(context, Icons.school, 'Education', EducationPage(),
                     Color(0xFFFEE6DF)),
                 _buildCard(context, Icons.work, 'Work & Profession',
                     WorkProfessionPage(), Color(0xFFC3CDD1)),
-                _buildCard(context, Icons.computer, 'Technology',
-                    TechnologyPage(), Color(0xFFACCFFB)),
               ]),
-              _buildSectionTitle('Travel, Food & Environment', screenWidth),
+              _buildSectionTitle('Food & Environment', screenWidth),
               _buildGridView(context, [
-                _buildCard(context, Icons.directions_bus, 'Transportation',
-                    TransportationPage(), Color(0xFFC3CDD1)),
                 _buildCard(context, Icons.local_dining, 'Food & Drinks',
                     FoodDrinksPage(), Color(0xFFACCFFB)),
                 _buildCard(context, Icons.park, 'Nature & Environment',
                     NatureEnvironmentPage(), Color(0xFFF4ABAA)),
+              ]),
+              _buildSectionTitle('Transportation & Technology', screenWidth),
+              _buildGridView(context, [
+                _buildCard(context, Icons.directions_bus, 'Transportation',
+                    TransportationPage(), Color(0xFFFEE6DF)),
+                _buildCard(context, Icons.computer, 'Technology',
+                    TechnologyPage(), Color(0xFFC3CDD1)),
+              ]),
+              _buildSectionTitle('Daily Communication', screenWidth),
+              _buildGridView(context, [
+                _buildCard(context, Icons.language, 'Pronouns', PronounsPage(),
+                    Color(0xFFC3CDD1)),
+                _buildCard(context, Icons.chat, 'Basic Phrases',
+                    BasicPhrasesPage(), Color(0xFFACCFFB)),
               ]),
               _buildSectionTitle(
                   'Interactive Learning & Emergency', screenWidth),
               _buildGridView(context, [
                 _buildCard(context, Icons.palette, 'Shape & Colors',
                     ShapeColorsPage(), Color(0xFFF4ABAA)),
+                _buildCard(context, Icons.numbers, 'Alphabet & Numbers',
+                    AlphabetNumbersPage(), Color(0xFFFEE6DF)),
               ]),
             ],
           ),
