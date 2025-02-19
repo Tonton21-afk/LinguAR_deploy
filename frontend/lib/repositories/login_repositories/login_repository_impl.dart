@@ -5,12 +5,12 @@ import 'package:lingua_arv1/model/Authentication.dart';
 import 'package:lingua_arv1/repositories/login_repositories/login_repository.dart';
 
 class LoginRepositoryImpl implements LoginRepository {
-  String url = Login.baseURL;
+  String url = BasicUrl.baseURL;
 
   @override
   Future<Authentication> login(String email, String password) async {
     final response = await http.post(
-      Uri.parse(url),
+      Uri.parse('$url/auth/login'),
       headers: <String, String>{
         'Content-Type': 'application/json',
       },

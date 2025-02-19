@@ -5,7 +5,7 @@ import 'package:lingua_arv1/model/Authentication.dart';
 import 'package:lingua_arv1/repositories/register_repositories/register_repository.dart';
 
 class RegisterRepositoryImpl implements RegisterRepository {
-  String url = Register.baseURL;
+  String url = BasicUrl.baseURL;
 
   @override
   Future<Authentication> register(String email, String password) async {
@@ -13,7 +13,7 @@ class RegisterRepositoryImpl implements RegisterRepository {
     print("Request payload: {email: $email, password: $password}");
 
     final response = await http.post(
-      Uri.parse(url),
+      Uri.parse('$url/auth/register'),
       headers: {'Content-Type': 'application/json'},
       body: jsonEncode({'email': email, 'password': password}),
     );

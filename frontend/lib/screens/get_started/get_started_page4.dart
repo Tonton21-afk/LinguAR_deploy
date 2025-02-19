@@ -18,7 +18,7 @@ class _GetStartedPage4State extends State<GetStartedPage4> {
   // Function to send voice data to the backend
   Future<void> _sendVoiceData(String voiceData, BuildContext context) async {
     final url = Uri.parse(
-        'http://192.168.157.7:5000/recognize'); // Replace with your backend URL
+        'http://192.168.100.66:5000/recognize'); // Replace with your backend URL
     final response = await http.post(
       url,
       headers: {'Content-Type': 'application/json'},

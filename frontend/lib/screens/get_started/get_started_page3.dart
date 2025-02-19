@@ -15,8 +15,8 @@ class _GetStartedPage3State extends State<GetStartedPage3> {
   String detectedLabel = 'Waiting for gesture...';
   CameraController? _cameraController;
   List<CameraDescription>? cameras;
-  Timer? _timer; // Timer for automatic detection
-  bool isNavigating = false; // Flag to track if navigation has already occurred
+  Timer? _timer; 
+  bool isNavigating = false; 
 
   @override
   void initState() {
@@ -55,7 +55,7 @@ class _GetStartedPage3State extends State<GetStartedPage3> {
 
       final request = http.MultipartRequest(
         'POST',
-        Uri.parse('http://192.168.157.7:5000/gesture/detect'),
+        Uri.parse('http://192.168.100.66:5000/gesture/detect'),
       );
 
       request.files.add(http.MultipartFile.fromBytes(

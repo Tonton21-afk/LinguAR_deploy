@@ -4,7 +4,7 @@ import 'package:lingua_arv1/repositories/Config.dart';
 import 'otp_repository.dart';
 
 class OtpRepositoryImpl implements OtpRepository {
-  String baseUrl = Otp.baseURL;
+  String baseUrl = BasicUrl.baseURL;
 
   @override
   Future<bool> sendOtp(String email) async {
