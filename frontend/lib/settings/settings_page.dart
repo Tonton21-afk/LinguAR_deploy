@@ -20,6 +20,28 @@ class _SettingsPageState extends State<SettingsPage> {
     'Pitch Control': 'Normal',
   };
 
+  late ScrollController _scrollController;
+  Color appBarColor = Color(0xFFFEFFFE);
+
+  @override
+  void initState() {
+    super.initState();
+    _scrollController = ScrollController();
+    _scrollController.addListener(() {
+      setState(() {
+        appBarColor = _scrollController.offset > 50
+            ? Color(0xFF4A90E2)
+            : Color(0xFFFEFFFE);
+      });
+    });
+  }
+
+  @override
+  void dispose() {
+    _scrollController.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     // Get screen width and height
@@ -40,23 +62,33 @@ class _SettingsPageState extends State<SettingsPage> {
     );
 
     return Scaffold(
-      appBar: AppBar(
-        title: Center(
-          child: Text(
-            'Settings',
-            style: TextStyle(
-              color: Colors.black,
-              fontSize: titleFontSize,
+      backgroundColor: Color(0xFFFEFFFE),
+      body: NestedScrollView(
+        controller: _scrollController,
+        headerSliverBuilder: (context, innerBoxIsScrolled) {
+          return [
+            SliverAppBar(
+              pinned: true,
+              automaticallyImplyLeading: false,
+              backgroundColor: appBarColor,
+              elevation: 4,
+              expandedHeight: kToolbarHeight,
+              flexibleSpace: FlexibleSpaceBar(
+                centerTitle: true,
+                title: Text(
+                  'Settings',
+                  style: TextStyle(
+                    fontSize: screenWidth * 0.045,
+                    color: appBarColor == Color(0xFFFEFFFE)
+                        ? Colors.black
+                        : Colors.white,
+                  ),
+                ),
+              ),
             ),
-          ),
-        ),
-        backgroundColor: Color(0xFFFEFFFE),
-        automaticallyImplyLeading: false,
-        elevation: 0,
-      ),
-      body: Container(
-        color: Color(0xFFFEFFFE),
-        child: ListView(
+          ];
+        },
+        body: ListView(
           children: [
             _buildSectionHeader(
                 'GENERAL', sectionHeaderPadding, subtitleFontSize),
