@@ -12,119 +12,107 @@ void main() {
 class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    double screenWidth = MediaQuery.of(context).size.width;
+    double screenHeight = MediaQuery.of(context).size.height;
+
     return Scaffold(
       backgroundColor: const Color(0xFFFEFFFE),
       body: SafeArea(
-        child: LayoutBuilder(
-          builder: (context, constraints) {
-            return Padding(
-              padding: const EdgeInsets.all(16.0),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
+        child: Padding(
+          padding: EdgeInsets.all(screenWidth * 0.04),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              _buildTitle('Shortcuts', screenWidth),
+              SizedBox(height: screenHeight * 0.015),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  const Text(
-                    'Shortcuts',
-                    style: TextStyle(
-                      fontSize: 16,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                  const SizedBox(height: 12),
-
-                  // Responsive shortcut buttons
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Expanded(
-                        child: AspectRatio(
-                          aspectRatio: 1,
-                          child: ShortcutButton(
-                            icon: Icons.fingerprint,
-                            label: 'Gesture Translator',
-                            backgroundColor: Color(0xFF4A90E2),
-                            onTap: () {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) => GestureTranslator(),
-                                ),
-                              );
-                            },
-                          ),
-                        ),
-                      ),
-                      const SizedBox(width: 15),
-                      Expanded(
-                        child: AspectRatio(
-                          aspectRatio: 1,
-                          child: ShortcutButton(
-                            icon: Icons.volume_up,
-                            label: 'Text to Speech',
-                            backgroundColor: Color(0xFF273236),
-                            onTap: () {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) => TextToSpeech(),
-                                ),
-                              );
-                            },
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                  const SizedBox(height: 30),
-
-                  const Text(
-                    'Currently Playing',
-                    style: TextStyle(
-                      fontSize: 16,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                  const SizedBox(height: 12),
-
-                  Container(
-                    width: double.infinity,
-                    height: 70,
-                    decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.circular(12),
-                      border: Border.all(
-                        color: Colors.grey,
-                        width: 1.5,
-                      ),
-                      boxShadow: [
-                        BoxShadow(
-                          color: Colors.black.withOpacity(0.2),
-                          blurRadius: 8,
-                          offset: Offset(2, 4),
-                        ),
-                      ],
-                    ),
-                    child: const Center(
-                      child: Text(
-                        'Daily Communication, Basic Phrases',
-                        textAlign: TextAlign.center,
-                        style: TextStyle(fontSize: 14),
+                  Expanded(
+                    child: AspectRatio(
+                      aspectRatio: 1,
+                      child: ShortcutButton(
+                        icon: Icons.fingerprint,
+                        label: 'Gesture Translator',
+                        backgroundColor: const Color(0xFF4A90E2),
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => GestureTranslator(),
+                            ),
+                          );
+                        },
                       ),
                     ),
                   ),
-                  const SizedBox(height: 30),
-
-                  const Text(
-                    'History',
-                    style: TextStyle(
-                      fontSize: 16,
-                      fontWeight: FontWeight.bold,
+                  SizedBox(width: screenWidth * 0.04),
+                  Expanded(
+                    child: AspectRatio(
+                      aspectRatio: 1,
+                      child: ShortcutButton(
+                        icon: Icons.volume_up,
+                        label: 'Text to Speech',
+                        backgroundColor: const Color(0xFF273236),
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => TextToSpeech(),
+                            ),
+                          );
+                        },
+                      ),
                     ),
                   ),
                 ],
               ),
-            );
-          },
+              SizedBox(height: screenHeight * 0.04),
+              _buildTitle('Currently Playing', screenWidth),
+              SizedBox(height: screenHeight * 0.015),
+              Container(
+                width: double.infinity,
+                height: screenHeight * 0.09,
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(screenWidth * 0.03),
+                  border: Border.all(
+                    color: Colors.grey,
+                    width: screenWidth * 0.003,
+                  ),
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.black.withOpacity(0.2),
+                      blurRadius: 8,
+                      offset: Offset(2, 4),
+                    ),
+                  ],
+                ),
+                child: Center(
+                  child: Text(
+                    'Daily Communication, Basic Phrases',
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                      fontSize: screenWidth * 0.035,
+                    ),
+                  ),
+                ),
+              ),
+              SizedBox(height: screenHeight * 0.04),
+              _buildTitle('History', screenWidth),
+            ],
+          ),
         ),
+      ),
+    );
+  }
+
+  Widget _buildTitle(String text, double screenWidth) {
+    return Text(
+      text,
+      style: TextStyle(
+        fontSize: screenWidth * 0.045,
+        fontWeight: FontWeight.bold,
       ),
     );
   }
@@ -145,13 +133,16 @@ class ShortcutButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    double screenWidth = MediaQuery.of(context).size.width;
+    double screenHeight = MediaQuery.of(context).size.height;
+
     return GestureDetector(
       onTap: onTap,
       child: Container(
-        padding: const EdgeInsets.all(16),
+        padding: EdgeInsets.all(screenWidth * 0.04),
         decoration: BoxDecoration(
           color: backgroundColor,
-          borderRadius: BorderRadius.circular(25),
+          borderRadius: BorderRadius.circular(screenWidth * 0.06),
           boxShadow: [
             BoxShadow(
               color: Colors.black.withOpacity(0.2),
@@ -163,12 +154,15 @@ class ShortcutButton extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Icon(icon, color: Colors.white, size: 32),
-            const SizedBox(height: 8),
+            Icon(icon, color: Colors.white, size: screenWidth * 0.08),
+            SizedBox(height: screenHeight * 0.01),
             Text(
               label,
               textAlign: TextAlign.center,
-              style: const TextStyle(color: Colors.white, fontSize: 14),
+              style: TextStyle(
+                color: Colors.white,
+                fontSize: screenWidth * 0.035,
+              ),
             ),
           ],
         ),
