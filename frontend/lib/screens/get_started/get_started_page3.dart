@@ -39,15 +39,11 @@ class _GetStartedPage3State extends State<GetStartedPage3> {
   }
 
   void _startAutomaticDetection() {
-    // Set a timer to capture and process images every 2 seconds
     _timer = Timer.periodic(Duration(seconds: 2), (timer) async {
       if (_cameraController != null &&
           _cameraController!.value.isInitialized &&
           !isNavigating) {
-        print("Timer triggered: Detecting gesture...");
         await detectGesture();
-      } else {
-        print("Timer skipped: Camera not initialized or already navigating.");
       }
     });
   }
@@ -59,12 +55,9 @@ class _GetStartedPage3State extends State<GetStartedPage3> {
 
       final request = http.MultipartRequest(
         'POST',
-        //Uri.parse('http://192.168.100.53:5000/gesture/detect'),
-        //Uri.parse('http://192.168.147.118:5000/gesture/detect'),
         Uri.parse('http://192.168.157.7:5000/gesture/detect'),
       );
 
-      // Add the image file to the request
       request.files.add(http.MultipartFile.fromBytes(
         'image',
         imageBytes,
@@ -82,23 +75,17 @@ class _GetStartedPage3State extends State<GetStartedPage3> {
           detectedLabel = label;
         });
 
-        print("Detected label: $label");
-
-        // Navigate based on label using Navigator.push()
         if (RegExp(r'^[A-Z]$').hasMatch(label)) {
-          print("Valid gesture detected. Stopping timer and navigating...");
-          _timer?.cancel(); // Stop the timer before navigating
+          _timer?.cancel();
           setState(() {
-            isNavigating = true; // Mark navigation flag as true
+            isNavigating = true;
           });
           Navigator.push(
             context,
             MaterialPageRoute(builder: (context) => GetStartedPage4()),
           ).then((_) {
-            // This callback runs when the user returns to this page
-            print("Navigated back to GetStartedPage3.");
             setState(() {
-              isNavigating = false; // Reset the flag if the user comes back
+              isNavigating = false;
             });
           });
         }
@@ -112,14 +99,17 @@ class _GetStartedPage3State extends State<GetStartedPage3> {
 
   @override
   void dispose() {
-    print("Disposing GetStartedPage3...");
-    _timer?.cancel(); // Cancel the timer when the widget is disposed
-    _cameraController?.dispose(); // Dispose the camera when leaving the page
+    _timer?.cancel();
+    _cameraController?.dispose();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
+    double screenWidth = MediaQuery.of(context).size.width;
+    double screenHeight = MediaQuery.of(context).size.height;
+    double circleSize = screenWidth * 0.7;
+
     return Scaffold(
       backgroundColor: Color(0xFFFEFEFF),
       appBar: AppBar(
@@ -130,21 +120,25 @@ class _GetStartedPage3State extends State<GetStartedPage3> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            const Text(
+            Text(
               "Place your hand inside the circle",
-              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+              style: TextStyle(
+                fontSize: screenWidth * 0.05,
+                fontWeight: FontWeight.bold,
+              ),
+              textAlign: TextAlign.center,
             ),
-            SizedBox(height: 10),
+            SizedBox(height: screenHeight * 0.02),
 
-            // Circular Container with Camera Preview (Only if initialized)
+            // Circular Camera Preview
             if (_cameraController != null &&
                 _cameraController!.value.isInitialized)
               Container(
-                width: 350,
-                height: 350,
+                width: circleSize,
+                height: circleSize,
                 decoration: BoxDecoration(
                   shape: BoxShape.circle,
-                  color: const Color(0xFF4A90E2),
+                  color: Color(0xFF4A90E2),
                   border: Border.all(
                     color: Color(0xFF4A90E2),
                     width: 5,
@@ -156,11 +150,11 @@ class _GetStartedPage3State extends State<GetStartedPage3> {
               )
             else
               Container(
-                width: 350,
-                height: 350,
+                width: circleSize,
+                height: circleSize,
                 decoration: BoxDecoration(
                   shape: BoxShape.circle,
-                  color: Colors.black12, // Placeholder before camera loads
+                  color: Colors.black12,
                   border: Border.all(
                     color: Color(0xFF4A90E2),
                     width: 5,
@@ -168,14 +162,16 @@ class _GetStartedPage3State extends State<GetStartedPage3> {
                 ),
                 child: Center(child: CircularProgressIndicator()),
               ),
-            SizedBox(height: 40),
-            Text(detectedLabel, style: TextStyle(fontSize: 24)),
-            SizedBox(height: 40),
 
-            // Button appears immediately
+            SizedBox(height: screenHeight * 0.05),
+            Text(
+              detectedLabel,
+              style: TextStyle(fontSize: screenWidth * 0.06),
+            ),
+            SizedBox(height: screenHeight * 0.05),
+
             ElevatedButton(
               onPressed: () {
-                print("DEBUG: Skipping gesture detection.");
                 _timer?.cancel();
                 Navigator.push(
                   context,
@@ -184,12 +180,21 @@ class _GetStartedPage3State extends State<GetStartedPage3> {
               },
               style: ElevatedButton.styleFrom(
                 backgroundColor: Colors.redAccent,
-                padding: EdgeInsets.symmetric(vertical: 12, horizontal: 24),
+                padding: EdgeInsets.symmetric(
+                  vertical: screenHeight * 0.015,
+                  horizontal: screenWidth * 0.1,
+                ),
                 shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(12)),
+                  borderRadius: BorderRadius.circular(12),
+                ),
               ),
-              child: Text('DEBUG: Skip Gesture Detection',
-                  style: TextStyle(fontSize: 14, color: Colors.white)),
+              child: Text(
+                'DEBUG: Skip Gesture Detection',
+                style: TextStyle(
+                  fontSize: screenWidth * 0.04,
+                  color: Colors.white,
+                ),
+              ),
             ),
           ],
         ),

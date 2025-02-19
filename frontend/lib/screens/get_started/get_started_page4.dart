@@ -80,6 +80,8 @@ class _GetStartedPage4State extends State<GetStartedPage4> {
 
   @override
   Widget build(BuildContext context) {
+    final screenWidth = MediaQuery.of(context).size.width;
+    final screenHeight = MediaQuery.of(context).size.height;
     return Scaffold(
       backgroundColor: Color(0xFFFEFEFF),
       body: Center(
@@ -90,7 +92,7 @@ class _GetStartedPage4State extends State<GetStartedPage4> {
               textAlign: TextAlign.center,
               text: TextSpan(
                 style: TextStyle(
-                  fontSize: 20,
+                  fontSize: screenWidth * 0.05,
                   fontWeight: FontWeight.bold,
                   color: Colors.black,
                 ),
@@ -104,12 +106,12 @@ class _GetStartedPage4State extends State<GetStartedPage4> {
                 ],
               ),
             ),
-            SizedBox(height: 20),
+            SizedBox(height: screenHeight * 0.03),
             // Microphone icon button
             IconButton(
               icon: Icon(
                 _isListening ? Icons.mic : Icons.mic_none,
-                size: 100,
+                size: screenWidth * 0.2,
                 color: _isListening ? Colors.green : Color(0xFF4A90E2),
               ),
               onPressed: () {
@@ -120,16 +122,21 @@ class _GetStartedPage4State extends State<GetStartedPage4> {
                 }
               },
             ),
-            SizedBox(height: 20),
+            SizedBox(height: screenHeight * 0.03),
             // Display recognized text
             Text(
               _voiceText,
-              style: TextStyle(fontSize: 16, color: Colors.black),
+              style:
+                  TextStyle(fontSize: screenWidth * 0.04, color: Colors.black),
             ),
-            SizedBox(height: 40),
+            SizedBox(height: screenHeight * 0.05),
             ElevatedButton(
               style: ElevatedButton.styleFrom(
                 backgroundColor: Colors.red,
+                padding: EdgeInsets.symmetric(
+                  vertical: screenHeight * 0.015,
+                  horizontal: screenWidth * 0.1,
+                ),
               ),
               onPressed: () {
                 Navigator.pushReplacement(
@@ -139,7 +146,10 @@ class _GetStartedPage4State extends State<GetStartedPage4> {
               },
               child: Text(
                 "DEBUG: Skip Voice Detection",
-                style: TextStyle(color: Colors.white),
+                style: TextStyle(
+                  color: Colors.white,
+                  fontSize: screenWidth * 0.04,
+                ),
               ),
             ),
           ],
