@@ -1,22 +1,16 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
+import 'package:lingua_arv1/repositories/Config.dart';
 import 'package:lingua_arv1/model/Authentication.dart';
 import 'package:lingua_arv1/repositories/login_repositories/login_repository.dart';
 
 class LoginRepositoryImpl implements LoginRepository {
-  //final String apiUrl = 'http://10.0.2.2:5000/auth/login';
-  //final String apiUrl = 'http://127.0.0.1:5000/auth/login';
-  //final String apiUrl = 'http://192.168.100.53:5000/auth/login';
-  // final String apiUrl = 'http://192.168.16.118:5000/auth/login';
-  //final String apiUrl = 'http://10.40.98.3:5000/auth/login';
-  // final String apiUrl = 'http://192.168.100.53:5000/auth/login';
-  // final String apiUrl = 'http://192.168.157.7:5000/auth/login';
-  final String apiUrl = 'http://192.168.1.11:5000/auth/login';
+  String url = Login.baseURL;
 
   @override
   Future<Authentication> login(String email, String password) async {
     final response = await http.post(
-      Uri.parse(apiUrl),
+      Uri.parse(url),
       headers: <String, String>{
         'Content-Type': 'application/json',
       },

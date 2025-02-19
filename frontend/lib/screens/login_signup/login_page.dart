@@ -3,7 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:lingua_arv1/bloc/Login/login_bloc.dart';
 import 'package:lingua_arv1/bloc/Login/login_event.dart';
 import 'package:lingua_arv1/bloc/Login/login_state.dart';
-import 'package:lingua_arv1/forgot_password/forgot_password_sheet.dart';
+import 'package:lingua_arv1/screens/forgot_password/forgot_password_sheet.dart';
 import 'package:lingua_arv1/repositories/login_repositories/login_repository_impl.dart';
 import 'package:lingua_arv1/screens/get_started/get_started_page2.dart';
 import 'package:lingua_arv1/screens/login_signup/signup_page.dart';

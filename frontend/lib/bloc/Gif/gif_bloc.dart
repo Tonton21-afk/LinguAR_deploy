@@ -1,6 +1,6 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:equatable/equatable.dart';
-import 'package:lingua_arv1/api/Config.dart';
+import 'package:lingua_arv1/repositories/Config.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'dart:async';
@@ -18,7 +18,7 @@ class GifBloc extends Bloc<GifEvent, GifState> {
     String url = "${Cloud_url.baseURL}?public_id=${event.publicId}";
 
     print("Fetching GIF for: ${event.phrase}");
-    print("Generated URL: $url");
+    print("Generated URL: $url"); 
 
     try {
       final response = await http.get(Uri.parse(url)).timeout(

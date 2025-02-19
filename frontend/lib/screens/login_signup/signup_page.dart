@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:lingua_arv1/bloc/Register/register_bloc.dart';
 import 'package:lingua_arv1/repositories/register_repositories/register_repository_impl.dart';
+import 'package:lingua_arv1/validators/password_validator.dart';
 import 'login_page.dart';
 
 class SignUpPage extends StatefulWidget {
@@ -14,6 +15,10 @@ class _SignUpPageState extends State<SignUpPage> {
   final TextEditingController passwordController = TextEditingController();
   final TextEditingController confirmPasswordController =
       TextEditingController();
+
+  String? passwordError;
+  String? confirmPasswordError;
+
   bool _obscurePassword = true;
   bool _obscureConfirmPassword = true;
 
@@ -98,6 +103,8 @@ class _SignUpPageState extends State<SignUpPage> {
                           });
                         },
                       ),
+                      errorText:
+                          passwordError, // Display error under the text field
                     ),
                   ),
                   SizedBox(height: 20),
@@ -122,6 +129,7 @@ class _SignUpPageState extends State<SignUpPage> {
                           });
                         },
                       ),
+                      errorText: confirmPasswordError,
                     ),
                   ),
                   SizedBox(height: 30),
@@ -134,26 +142,40 @@ class _SignUpPageState extends State<SignUpPage> {
                         final confirmPassword =
                             confirmPasswordController.text.trim();
 
-                        if (email.isEmpty ||
-                            password.isEmpty ||
-                            confirmPassword.isEmpty) {
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            SnackBar(content: Text('All fields are required')),
-                          );
-                          return;
+                        setState(() {
+                          passwordError = null;
+                          confirmPasswordError = null;
+                        });
+
+                        if (passwordError == null &&
+                            confirmPasswordError == null) {
+                          context.read<RegisterBloc>().add(
+                                RegisterButtonPressed(
+                                    email: email, password: password),
+                              );
                         }
 
-                        if (password != confirmPassword) {
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            SnackBar(content: Text('Passwords do not match')),
-                          );
-                          return;
+                        if (password.isEmpty) {
+                          setState(() {
+                            passwordError = 'Please enter a new password.';
+                          });
+                        } else if (!PasswordValidator.isPasswordValid(
+                            password)) {
+                          setState(() {
+                            passwordError =
+                                'Password must contain at least 1 uppercase letter,\n1 number, 1 special character, and be 8-12 characters long.';
+                          });
                         }
-
-                        context.read<RegisterBloc>().add(
-                              RegisterButtonPressed(
-                                  email: email, password: password),
-                            );
+                        if (confirmPassword.isEmpty) {
+                          setState(() {
+                            confirmPasswordError =
+                                'Please confirm your password.';
+                          });
+                        } else if (password != confirmPassword) {
+                          setState(() {
+                            confirmPasswordError = 'Passwords do not match.';
+                          });
+                        }
                       },
                       style: ElevatedButton.styleFrom(
                         backgroundColor: Color(0xFF191E20),
