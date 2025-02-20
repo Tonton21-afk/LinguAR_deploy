@@ -8,11 +8,19 @@ import 'package:lingua_arv1/bloc/Gif/gif_event.dart';
 import 'package:lingua_arv1/bloc/Gif/gif_state.dart';
 
 class GifBloc extends Bloc<GifEvent, GifState> {
+  final Map<String, String> _gifCache = {}; //for caching
+
   GifBloc() : super(GifInitial()) {
     on<FetchGif>(_onFetchGif);
   }
 
   Future<void> _onFetchGif(FetchGif event, Emitter<GifState> emit) async {
+    if (_gifCache.containsKey(event.publicId)) {
+      print("Loading cached GIF for: ${event.phrase}");
+      emit(GifLoaded(gifUrl: _gifCache[event.publicId]!, phrase: event.phrase));
+      return;
+    }
+
     emit(GifLoading());
 
     String url = "${Cloud_url.baseURL}?public_id=${event.publicId}";
@@ -30,9 +38,12 @@ class GifBloc extends Bloc<GifEvent, GifState> {
 
       if (response.statusCode == 200) {
         var jsonResponse = jsonDecode(response.body);
-        print("Response received: $jsonResponse");
+        String gifUrl = jsonResponse['gif_url'];
 
-        emit(GifLoaded(gifUrl: jsonResponse['gif_url'], phrase: event.phrase));
+        _gifCache[event.publicId] = gifUrl; //for caching
+
+        print("Response received: $jsonResponse");
+        emit(GifLoaded(gifUrl: gifUrl, phrase: event.phrase));
       } else {
         print("Failed request. Status Code: ${response.statusCode}");
         emit(GifError(message: 'Failed to fetch GIF from server.'));
