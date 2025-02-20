@@ -7,7 +7,6 @@ import 'package:lingua_arv1/screens/forgot_password/forgot_password_sheet.dart';
 import 'package:lingua_arv1/repositories/login_repositories/login_repository_impl.dart';
 import 'package:lingua_arv1/screens/get_started/get_started_page2.dart';
 import 'package:lingua_arv1/screens/login_signup/signup_page.dart';
-// import 'package:lingua_arv1/widgets/forgot_password_sheet.dart';
 
 class LoginPage extends StatefulWidget {
   @override
@@ -18,6 +17,45 @@ class _LoginPageState extends State<LoginPage> {
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
   bool _obscurePassword = true;
+  String? emailError;
+  String? passwordError;
+
+  void _showSuccessDialog(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (context) {
+        return Stack(
+          children: [
+            Positioned(
+              top: 0, // Position the dialog at the top of the screen
+              left: 0,
+              right: 0,
+              child: AlertDialog(
+                content: Container(
+                  height: 80, // Adjust height as needed
+                  child: Center(
+                    child: Text(
+                      'Successful login',
+                      style: TextStyle(fontSize: 18),
+                    ),
+                  ),
+                ),
+              ),
+            ),
+          ],
+        );
+      },
+    );
+
+    // Close the dialog after 2 seconds and navigate to the next screen
+    Future.delayed(Duration(seconds: 2), () {
+      Navigator.pop(context); // Close the dialog
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(builder: (context) => GetStartedPage2()),
+      );
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -39,16 +77,18 @@ class _LoginPageState extends State<LoginPage> {
                     Center(child: CircularProgressIndicator()),
               );
             } else if (state is LoginSuccess) {
-              Navigator.pop(context);
-              Navigator.pushReplacement(
-                context,
-                MaterialPageRoute(builder: (context) => GetStartedPage2()),
-              );
+              Navigator.pop(context); // Close the loading dialog
+              _showSuccessDialog(context); // Show success dialog at the top
             } else if (state is LoginFailure) {
-              Navigator.pop(context);
-              ScaffoldMessenger.of(context).showSnackBar(
-                SnackBar(content: Text(state.errorMessage)),
-              );
+              Navigator.pop(context); // Close the loading dialog
+              setState(() {
+                emailError = state.errorMessage.contains('email')
+                    ? 'Invalid email or password'
+                    : null;
+                passwordError = state.errorMessage.contains('password')
+                    ? 'Invalid email or password'
+                    : null;
+              });
             }
           },
           builder: (context, state) {
@@ -80,6 +120,14 @@ class _LoginPageState extends State<LoginPage> {
                           EdgeInsets.symmetric(vertical: 16, horizontal: 16),
                     ),
                   ),
+                  if (emailError != null)
+                    Padding(
+                      padding: const EdgeInsets.only(top: 8.0),
+                      child: Text(
+                        emailError!,
+                        style: TextStyle(color: Colors.red, fontSize: 12),
+                      ),
+                    ),
                   SizedBox(height: 20),
                   TextField(
                     controller: passwordController,
@@ -102,6 +150,14 @@ class _LoginPageState extends State<LoginPage> {
                       ),
                     ),
                   ),
+                  if (passwordError != null)
+                    Padding(
+                      padding: const EdgeInsets.only(top: 8.0),
+                      child: Text(
+                        passwordError!,
+                        style: TextStyle(color: Colors.red, fontSize: 12),
+                      ),
+                    ),
                   Align(
                     alignment: Alignment.centerRight,
                     child: TextButton(
@@ -127,11 +183,12 @@ class _LoginPageState extends State<LoginPage> {
                         final email = emailController.text.trim();
                         final password = passwordController.text.trim();
                         if (email.isEmpty || password.isEmpty) {
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            SnackBar(
-                                content:
-                                    Text('Email and password are required')),
-                          );
+                          setState(() {
+                            emailError =
+                                email.isEmpty ? 'Email is required' : null;
+                            passwordError =
+                                password.isEmpty ? 'Password is required' : null;
+                          });
                           return;
                         }
                         BlocProvider.of<LoginBloc>(context).add(
