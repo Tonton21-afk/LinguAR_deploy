@@ -18,6 +18,7 @@ class _SignUpPageState extends State<SignUpPage> {
 
   String? passwordError;
   String? confirmPasswordError;
+  String? emailError; // Added for email validation
 
   bool _obscurePassword = true;
   bool _obscureConfirmPassword = true;
@@ -79,6 +80,7 @@ class _SignUpPageState extends State<SignUpPage> {
                           borderRadius: BorderRadius.circular(12)),
                       contentPadding:
                           EdgeInsets.symmetric(vertical: 16, horizontal: 16),
+                      errorText: emailError, // Display email validation error
                     ),
                   ),
                   SizedBox(height: 20),
@@ -103,8 +105,7 @@ class _SignUpPageState extends State<SignUpPage> {
                           });
                         },
                       ),
-                      errorText:
-                          passwordError, // Display error under the text field
+                      errorText: passwordError,
                     ),
                   ),
                   SizedBox(height: 20),
@@ -143,18 +144,23 @@ class _SignUpPageState extends State<SignUpPage> {
                             confirmPasswordController.text.trim();
 
                         setState(() {
+                          emailError = null;
                           passwordError = null;
                           confirmPasswordError = null;
                         });
 
-                        if (passwordError == null &&
-                            confirmPasswordError == null) {
-                          context.read<RegisterBloc>().add(
-                                RegisterButtonPressed(
-                                    email: email, password: password),
-                              );
+                        // Email validation
+                        if (email.isEmpty) {
+                          setState(() {
+                            emailError = 'Please enter your email.';
+                          });
+                        } else if (!email.contains('@')) {
+                          setState(() {
+                            emailError = 'Please enter a valid email address.';
+                          });
                         }
 
+                        // Password validation
                         if (password.isEmpty) {
                           setState(() {
                             passwordError = 'Please enter a new password.';
@@ -166,6 +172,8 @@ class _SignUpPageState extends State<SignUpPage> {
                                 'Password must contain at least 1 uppercase letter,\n1 number, 1 special character, and be 8-12 characters long.';
                           });
                         }
+
+                        // Confirm password validation
                         if (confirmPassword.isEmpty) {
                           setState(() {
                             confirmPasswordError =
@@ -175,6 +183,16 @@ class _SignUpPageState extends State<SignUpPage> {
                           setState(() {
                             confirmPasswordError = 'Passwords do not match.';
                           });
+                        }
+
+                        // If all validations pass, trigger the registration event
+                        if (emailError == null &&
+                            passwordError == null &&
+                            confirmPasswordError == null) {
+                          context.read<RegisterBloc>().add(
+                                RegisterButtonPressed(
+                                    email: email, password: password),
+                              );
                         }
                       },
                       style: ElevatedButton.styleFrom(
