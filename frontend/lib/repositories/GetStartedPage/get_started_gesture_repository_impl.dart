@@ -1,13 +1,12 @@
 import 'dart:typed_data';
 import 'package:http/http.dart' as http;
+import 'package:lingua_arv1/repositories/Config.dart';
 import 'dart:convert';
-
 import 'package:lingua_arv1/repositories/GetStartedPage/get_started_gesture_repository.dart';
 
 class GestureRepositoryImpl implements GestureRepository {
-  final String baseUrl;
+  String baseUrl = BasicUrl.baseURL;
 
-  GestureRepositoryImpl({required this.baseUrl});
 
   @override
   Future<String> detectGesture(Uint8List imageBytes) async {

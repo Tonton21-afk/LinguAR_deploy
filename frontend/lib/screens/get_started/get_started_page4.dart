@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:lingua_arv1/repositories/Config.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:speech_to_text/speech_to_text.dart' as stt;
 import 'dart:convert';
@@ -14,11 +15,12 @@ class _GetStartedPage4State extends State<GetStartedPage4> {
   final stt.SpeechToText _speech = stt.SpeechToText();
   bool _isListening = false;
   String _voiceText = '';
+  String baseurl = BasicUrl.baseURL;
 
   // Function to send voice data to the backend
   Future<void> _sendVoiceData(String voiceData, BuildContext context) async {
     final url = Uri.parse(
-        'http://192.168.100.66:5000/recognize'); // Replace with your backend URL
+        '$baseurl/recognize'); // Replace with your backend URL
     final response = await http.post(
       url,
       headers: {'Content-Type': 'application/json'},
