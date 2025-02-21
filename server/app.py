@@ -4,6 +4,7 @@ from routes.gesture_routes import create_gesture_routes
 from routes.speech_recognition_routes import create_speech_recognition_routes
 from routes.videos_routes import create_cloudinary_routes
 from flask_cors import CORS
+from routes.otp import create_otp_routes
 
 
 def create_app():
@@ -17,6 +18,7 @@ def create_app():
     create_gesture_routes(app)
     create_speech_recognition_routes(app)  
     create_cloudinary_routes(app)
+    create_otp_routes(app)
 
 
     return app

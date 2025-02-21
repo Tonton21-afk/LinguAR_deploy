@@ -7,57 +7,56 @@ class GetStartedPage2 extends StatefulWidget {
 }
 
 class _GetStartedPage2State extends State<GetStartedPage2> {
-  // Track selected indices
   Set<int> selectedIndices = {};
 
   @override
   Widget build(BuildContext context) {
+    final double screenWidth = MediaQuery.of(context).size.width;
+    final double screenHeight = MediaQuery.of(context).size.height;
+    final double textScale = MediaQuery.of(context).textScaleFactor;
+
     return Scaffold(
       body: Center(
         child: SingleChildScrollView(
           child: Padding(
-            padding: const EdgeInsets.all(16.0),
+            padding: EdgeInsets.symmetric(horizontal: screenWidth * 0.05),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                // Goal Selection title
                 Text(
                   'Goal Selection',
                   style: TextStyle(
-                    fontSize: 24,
+                    fontSize: 24 * textScale,
                     fontWeight: FontWeight.bold,
                     color: Colors.black,
                   ),
                 ),
-                SizedBox(height: 20),
-
-                // Options list
+                SizedBox(height: screenHeight * 0.02),
                 _buildOptionCard(
                   title: "I want to learn Filipino Sign Language",
                   index: 0,
                   color: Color(0xFF4A90E2),
                 ),
-                SizedBox(height: 12),
+                SizedBox(height: screenHeight * 0.015),
                 _buildOptionCard(
                   title: "I need real-time translations",
                   index: 1,
                   color: Color(0xFF273236),
                 ),
-                SizedBox(height: 12),
+                SizedBox(height: screenHeight * 0.015),
                 _buildOptionCard(
                   title: "I want to connect with others",
                   index: 2,
                   color: Color(0xFF4A90E2),
                 ),
-                SizedBox(height: 12),
+                SizedBox(height: screenHeight * 0.015),
                 _buildOptionCard(
                   title: "Explore all features",
                   index: 3,
                   color: Color(0xFF273236),
                 ),
-                SizedBox(height: 30),
-
+                SizedBox(height: screenHeight * 0.05),
                 Align(
                   alignment: Alignment.bottomCenter,
                   child: ElevatedButton(
@@ -74,14 +73,14 @@ class _GetStartedPage2State extends State<GetStartedPage2> {
                     style: ElevatedButton.styleFrom(
                       shape: CircleBorder(),
                       backgroundColor: selectedIndices.isNotEmpty
-                          ? Color(0xFF4A90E2) // Active color
-                          : Colors.grey, // Disabled color
-                      padding: EdgeInsets.all(20),
+                          ? Color(0xFF4A90E2)
+                          : Colors.grey,
+                      padding: EdgeInsets.all(screenWidth * 0.08),
                     ),
                     child: Icon(
                       Icons.arrow_forward,
                       color: Colors.white,
-                      size: 30,
+                      size: screenWidth * 0.08,
                     ),
                   ),
                 ),
@@ -99,23 +98,28 @@ class _GetStartedPage2State extends State<GetStartedPage2> {
     required Color color,
   }) {
     bool isSelected = selectedIndices.contains(index);
+    final double screenWidth = MediaQuery.of(context).size.width;
+    final double screenHeight = MediaQuery.of(context).size.height;
+    final double textScale = MediaQuery.of(context).textScaleFactor;
 
     return GestureDetector(
       onTap: () {
         setState(() {
-          if (isSelected) {
-            selectedIndices.remove(index); // Deselect if already selected
-          } else {
-            selectedIndices.add(index); // Select if not already selected
-          }
+          isSelected
+              ? selectedIndices.remove(index)
+              : selectedIndices.add(index);
         });
-        print('$title clicked');
       },
       child: AnimatedContainer(
         duration: Duration(milliseconds: 300),
         curve: Curves.easeInOut,
-        width: isSelected ? double.infinity * 1.02 : double.infinity,
-        height: isSelected ? 90 : 80,
+        transform: isSelected
+            ? (Matrix4.identity()
+              ..scale(1.05)
+              ..rotateZ(0.05))
+            : Matrix4.identity(),
+        width: double.infinity,
+        height: screenHeight * 0.1,
         decoration: BoxDecoration(
           color: isSelected ? color.withOpacity(0.8) : color,
           borderRadius: BorderRadius.circular(12.0),
@@ -136,7 +140,7 @@ class _GetStartedPage2State extends State<GetStartedPage2> {
           child: AnimatedDefaultTextStyle(
             duration: Duration(milliseconds: 300),
             style: TextStyle(
-              fontSize: isSelected ? 16 : 14,
+              fontSize: isSelected ? 16 * textScale : 14 * textScale,
               color: Colors.white,
               fontWeight: isSelected ? FontWeight.bold : FontWeight.w500,
             ),

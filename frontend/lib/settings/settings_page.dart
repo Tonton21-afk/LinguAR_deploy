@@ -20,27 +20,86 @@ class _SettingsPageState extends State<SettingsPage> {
     'Pitch Control': 'Normal',
   };
 
+  late ScrollController _scrollController;
+  Color appBarColor = Color(0xFFFEFFFE);
+
+  @override
+  void initState() {
+    super.initState();
+    _scrollController = ScrollController();
+    _scrollController.addListener(() {
+      setState(() {
+        appBarColor = _scrollController.offset > 50
+            ? Color(0xFF4A90E2)
+            : Color(0xFFFEFFFE);
+      });
+    });
+  }
+
+  @override
+  void dispose() {
+    _scrollController.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
+    // Get screen width and height
+    final screenWidth = MediaQuery.of(context).size.width;
+    final screenHeight = MediaQuery.of(context).size.height;
+
+    // Define responsive font sizes and padding
+    final titleFontSize = screenWidth * 0.05; // 5% of screen width
+    final subtitleFontSize = screenWidth * 0.04; // 4% of screen width
+    final listTileFontSize = screenWidth * 0.035; // 3.5% of screen width
+    final sectionHeaderPadding = EdgeInsets.symmetric(
+      horizontal: screenWidth * 0.04, // 4% of screen width
+      vertical: screenHeight * 0.02, // 2% of screen height
+    );
+    final listTilePadding = EdgeInsets.symmetric(
+      horizontal: screenWidth * 0.04, // 4% of screen width
+      vertical: screenHeight * 0.015, // 1.5% of screen height
+    );
+
     return Scaffold(
-      appBar: AppBar(
-        title: Center(
-            child: Text('Settings', style: TextStyle(color: Colors.black))),
-        backgroundColor: Color(0xFFFEFFFE),
-        automaticallyImplyLeading: false,
-        elevation: 0,
-      ),
-      body: Container(
-        color: Color(0xFFFEFFFE),
-        child: ListView(
+      backgroundColor: Color(0xFFFEFFFE),
+      body: NestedScrollView(
+        controller: _scrollController,
+        headerSliverBuilder: (context, innerBoxIsScrolled) {
+          return [
+            SliverAppBar(
+              pinned: true,
+              automaticallyImplyLeading: false,
+              backgroundColor: appBarColor,
+              elevation: 4,
+              expandedHeight: kToolbarHeight,
+              flexibleSpace: FlexibleSpaceBar(
+                centerTitle: true,
+                title: Text(
+                  'Settings',
+                  style: TextStyle(
+                    fontSize: screenWidth * 0.045,
+                    color: appBarColor == Color(0xFFFEFFFE)
+                        ? Colors.black
+                        : Colors.white,
+                  ),
+                ),
+              ),
+            ),
+          ];
+        },
+        body: ListView(
           children: [
-            _buildSectionHeader('GENERAL'),
+            _buildSectionHeader(
+                'GENERAL', sectionHeaderPadding, subtitleFontSize),
             _buildListTile(
               context,
               'Theme',
               settings['Theme']!,
               Icons.brightness_6,
               ['Auto', 'Light', 'Dark'],
+              listTilePadding,
+              listTileFontSize,
             ),
             _buildListTile(
               context,
@@ -48,21 +107,48 @@ class _SettingsPageState extends State<SettingsPage> {
               settings['Language']!,
               Icons.language,
               ['English', 'Spanish', 'French', 'Filipino'],
+              listTilePadding,
+              listTileFontSize,
             ),
-            _buildSectionHeader('ACCOUNT'),
+            _buildSectionHeader(
+                'ACCOUNT', sectionHeaderPadding, subtitleFontSize),
             _buildListTile(
-                context, 'Name', settings['Name']!, Icons.person, []),
+              context,
+              'Name',
+              settings['Name']!,
+              Icons.person,
+              [],
+              listTilePadding,
+              listTileFontSize,
+            ),
             _buildListTile(
-                context, 'Email', settings['Email']!, Icons.email, []),
+              context,
+              'Email',
+              settings['Email']!,
+              Icons.email,
+              [],
+              listTilePadding,
+              listTileFontSize,
+            ),
             _buildListTile(
-                context, 'Password', settings['Password']!, Icons.lock, []),
-            _buildSectionHeader('AR and FSL'),
+              context,
+              'Password',
+              settings['Password']!,
+              Icons.lock,
+              [],
+              listTilePadding,
+              listTileFontSize,
+            ),
+            _buildSectionHeader(
+                'AR and FSL', sectionHeaderPadding, subtitleFontSize),
             _buildListTile(
               context,
               'Preferred Hand',
               settings['Preferred Hand']!,
               Icons.pan_tool,
               ['Right', 'Left'],
+              listTilePadding,
+              listTileFontSize,
             ),
             _buildListTile(
               context,
@@ -70,14 +156,19 @@ class _SettingsPageState extends State<SettingsPage> {
               settings['Translation Speed']!,
               Icons.speed,
               ['Slow', 'Normal', 'Fast'],
+              listTilePadding,
+              listTileFontSize,
             ),
-            _buildSectionHeader('Text to Speech'),
+            _buildSectionHeader(
+                'Text to Speech', sectionHeaderPadding, subtitleFontSize),
             _buildListTile(
               context,
               'Voice Selection',
               settings['Voice Selection']!,
               Icons.record_voice_over,
               ['Male', 'Female'],
+              listTilePadding,
+              listTileFontSize,
             ),
             _buildListTile(
               context,
@@ -85,6 +176,8 @@ class _SettingsPageState extends State<SettingsPage> {
               settings['Speech Speed']!,
               Icons.slow_motion_video,
               ['Slow', 'Normal', 'Fast'],
+              listTilePadding,
+              listTileFontSize,
             ),
             _buildListTile(
               context,
@@ -92,28 +185,52 @@ class _SettingsPageState extends State<SettingsPage> {
               settings['Pitch Control']!,
               Icons.tune,
               ['Low', 'Normal', 'High'],
+              listTilePadding,
+              listTileFontSize,
             ),
-            _buildSectionHeader('About and Support'),
-            _buildListTile(context, 'App Version', '', Icons.info, []),
+            _buildSectionHeader(
+                'About and Support', sectionHeaderPadding, subtitleFontSize),
             _buildListTile(
-                context, 'Privacy Policy', '', Icons.privacy_tip, []),
+              context,
+              'App Version',
+              '',
+              Icons.info,
+              [],
+              listTilePadding,
+              listTileFontSize,
+            ),
             _buildListTile(
-                context, 'Feedback and Support', '', Icons.support, []),
+              context,
+              'Privacy Policy',
+              '',
+              Icons.privacy_tip,
+              [],
+              listTilePadding,
+              listTileFontSize,
+            ),
+            _buildListTile(
+              context,
+              'Feedback and Support',
+              '',
+              Icons.support,
+              [],
+              listTilePadding,
+              listTileFontSize,
+            ),
             // Logout button
             Padding(
-              padding:
-                  const EdgeInsets.symmetric(vertical: 16.0, horizontal: 16.0),
+              padding: listTilePadding,
               child: ListTile(
                 leading: Icon(Icons.exit_to_app, color: Colors.red),
                 title: Text(
                   'Logout',
                   style: TextStyle(
-                      fontSize: 16,
-                      fontWeight: FontWeight.w500,
-                      color: Colors.red),
+                    fontSize: listTileFontSize,
+                    fontWeight: FontWeight.w500,
+                    color: Colors.red,
+                  ),
                 ),
                 onTap: () {
-                  // Handle logout logic here
                   _showLogoutDialog(context);
                 },
               ),
@@ -124,34 +241,43 @@ class _SettingsPageState extends State<SettingsPage> {
     );
   }
 
-  Widget _buildSectionHeader(String title) {
+  Widget _buildSectionHeader(
+      String title, EdgeInsets padding, double fontSize) {
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
+      padding: padding,
       child: Text(
         title,
         style: TextStyle(
           color: Colors.grey,
           fontWeight: FontWeight.bold,
-          fontSize: 14,
+          fontSize: fontSize,
         ),
       ),
     );
   }
 
-  Widget _buildListTile(BuildContext context, String title, String trailing,
-      IconData icon, List<String> options) {
+  Widget _buildListTile(
+    BuildContext context,
+    String title,
+    String trailing,
+    IconData icon,
+    List<String> options,
+    EdgeInsets padding,
+    double fontSize,
+  ) {
     return Column(
       children: [
         ListTile(
           leading: Icon(icon, color: Colors.grey),
           title: Text(
             title,
-            style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500),
+            style: TextStyle(fontSize: fontSize, fontWeight: FontWeight.w500),
           ),
           trailing: trailing.isNotEmpty
               ? Text(
                   trailing,
-                  style: TextStyle(color: Colors.grey, fontSize: 14),
+                  style:
+                      TextStyle(color: Colors.grey, fontSize: fontSize * 0.9),
                 )
               : null,
           onTap: title == 'Privacy Policy'
@@ -161,11 +287,12 @@ class _SettingsPageState extends State<SettingsPage> {
                   : null,
         ),
         Divider(
-            height: 1,
-            thickness: 0.5,
-            indent: 16,
-            endIndent: 16,
-            color: Colors.grey[300]),
+          height: 1,
+          thickness: 0.5,
+          indent: padding.horizontal / 2,
+          endIndent: padding.horizontal / 2,
+          color: Colors.grey[300],
+        ),
       ],
     );
   }
@@ -290,14 +417,12 @@ By using LinguaAR, you agree to this Privacy Policy.
           actions: [
             TextButton(
               onPressed: () {
-                // Handle logout functionality here
                 Navigator.of(context).pop();
               },
               child: Text('Cancel', style: TextStyle(color: Colors.blue)),
             ),
             TextButton(
               onPressed: () {
-                // Perform logout actions here
                 Navigator.push(
                   context,
                   MaterialPageRoute(builder: (context) => LoginPage()),
