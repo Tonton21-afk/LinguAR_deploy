@@ -50,7 +50,7 @@ class AnswerFeedbackPage extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
                       GifDisplay(gifUrl: state.gifUrl),
-                      const SizedBox(height: 20),
+                      const SizedBox(height: 5),
 
                       // **Answer Buttons (Now Randomized Position)**
                       CorrectButton(
@@ -66,7 +66,7 @@ class AnswerFeedbackPage extends StatelessWidget {
                               .add(CheckAnswer(state.question["answer1"]!));
                         },
                       ),
-                      const SizedBox(height: 15),
+                      const SizedBox(height: 5),
                       CorrectButton(
                         text: state.question["answer2"]!,
                         isCorrect: state.isCorrect != null
@@ -81,11 +81,11 @@ class AnswerFeedbackPage extends StatelessWidget {
                         },
                       ),
 
-                      const SizedBox(height: 15),
+                      const SizedBox(height: 5),
 
                       // **Correct / Incorrect Indicator**
                       if (state.isCorrect != null) ...[
-                        const SizedBox(height: 15),
+                        const SizedBox(height: 5),
                         FeedbackIndicator(isCorrect: state.isCorrect!),
                       ],
                     ],
@@ -100,7 +100,7 @@ class AnswerFeedbackPage extends StatelessWidget {
 
           // **NEXT Button (Fixed at Bottom)**
           Padding(
-            padding: const EdgeInsets.only(bottom: 15),
+            padding: const EdgeInsets.only(bottom: 55),
             child: BlocBuilder<QuizBloc, QuizState>(
               builder: (context, state) {
                 bool isEnabled = false;

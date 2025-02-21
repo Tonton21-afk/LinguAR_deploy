@@ -14,7 +14,7 @@ class FeedbackIndicator extends StatelessWidget {
           color: isCorrect ? Colors.green : Colors.red,
           size: 40,
         ),
-        const SizedBox(height: 10),
+        
         Text(
           isCorrect ? "Correct!" : "Incorrect",
           style: TextStyle(
@@ -23,7 +23,7 @@ class FeedbackIndicator extends StatelessWidget {
             fontWeight: FontWeight.bold,
           ),
         ),
-        const SizedBox(height: 20),
+        const SizedBox(height: 0),
       ],
     );
   }

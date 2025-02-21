@@ -11,7 +11,7 @@ class LoginRepositoryImpl implements LoginRepository {
   //final String apiUrl = 'http://10.40.98.3:5000/auth/login';
   // final String apiUrl = 'http://192.168.100.53:5000/auth/login';
   // final String apiUrl = 'http://192.168.157.7:5000/auth/login';
-  final String apiUrl = 'http://192.168.100.30:5000/auth/login';
+  final String apiUrl = 'http://192.168.149.118:5000/auth/login';
 
   @override
   Future<Authentication> login(String email, String password) async {

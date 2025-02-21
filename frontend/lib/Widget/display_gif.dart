@@ -9,7 +9,7 @@ class GifDisplay extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       width: 550,
-      height: 450,
+      height: 410,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(10),
         border: Border.all(color: Colors.grey),
