@@ -10,7 +10,7 @@ class _SettingsPageState extends State<SettingsPage> {
   Map<String, String> settings = {
     'Theme': 'Light',
     'Language': 'English',
-    'Name': 'Jose P. Rizal',
+    //'Name': 'Jose P. Rizal',
     'Email': 'pepe.rizal@gmail.com',
     'Password': '********',
     'Preferred Hand': 'Right',
@@ -112,15 +112,15 @@ class _SettingsPageState extends State<SettingsPage> {
             ),
             _buildSectionHeader(
                 'ACCOUNT', sectionHeaderPadding, subtitleFontSize),
-            _buildListTile(
-              context,
-              'Name',
-              settings['Name']!,
-              Icons.person,
-              [],
-              listTilePadding,
-              listTileFontSize,
-            ),
+            // _buildListTile(
+            //   context,
+            //   'Name',
+            //   settings['Name']!,
+            //   Icons.person,
+            //   [],
+            //   listTilePadding,
+            //   listTileFontSize,
+            // ),
             _buildListTile(
               context,
               'Email',

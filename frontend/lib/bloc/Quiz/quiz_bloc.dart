@@ -1,10 +1,10 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:equatable/equatable.dart';
-import 'package:lingua_arv1/api/Config.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'dart:async';
 import 'package:lingua_arv1/api/basic_phrases.dart';
+import 'package:lingua_arv1/repositories/Config.dart';
 import 'quiz_event.dart';
 import 'quiz_state.dart';
 

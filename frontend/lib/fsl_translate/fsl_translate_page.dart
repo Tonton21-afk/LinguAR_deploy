@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:lingua_arv1/screens/fsl_Quiz/signLearningScreen.dart';
 import 'cards/sample_page.dart';
 import 'cards/card_page1.dart';
 import 'cards/card_page2.dart';
@@ -216,7 +217,7 @@ class _FSLTranslatePageState extends State<FSLTranslatePage> {
                                       builder: (context) {
                                         switch (i) {
                                           case 0:
-                                            return CardPage1();
+                                            return  SignLearningScreen();
                                           case 1:
                                             return CardPage2();
                                           case 2:
