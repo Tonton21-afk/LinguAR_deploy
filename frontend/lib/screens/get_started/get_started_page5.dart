@@ -6,42 +6,43 @@ class GetStartedPage5 extends StatelessWidget {
   Widget build(BuildContext context) {
     final screenWidth = MediaQuery.of(context).size.width;
     final screenHeight = MediaQuery.of(context).size.height;
+    final bool isLargeScreen = screenWidth > 600;
 
     return Scaffold(
       backgroundColor: Colors.white,
       body: Center(
         child: SingleChildScrollView(
           child: Padding(
-            padding: EdgeInsets.all(screenWidth * 0.05),
+            padding: EdgeInsets.all(isLargeScreen ? 40 : screenWidth * 0.05),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 Image.asset(
                   'assets/illustrations/all_set.png',
-                  width: screenWidth * 0.6,
-                  height: screenHeight * 0.3,
+                  width: isLargeScreen ? 400 : screenWidth * 0.6,
+                  height: isLargeScreen ? 300 : screenHeight * 0.3,
                   fit: BoxFit.contain,
                 ),
-                SizedBox(height: screenHeight * 0.03),
+                SizedBox(height: isLargeScreen ? 30 : screenHeight * 0.03),
                 Text(
                   'You Are All Set!',
                   style: TextStyle(
-                    fontSize: screenWidth * 0.07,
+                    fontSize: isLargeScreen ? 32 : screenWidth * 0.07,
                     fontWeight: FontWeight.bold,
                     color: Colors.black,
                   ),
                 ),
-                SizedBox(height: screenHeight * 0.01),
+                SizedBox(height: isLargeScreen ? 10 : screenHeight * 0.01),
                 Text(
                   'Thank you for setting up LinguaAR.\nYou can now explore its features.',
                   textAlign: TextAlign.center,
                   style: TextStyle(
-                    fontSize: screenWidth * 0.045,
+                    fontSize: isLargeScreen ? 20 : screenWidth * 0.045,
                     color: Colors.black54,
                   ),
                 ),
-                SizedBox(height: screenHeight * 0.05),
+                SizedBox(height: isLargeScreen ? 40 : screenHeight * 0.05),
                 Align(
                   alignment: Alignment.bottomCenter,
                   child: ElevatedButton(
@@ -56,12 +57,13 @@ class GetStartedPage5 extends StatelessWidget {
                     style: ElevatedButton.styleFrom(
                       shape: CircleBorder(),
                       backgroundColor: Color(0xFF4A90E2),
-                      padding: EdgeInsets.all(screenWidth * 0.07),
+                      padding: EdgeInsets.all(
+                          isLargeScreen ? 40 : screenWidth * 0.07),
                     ),
                     child: Icon(
                       Icons.arrow_forward,
                       color: Colors.white,
-                      size: screenWidth * 0.08,
+                      size: isLargeScreen ? 40 : screenWidth * 0.08,
                     ),
                   ),
                 ),

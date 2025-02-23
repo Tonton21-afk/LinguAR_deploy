@@ -15,6 +15,11 @@ class _GetStartedPage2State extends State<GetStartedPage2> {
     final double screenHeight = MediaQuery.of(context).size.height;
     final double textScale = MediaQuery.of(context).textScaleFactor;
 
+    // Responsive font size and padding
+    double baseFontSize = screenWidth > 600 ? 28 : 24;
+    double cardHeight =
+        screenWidth > 600 ? screenHeight * 0.08 : screenHeight * 0.1;
+
     return Scaffold(
       body: Center(
         child: SingleChildScrollView(
@@ -27,35 +32,23 @@ class _GetStartedPage2State extends State<GetStartedPage2> {
                 Text(
                   'Goal Selection',
                   style: TextStyle(
-                    fontSize: 24 * textScale,
+                    fontSize: baseFontSize * textScale,
                     fontWeight: FontWeight.bold,
                     color: Colors.black,
                   ),
                 ),
                 SizedBox(height: screenHeight * 0.02),
-                _buildOptionCard(
-                  title: "I want to learn Filipino Sign Language",
-                  index: 0,
-                  color: Color(0xFF4A90E2),
-                ),
+                _buildOptionCard("I want to learn Filipino Sign Language", 0,
+                    Color(0xFF4A90E2), cardHeight),
+                SizedBox(height: screenHeight * 0.015),
+                _buildOptionCard("I need real-time translations", 1,
+                    Color(0xFF273236), cardHeight),
+                SizedBox(height: screenHeight * 0.015),
+                _buildOptionCard("I want to connect with others", 2,
+                    Color(0xFF4A90E2), cardHeight),
                 SizedBox(height: screenHeight * 0.015),
                 _buildOptionCard(
-                  title: "I need real-time translations",
-                  index: 1,
-                  color: Color(0xFF273236),
-                ),
-                SizedBox(height: screenHeight * 0.015),
-                _buildOptionCard(
-                  title: "I want to connect with others",
-                  index: 2,
-                  color: Color(0xFF4A90E2),
-                ),
-                SizedBox(height: screenHeight * 0.015),
-                _buildOptionCard(
-                  title: "Explore all features",
-                  index: 3,
-                  color: Color(0xFF273236),
-                ),
+                    "Explore all features", 3, Color(0xFF273236), cardHeight),
                 SizedBox(height: screenHeight * 0.05),
                 Align(
                   alignment: Alignment.bottomCenter,
@@ -65,8 +58,7 @@ class _GetStartedPage2State extends State<GetStartedPage2> {
                             Navigator.push(
                               context,
                               MaterialPageRoute(
-                                builder: (context) => GetStartedPage3(),
-                              ),
+                                  builder: (context) => GetStartedPage3()),
                             );
                           }
                         : null,
@@ -75,12 +67,16 @@ class _GetStartedPage2State extends State<GetStartedPage2> {
                       backgroundColor: selectedIndices.isNotEmpty
                           ? Color(0xFF4A90E2)
                           : Colors.grey,
-                      padding: EdgeInsets.all(screenWidth * 0.08),
+                      padding: EdgeInsets.all(screenWidth > 600
+                          ? screenWidth * 0.05
+                          : screenWidth * 0.08),
                     ),
                     child: Icon(
                       Icons.arrow_forward,
                       color: Colors.white,
-                      size: screenWidth * 0.08,
+                      size: screenWidth > 600
+                          ? screenWidth * 0.05
+                          : screenWidth * 0.08,
                     ),
                   ),
                 ),
@@ -92,14 +88,9 @@ class _GetStartedPage2State extends State<GetStartedPage2> {
     );
   }
 
-  Widget _buildOptionCard({
-    required String title,
-    required int index,
-    required Color color,
-  }) {
+  Widget _buildOptionCard(String title, int index, Color color, double height) {
     bool isSelected = selectedIndices.contains(index);
     final double screenWidth = MediaQuery.of(context).size.width;
-    final double screenHeight = MediaQuery.of(context).size.height;
     final double textScale = MediaQuery.of(context).textScaleFactor;
 
     return GestureDetector(
@@ -119,10 +110,10 @@ class _GetStartedPage2State extends State<GetStartedPage2> {
               ..rotateZ(0.05))
             : Matrix4.identity(),
         width: double.infinity,
-        height: screenHeight * 0.1,
+        height: height,
         decoration: BoxDecoration(
           color: isSelected ? color.withOpacity(0.8) : color,
-          borderRadius: BorderRadius.circular(12.0),
+          borderRadius: BorderRadius.circular(screenWidth > 600 ? 16.0 : 12.0),
           boxShadow: [
             BoxShadow(
               color: Colors.black.withOpacity(0.2),
@@ -133,14 +124,16 @@ class _GetStartedPage2State extends State<GetStartedPage2> {
           ],
           border: Border.all(
             color: isSelected ? color.withOpacity(0.9) : Colors.transparent,
-            width: isSelected ? 6 : 0,
+            width: isSelected ? (screenWidth > 600 ? 8 : 6) : 0,
           ),
         ),
         child: Center(
           child: AnimatedDefaultTextStyle(
             duration: Duration(milliseconds: 300),
             style: TextStyle(
-              fontSize: isSelected ? 16 * textScale : 14 * textScale,
+              fontSize: isSelected
+                  ? (screenWidth > 600 ? 18 : 16) * textScale
+                  : (screenWidth > 600 ? 16 : 14) * textScale,
               color: Colors.white,
               fontWeight: isSelected ? FontWeight.bold : FontWeight.w500,
             ),

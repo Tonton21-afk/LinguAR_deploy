@@ -4,7 +4,7 @@ import 'package:lingua_arv1/repositories/Config.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:speech_to_text/speech_to_text.dart' as stt;
 import 'dart:convert';
-import 'get_started_page5.dart'; // Import the next page
+import 'get_started_page5.dart';
 
 class GetStartedPage4 extends StatefulWidget {
   @override
@@ -17,10 +17,8 @@ class _GetStartedPage4State extends State<GetStartedPage4> {
   String _voiceText = '';
   String baseurl = BasicUrl.baseURL;
 
-  // Function to send voice data to the backend
   Future<void> _sendVoiceData(String voiceData, BuildContext context) async {
-    final url = Uri.parse(
-        '$baseurl/recognize'); // Replace with your backend URL
+    final url = Uri.parse('$baseurl/recognize');
     final response = await http.post(
       url,
       headers: {'Content-Type': 'application/json'},
@@ -30,7 +28,6 @@ class _GetStartedPage4State extends State<GetStartedPage4> {
     if (response.statusCode == 200) {
       final responseData = json.decode(response.body);
       if (responseData['recognized'] == true) {
-        // Navigate to the next page if voice is recognized
         Navigator.pushReplacement(
           context,
           MaterialPageRoute(builder: (context) => GetStartedPage5()),
@@ -42,7 +39,6 @@ class _GetStartedPage4State extends State<GetStartedPage4> {
   }
 
   void _startListening() async {
-    // Check and request microphone permission
     var status = await Permission.microphone.status;
     if (!status.isGranted) {
       status = await Permission.microphone.request();
@@ -50,7 +46,6 @@ class _GetStartedPage4State extends State<GetStartedPage4> {
 
     if (status.isGranted) {
       bool available = await _speech.initialize();
-      print('Speech recognition available: $available'); // Debug log
       if (available) {
         setState(() => _isListening = true);
         _speech.listen(
@@ -72,7 +67,6 @@ class _GetStartedPage4State extends State<GetStartedPage4> {
     }
   }
 
-  // Function to stop listening
   void _stopListening() {
     if (_isListening) {
       _speech.stop();
@@ -84,77 +78,82 @@ class _GetStartedPage4State extends State<GetStartedPage4> {
   Widget build(BuildContext context) {
     final screenWidth = MediaQuery.of(context).size.width;
     final screenHeight = MediaQuery.of(context).size.height;
+    final bool isLargeScreen = screenWidth > 600;
+
     return Scaffold(
       backgroundColor: Color(0xFFFEFEFF),
       body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            RichText(
-              textAlign: TextAlign.center,
-              text: TextSpan(
+        child: SingleChildScrollView(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              RichText(
+                textAlign: TextAlign.center,
+                text: TextSpan(
+                  style: TextStyle(
+                    fontSize: isLargeScreen ? 32 : screenWidth * 0.05,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.black,
+                  ),
+                  children: [
+                    TextSpan(text: 'Say '),
+                    TextSpan(
+                      text: '“Mabuhay”',
+                      style: TextStyle(color: Colors.blue),
+                    ),
+                    TextSpan(text: '\nto recognize your\nvoice'),
+                  ],
+                ),
+              ),
+              SizedBox(height: screenHeight * 0.03),
+              IconButton(
+                icon: Icon(
+                  _isListening ? Icons.mic : Icons.mic_none,
+                  size: isLargeScreen ? 100 : screenWidth * 0.2,
+                  color: _isListening ? Colors.green : Color(0xFF4A90E2),
+                ),
+                onPressed: () {
+                  if (_isListening) {
+                    _stopListening();
+                  } else {
+                    _startListening();
+                  }
+                },
+              ),
+              SizedBox(height: screenHeight * 0.03),
+              Text(
+                _voiceText,
                 style: TextStyle(
-                  fontSize: screenWidth * 0.05,
-                  fontWeight: FontWeight.bold,
+                  fontSize: isLargeScreen ? 24 : screenWidth * 0.04,
                   color: Colors.black,
                 ),
-                children: [
-                  TextSpan(text: 'Say '),
-                  TextSpan(
-                    text: '“Mabuhay”',
-                    style: TextStyle(color: Colors.blue),
+              ),
+              SizedBox(height: screenHeight * 0.05),
+              ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Colors.red,
+                  padding: EdgeInsets.symmetric(
+                    vertical: screenHeight * 0.02,
+                    horizontal:
+                        isLargeScreen ? screenWidth * 0.05 : screenWidth * 0.1,
                   ),
-                  TextSpan(text: '\nto recognize your\nvoice'),
-                ],
-              ),
-            ),
-            SizedBox(height: screenHeight * 0.03),
-            // Microphone icon button
-            IconButton(
-              icon: Icon(
-                _isListening ? Icons.mic : Icons.mic_none,
-                size: screenWidth * 0.2,
-                color: _isListening ? Colors.green : Color(0xFF4A90E2),
-              ),
-              onPressed: () {
-                if (_isListening) {
-                  _stopListening();
-                } else {
-                  _startListening();
-                }
-              },
-            ),
-            SizedBox(height: screenHeight * 0.03),
-            // Display recognized text
-            Text(
-              _voiceText,
-              style:
-                  TextStyle(fontSize: screenWidth * 0.04, color: Colors.black),
-            ),
-            SizedBox(height: screenHeight * 0.05),
-            ElevatedButton(
-              style: ElevatedButton.styleFrom(
-                backgroundColor: Colors.red,
-                padding: EdgeInsets.symmetric(
-                  vertical: screenHeight * 0.015,
-                  horizontal: screenWidth * 0.1,
+                ),
+                onPressed: () {
+                  Navigator.pushReplacement(
+                    context,
+                    MaterialPageRoute(builder: (context) => GetStartedPage5()),
+                  );
+                },
+                child: Text(
+                  "DEBUG: Skip Voice Detection",
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: isLargeScreen ? 24 : screenWidth * 0.04,
+                  ),
                 ),
               ),
-              onPressed: () {
-                Navigator.pushReplacement(
-                  context,
-                  MaterialPageRoute(builder: (context) => GetStartedPage5()),
-                );
-              },
-              child: Text(
-                "DEBUG: Skip Voice Detection",
-                style: TextStyle(
-                  color: Colors.white,
-                  fontSize: screenWidth * 0.04,
-                ),
-              ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );
