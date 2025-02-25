@@ -10,5 +10,5 @@ final Map<String, String> transportationMappings = {
   "Bisikleta": "LinguaAR/Gulmatico/Transportation/bisikleta",
   "Truck ng Basura": "LinguaAR/Gulmatico/Transportation/truckngbasura",
   "Ambulansya": "LinguaAR/Gulmatico/Transportation/ambulansya",
-  "Hot air Balloon": "LinguaAR/Gulmatico/Transportation/hotairballon",
+  "Hot air Balloon": "LinguaAR/Gulmatico/Transportation/hotairballoon",
 };
