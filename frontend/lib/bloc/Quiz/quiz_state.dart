@@ -1,4 +1,5 @@
 import 'package:equatable/equatable.dart';
+import 'package:lingua_arv1/model/Quiz_result.dart';
 
 // Base class for quiz states
 abstract class QuizState extends Equatable {
@@ -34,4 +35,13 @@ class QuizError extends QuizState {
 
   @override
   List<Object?> get props => [message];
+}
+// State for complete  quiz
+class QuizCompleted extends QuizState {
+  final QuizResult result;
+
+  const QuizCompleted({required this.result});
+
+  @override
+  List<Object> get props => [result];
 }
