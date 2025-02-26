@@ -23,26 +23,49 @@ class _LoginPageState extends State<LoginPage> {
   void _showSuccessDialog(BuildContext context) {
     showDialog(
       context: context,
+      barrierColor: Colors.black54, // Semi-transparent background
       builder: (context) {
-        return Stack(
-          children: [
-            Positioned(
-              top: 0, // Position the dialog at the top of the screen
-              left: 0,
-              right: 0,
-              child: AlertDialog(
-                content: Container(
-                  height: 80, // Adjust height as needed
-                  child: Center(
-                    child: Text(
-                      'Successful login',
-                      style: TextStyle(fontSize: 18),
-                    ),
+        return Dialog(
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(16.0), // Rounded corners
+          ),
+          elevation: 0,
+          backgroundColor: Colors.transparent,
+          child: Container(
+            padding: EdgeInsets.all(24),
+            decoration: BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.circular(16),
+            ),
+            child: Column(
+              mainAxisSize: MainAxisSize.min, // Fit content
+              children: [
+                Icon(
+                  Icons.check_circle,
+                  color: Color(0xFF4A90E2), // Success color
+                  size: 60,
+                ),
+                SizedBox(height: 16),
+                Text(
+                  'Successful Login',
+                  style: TextStyle(
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.black87,
                   ),
                 ),
-              ),
+                SizedBox(height: 8),
+                Text(
+                  'You have successfully logged in.',
+                  style: TextStyle(
+                    fontSize: 16,
+                    color: Colors.grey[600],
+                  ),
+                  textAlign: TextAlign.center,
+                ),
+              ],
             ),
-          ],
+          ),
         );
       },
     );
@@ -186,8 +209,9 @@ class _LoginPageState extends State<LoginPage> {
                           setState(() {
                             emailError =
                                 email.isEmpty ? 'Email is required' : null;
-                            passwordError =
-                                password.isEmpty ? 'Password is required' : null;
+                            passwordError = password.isEmpty
+                                ? 'Password is required'
+                                : null;
                           });
                           return;
                         }
