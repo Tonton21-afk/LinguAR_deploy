@@ -7,7 +7,7 @@ import 'package:lingua_arv1/bloc/Gif/gif_state.dart';
 import 'package:lingua_arv1/screens/fsl_Quiz/answerFeedback.dart';
 
 class SignLearningScreen extends StatelessWidget {
-  final String currentPhrase = "Ako";
+  final String currentPhrase = "Mga Iyan";
 
   @override
   Widget build(BuildContext context) {
@@ -85,7 +85,7 @@ class SignLearningScreen extends StatelessWidget {
                     context,
                     MaterialPageRoute(
                       builder: (context) =>
-                          AnswerFeedback(), // Replace with your next page widget
+                          AnswerFeedback(category: "Daily Communication"),
                     ),
                   );
                 },

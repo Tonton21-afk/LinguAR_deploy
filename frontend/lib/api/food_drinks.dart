@@ -15,6 +15,6 @@ final Map<String, String> fooddrinksMappings = {
   "Soda": "LinguaAR/Gulmatico/Foods/soda",
   "Mantika": "LinguaAR/Gulmatico/Foods/mantika",
   "Tanghalian": "LinguaAR/Gulmatico/Foods/tanghalian",
-  "Mayonnaise": "LinguaAR/Gulmatico/Foods/mayonnaise",
+  "Mayonnaise": "LinguaAR/Gulmatico/Foods/Mayonnaise",
   "Hapunan": "LinguaAR/Gulmatico/Foods/hapunan",
 };
