@@ -23,9 +23,19 @@ class SignLearningScreen extends StatelessWidget {
           backgroundColor: Colors.white,
           elevation: 0,
           leading: IconButton(
-            icon: Icon(Icons.menu, color: Colors.black),
-            onPressed: () {},
+            icon: Icon(Icons.arrow_back, color: Colors.black),
+            onPressed: () {
+              Navigator.pop(context);
+            },
           ),
+          actions: [
+            IconButton(
+              icon: Icon(Icons.menu, color: Colors.black),
+              onPressed: () {
+                // Add your menu button functionality here
+              },
+            ),
+          ],
         ),
         body: Column(
           crossAxisAlignment: CrossAxisAlignment.center,

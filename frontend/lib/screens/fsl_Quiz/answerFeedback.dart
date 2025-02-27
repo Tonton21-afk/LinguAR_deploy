@@ -17,7 +17,8 @@ class AnswerFeedback extends StatelessWidget {
     final List<Map<String, String>> quizData = generateQuizData(category);
 
     return BlocProvider(
-      create: (context) => QuizBloc(quizData: quizData, category: category)..add(
+      create: (context) => QuizBloc(quizData: quizData, category: category)
+        ..add(
           FetchGif(
             phrase: quizData[0]["phrase"]!,
             publicId: quizData[0]["gifPath"]!, // Use the correct GIF path
