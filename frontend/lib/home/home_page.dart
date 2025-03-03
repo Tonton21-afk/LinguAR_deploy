@@ -67,39 +67,6 @@ class HomePage extends StatelessWidget {
                   ),
                 ],
               ),
-              SizedBox(height: screenHeight * 0.04),
-              _buildTitle('Currently Playing', screenWidth),
-              SizedBox(height: screenHeight * 0.015),
-              Container(
-                width: double.infinity,
-                height: screenHeight * 0.09,
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.circular(screenWidth * 0.03),
-                  border: Border.all(
-                    color: Colors.grey,
-                    width: screenWidth * 0.003,
-                  ),
-                  boxShadow: [
-                    BoxShadow(
-                      color: Colors.black.withOpacity(0.2),
-                      blurRadius: 8,
-                      offset: Offset(2, 4),
-                    ),
-                  ],
-                ),
-                child: Center(
-                  child: Text(
-                    'Daily Communication, Basic Phrases',
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                      fontSize: screenWidth * 0.035,
-                    ),
-                  ),
-                ),
-              ),
-              SizedBox(height: screenHeight * 0.04),
-              _buildTitle('History', screenWidth),
             ],
           ),
         ),

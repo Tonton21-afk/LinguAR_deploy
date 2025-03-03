@@ -8,6 +8,7 @@ class GetStartedPage2 extends StatefulWidget {
 
 class _GetStartedPage2State extends State<GetStartedPage2> {
   Set<int> selectedIndices = {};
+  bool _buttonPressed = false; // State variable for button animation
 
   @override
   Widget build(BuildContext context) {
@@ -52,31 +53,76 @@ class _GetStartedPage2State extends State<GetStartedPage2> {
                 SizedBox(height: screenHeight * 0.05),
                 Align(
                   alignment: Alignment.bottomCenter,
-                  child: ElevatedButton(
-                    onPressed: selectedIndices.isNotEmpty
-                        ? () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => GetStartedPage3()),
-                            );
-                          }
-                        : null,
-                    style: ElevatedButton.styleFrom(
-                      shape: CircleBorder(),
-                      backgroundColor: selectedIndices.isNotEmpty
-                          ? Color(0xFF4A90E2)
-                          : Colors.grey,
-                      padding: EdgeInsets.all(screenWidth > 600
-                          ? screenWidth * 0.05
-                          : screenWidth * 0.08),
-                    ),
-                    child: Icon(
-                      Icons.arrow_forward,
-                      color: Colors.white,
-                      size: screenWidth > 600
-                          ? screenWidth * 0.05
-                          : screenWidth * 0.08,
+                  child: GestureDetector(
+                    onTapDown: (_) {
+                      if (selectedIndices.isNotEmpty) {
+                        setState(() {
+                          _buttonPressed = true;
+                        });
+                      }
+                    },
+                    onTapUp: (_) {
+                      if (selectedIndices.isNotEmpty) {
+                        setState(() {
+                          _buttonPressed = false;
+                        });
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => GetStartedPage3()),
+                        );
+                      }
+                    },
+                    onTapCancel: () {
+                      if (selectedIndices.isNotEmpty) {
+                        setState(() {
+                          _buttonPressed = false;
+                        });
+                      }
+                    },
+                    child: AnimatedContainer(
+                      duration: Duration(milliseconds: 100),
+                      transform: Matrix4.identity()
+                        ..scale(_buttonPressed ? 0.95 : 1.0),
+                      decoration: BoxDecoration(
+                        shape: BoxShape.circle,
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.black
+                                .withOpacity(_buttonPressed ? 0.4 : 0.2),
+                            blurRadius: _buttonPressed ? 10 : 6,
+                            spreadRadius: _buttonPressed ? 2 : 1,
+                            offset: Offset(0, 4),
+                          ),
+                        ],
+                      ),
+                      child: ElevatedButton(
+                        onPressed: selectedIndices.isNotEmpty
+                            ? () {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => GetStartedPage3()),
+                                );
+                              }
+                            : null,
+                        style: ElevatedButton.styleFrom(
+                          shape: CircleBorder(),
+                          backgroundColor: selectedIndices.isNotEmpty
+                              ? Color(0xFF4A90E2)
+                              : Colors.grey,
+                          padding: EdgeInsets.all(screenWidth > 600
+                              ? screenWidth * 0.05
+                              : screenWidth * 0.08),
+                        ),
+                        child: Icon(
+                          Icons.arrow_forward,
+                          color: Colors.white,
+                          size: screenWidth > 600
+                              ? screenWidth * 0.05
+                              : screenWidth * 0.08,
+                        ),
+                      ),
                     ),
                   ),
                 ),
@@ -102,13 +148,9 @@ class _GetStartedPage2State extends State<GetStartedPage2> {
         });
       },
       child: AnimatedContainer(
-        duration: Duration(milliseconds: 300),
+        duration: Duration(milliseconds: 200),
         curve: Curves.easeInOut,
-        transform: isSelected
-            ? (Matrix4.identity()
-              ..scale(1.05)
-              ..rotateZ(0.05))
-            : Matrix4.identity(),
+        transform: Matrix4.identity()..scale(isSelected ? 1.02 : 1.0),
         width: double.infinity,
         height: height,
         decoration: BoxDecoration(
@@ -116,20 +158,20 @@ class _GetStartedPage2State extends State<GetStartedPage2> {
           borderRadius: BorderRadius.circular(screenWidth > 600 ? 16.0 : 12.0),
           boxShadow: [
             BoxShadow(
-              color: Colors.black.withOpacity(0.2),
-              blurRadius: isSelected ? 12 : 6,
-              spreadRadius: isSelected ? 5 : 2,
+              color: Colors.black.withOpacity(isSelected ? 0.3 : 0.2),
+              blurRadius: isSelected ? 10 : 6,
+              spreadRadius: isSelected ? 3 : 2,
               offset: Offset(0, 4),
             ),
           ],
           border: Border.all(
             color: isSelected ? color.withOpacity(0.9) : Colors.transparent,
-            width: isSelected ? (screenWidth > 600 ? 8 : 6) : 0,
+            width: isSelected ? (screenWidth > 600 ? 4 : 3) : 0,
           ),
         ),
         child: Center(
           child: AnimatedDefaultTextStyle(
-            duration: Duration(milliseconds: 300),
+            duration: Duration(milliseconds: 200),
             style: TextStyle(
               fontSize: isSelected
                   ? (screenWidth > 600 ? 18 : 16) * textScale
