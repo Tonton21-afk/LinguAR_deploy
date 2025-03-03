@@ -52,7 +52,7 @@ class HomePage extends StatelessWidget {
                       aspectRatio: 1,
                       child: ShortcutButton(
                         icon: Icons.volume_up,
-                        label: 'Text to Speech',
+                        label: 'LinguaVoice',
                         backgroundColor: const Color(0xFF273236),
                         onTap: () {
                           Navigator.push(

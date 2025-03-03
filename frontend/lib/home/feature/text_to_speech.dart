@@ -16,6 +16,7 @@ class _TextToSpeechState extends State<TextToSpeech>
 
   // Text-to-Speech
   FlutterTts _flutterTts = FlutterTts();
+  String _textToSpeak = '';
 
   // Animation
   late AnimationController _animationController;
@@ -40,9 +41,6 @@ class _TextToSpeechState extends State<TextToSpeech>
         curve: Curves.easeInOut,
       ),
     );
-
-    // Repeat the animation
-    _animationController.repeat(reverse: true);
   }
 
   @override
@@ -80,7 +78,7 @@ class _TextToSpeechState extends State<TextToSpeech>
             _recognizedText = result.recognizedWords;
           }),
         );
-        _animationController.forward();
+        _animationController.repeat(reverse: true); // Start animation here
       }
     }
   }
@@ -89,12 +87,13 @@ class _TextToSpeechState extends State<TextToSpeech>
     if (_isListening) {
       setState(() => _isListening = false);
       _speech.stop();
-      _animationController.reverse();
+      _animationController.stop(); // Stop animation here
+      _animationController.reset(); // Reset animation to the beginning
     }
   }
 
-  void _speakText() async {
-    await _flutterTts.speak(_recognizedText);
+  void _speakText(String text) async {
+    await _flutterTts.speak(text);
   }
 
   @override
@@ -103,132 +102,206 @@ class _TextToSpeechState extends State<TextToSpeech>
     final screenHeight = MediaQuery.of(context).size.height;
     final isSmallScreen = screenWidth < 600;
 
-    return Scaffold(
-      backgroundColor: Colors.white,
-      appBar: AppBar(
-        title: const Text('Text to Speech'),
-        centerTitle: true,
+    return DefaultTabController(
+      length: 2,
+      child: Scaffold(
         backgroundColor: Colors.white,
-      ),
-      body: Padding(
-        padding: EdgeInsets.symmetric(horizontal: isSmallScreen ? 10 : 20),
-        child: Center(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[
-              Image.asset(
-                'assets/illustrations/mic.png',
-                width: isSmallScreen ? 150 : 190,
-                height: isSmallScreen ? 150 : 190,
-              ),
-              const SizedBox(height: 20),
-              const Text('Hold the button and speak to display the text.'),
-              const SizedBox(height: 20),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: <Widget>[
-                  const Text('Results'),
-                  TextButton(
-                    onPressed: () {
-                      print("See History clicked");
-                    },
-                    child: Row(
-                      children: [
-                        Text(
-                          'See History',
-                          style: TextStyle(color: Colors.blue),
-                        ),
-                        const Icon(Icons.arrow_forward, size: 20),
-                      ],
-                    ),
-                  ),
-                ],
-              ),
-              const SizedBox(height: 20),
-              Container(
-                width: screenWidth * 0.9,
-                height: screenHeight * 0.2,
-                padding: const EdgeInsets.all(16.0),
-                decoration: BoxDecoration(
-                  color: Colors.blueAccent.withOpacity(0.2),
-                  borderRadius: BorderRadius.circular(8.0),
-                  border: Border.all(color: Colors.blueAccent, width: 2),
-                ),
-                child: Text(
-                  _recognizedText,
-                  style: TextStyle(fontSize: isSmallScreen ? 18 : 22),
-                  textAlign: TextAlign.center,
-                ),
-              ),
-              SizedBox(
-                  height:
-                      isSmallScreen ? 40 : 60), // Increased spacing dynamically
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  _buildIconButton(
-                    icon: Icons.volume_up,
-                    onTap: _speakText,
-                    size: isSmallScreen ? 28 : 32,
-                  ),
-                  const SizedBox(width: 20),
-                  Stack(
-                    alignment: Alignment.center,
-                    children: [
-                      AnimatedBuilder(
-                        animation: _animation,
-                        builder: (context, child) {
-                          return Container(
-                            width: 80 +
-                                (_animation.value * (isSmallScreen ? 30 : 50)),
-                            height: 80 +
-                                (_animation.value * (isSmallScreen ? 30 : 50)),
-                            decoration: BoxDecoration(
-                              shape: BoxShape.circle,
-                              color: Colors.blueAccent.withOpacity(0.2),
-                            ),
-                          );
-                        },
-                      ),
-                      GestureDetector(
-                        onTapDown: (_) {
-                          _startListening();
-                          print('Mic button pressed');
-                        },
-                        onTapUp: (_) {
-                          _stopListening();
-                          print('Mic button released');
-                        },
-                        child: Container(
-                          padding: const EdgeInsets.all(12.0),
-                          decoration: BoxDecoration(
-                            color: Colors.blueAccent,
-                            shape: BoxShape.circle,
-                          ),
-                          child: Icon(
-                            _isListening ? Icons.mic : Icons.mic_none,
-                            size: isSmallScreen ? 50 : 60,
-                            color: Colors.white,
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                  const SizedBox(width: 20),
-                  _buildIconButton(
-                    icon: Icons.refresh,
-                    onTap: () {
-                      setState(() {
-                        _recognizedText = '';
-                      });
-                      print("Reset button clicked");
-                    },
-                    size: isSmallScreen ? 28 : 32,
-                  ),
-                ],
-              ),
+        appBar: AppBar(
+          title: const Text('LinguaVoice'),
+          centerTitle: true,
+          backgroundColor: Colors.white,
+          bottom: TabBar(
+            tabs: [
+              Tab(text: 'Speech to Text'),
+              Tab(text: 'Text to Speech'),
             ],
           ),
+        ),
+        body: TabBarView(
+          children: [
+            // Tab 1: Speech to Text
+            SingleChildScrollView(
+              child: Padding(
+                padding: EdgeInsets.symmetric(
+                    horizontal: isSmallScreen ? 10 : 20, vertical: 20),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget>[
+                    Image.asset(
+                      'assets/illustrations/mic.png',
+                      width: isSmallScreen ? 150 : 190,
+                      height: isSmallScreen ? 150 : 190,
+                    ),
+                    const SizedBox(height: 20),
+                    const Text(
+                        'Hold the button and speak to display the text.'),
+                    const SizedBox(height: 20),
+                    Container(
+                      width: screenWidth * 0.9,
+                      height: screenHeight * 0.2,
+                      padding: const EdgeInsets.all(16.0),
+                      decoration: BoxDecoration(
+                        color: Colors.blueAccent.withOpacity(0.2),
+                        borderRadius: BorderRadius.circular(8.0),
+                        border: Border.all(color: Colors.blueAccent, width: 2),
+                      ),
+                      child: SingleChildScrollView(
+                        child: Text(
+                          _recognizedText,
+                          style: TextStyle(fontSize: isSmallScreen ? 18 : 22),
+                          textAlign: TextAlign.center,
+                        ),
+                      ),
+                    ),
+                    SizedBox(height: isSmallScreen ? 40 : 60),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        _buildIconButton(
+                          icon: Icons.volume_up,
+                          onTap: () => _speakText(_recognizedText),
+                          size: isSmallScreen ? 28 : 32,
+                        ),
+                        const SizedBox(width: 20),
+                        Stack(
+                          alignment: Alignment.center,
+                          children: [
+                            AnimatedBuilder(
+                              animation: _animation,
+                              builder: (context, child) {
+                                return Container(
+                                  width: 80 +
+                                      (_animation.value *
+                                          (isSmallScreen ? 30 : 50)),
+                                  height: 80 +
+                                      (_animation.value *
+                                          (isSmallScreen ? 30 : 50)),
+                                  decoration: BoxDecoration(
+                                    shape: BoxShape.circle,
+                                    color: Colors.blueAccent.withOpacity(0.2),
+                                  ),
+                                );
+                              },
+                            ),
+                            GestureDetector(
+                              onTapDown: (_) {
+                                _startListening();
+                                print('Mic button pressed');
+                              },
+                              onTapUp: (_) {
+                                _stopListening();
+                                print('Mic button released');
+                              },
+                              child: Container(
+                                padding: const EdgeInsets.all(12.0),
+                                decoration: BoxDecoration(
+                                  color: Colors.blueAccent,
+                                  shape: BoxShape.circle,
+                                ),
+                                child: Icon(
+                                  _isListening ? Icons.mic : Icons.mic_none,
+                                  size: isSmallScreen ? 50 : 60,
+                                  color: Colors.white,
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                        const SizedBox(width: 20),
+                        _buildIconButton(
+                          icon: Icons.refresh,
+                          onTap: () {
+                            setState(() {
+                              _recognizedText = '';
+                            });
+                            print("Reset button clicked");
+                          },
+                          size: isSmallScreen ? 28 : 32,
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+              ),
+            ),
+
+            // Tab 2: Text to Speech
+            SingleChildScrollView(
+              child: Padding(
+                padding: EdgeInsets.symmetric(
+                    horizontal: isSmallScreen ? 10 : 20, vertical: 20),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget>[
+                    Image.asset(
+                      'assets/illustrations/speechtotext.png',
+                      width: isSmallScreen ? 150 : 190,
+                      height: isSmallScreen ? 150 : 190,
+                    ),
+                    const SizedBox(height: 20),
+                    const Text('Enter text below to convert it to speech.'),
+                    const SizedBox(height: 20),
+                    Container(
+                      width: screenWidth * 0.9,
+                      height: screenHeight * 0.2,
+                      padding: const EdgeInsets.all(16.0),
+                      decoration: BoxDecoration(
+                        color: Colors.blueAccent.withOpacity(0.2),
+                        borderRadius: BorderRadius.circular(8.0),
+                        border: Border.all(color: Colors.blueAccent, width: 2),
+                      ),
+                      child: TextField(
+                        decoration: InputDecoration(
+                          labelText: 'Enter text to speak',
+                          border: InputBorder.none,
+                          contentPadding: EdgeInsets.symmetric(horizontal: 8.0),
+                        ),
+                        maxLines: 5,
+                        onChanged: (text) {
+                          setState(() {
+                            _textToSpeak = text;
+                          });
+                        },
+                      ),
+                    ),
+                    SizedBox(height: isSmallScreen ? 40 : 60),
+                    GestureDetector(
+                      onTap: () {
+                        if (_textToSpeak.isNotEmpty) {
+                          _speakText(_textToSpeak);
+                        } else {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(
+                              content: Text('Please enter some text to speak'),
+                            ),
+                          );
+                        }
+                      },
+                      child: Container(
+                        padding: const EdgeInsets.all(12.0),
+                        decoration: BoxDecoration(
+                          color: Colors.blueAccent,
+                          shape: BoxShape.circle,
+                          boxShadow: [
+                            BoxShadow(
+                              color: Colors.grey.withOpacity(0.4),
+                              spreadRadius: 2,
+                              blurRadius: 5,
+                            ),
+                          ],
+                        ),
+                        child: Icon(
+                          Icons.volume_up,
+                          size: isSmallScreen ? 50 : 60,
+                          color: Colors.white,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ],
         ),
       ),
     );

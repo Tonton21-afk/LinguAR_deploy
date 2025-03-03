@@ -80,6 +80,7 @@ flutter:
     - assets/illustrations/especial.png
     - assets/illustrations/mic.png
     - assets/illustrations/gesture.png
+    - assets/illustrations/speechtotext.png
     - assets/icons/camera-02.1024x918.png
     - assets/icons/home-simple.1024x989.png
     - assets/icons/fsl.svg
