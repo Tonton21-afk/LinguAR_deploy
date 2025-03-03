@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:lingua_arv1/api/emergency.dart'; 
+import 'package:lingua_arv1/api/emergency.dart';
 import 'package:lingua_arv1/bloc/Gif/gif_bloc.dart';
 import 'package:lingua_arv1/bloc/Gif/gif_event.dart';
 import 'package:lingua_arv1/bloc/Gif/gif_state.dart';
 
-class NatureEnvironmentPage extends StatelessWidget { 
-  final List<String> phrases = emergencyNatureMappings.keys.toList(); 
+class NatureEnvironmentPage extends StatelessWidget {
+  final List<String> phrases = emergencyNatureMappings.keys.toList();
 
   void _showGifPopup(BuildContext context, String phrase, String gifUrl) {
     showDialog(
@@ -24,7 +24,8 @@ class NatureEnvironmentPage extends StatelessWidget {
               Container(
                 width: 500,
                 height: 410,
-                decoration: BoxDecoration(border: Border.all(color: Colors.grey)),
+                decoration:
+                    BoxDecoration(border: Border.all(color: Colors.grey)),
                 child: Image.network(gifUrl, fit: BoxFit.cover),
               ),
             ],
@@ -48,7 +49,7 @@ class NatureEnvironmentPage extends StatelessWidget {
       create: (context) => GifBloc(),
       child: Scaffold(
         appBar: AppBar(
-          title: Text('Emergency and Nature Disaster'), 
+          title: Text('Emergency and Nature'),
           centerTitle: true,
           leading: IconButton(
             icon: Icon(Icons.arrow_back),
@@ -64,10 +65,12 @@ class NatureEnvironmentPage extends StatelessWidget {
               title: Text(phrases[index]),
               onTap: () {
                 String phrase = phrases[index];
-                String publicId = emergencyNatureMappings[phrase] ?? ''; 
+                String publicId = emergencyNatureMappings[phrase] ?? '';
 
                 if (publicId.isNotEmpty) {
-                  context.read<GifBloc>().add(FetchGif(phrase: phrase, publicId: publicId));
+                  context
+                      .read<GifBloc>()
+                      .add(FetchGif(phrase: phrase, publicId: publicId));
                 }
               },
             );
@@ -82,7 +85,9 @@ class NatureEnvironmentPage extends StatelessWidget {
                 _showGifPopup(context, state.phrase, state.gifUrl);
               });
             } else if (state is GifError) {
-              return Center(child: Text(state.message, style: TextStyle(color: Colors.red)));
+              return Center(
+                  child:
+                      Text(state.message, style: TextStyle(color: Colors.red)));
             }
             return SizedBox.shrink();
           },

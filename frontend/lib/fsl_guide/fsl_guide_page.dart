@@ -95,7 +95,7 @@ class _FSLGuidePageState extends State<FSLGuidePage> {
               _buildGridView(context, [
                 _buildCard(context, Icons.local_dining, 'Food & Drinks',
                     FoodDrinksPage(), Color(0xFFACCFFB)),
-                _buildCard(context, Icons.park, 'Nature & Environment',
+                _buildCard(context, Icons.park, 'Emergency and Nature',
                     NatureEnvironmentPage(), Color(0xFFF4ABAA)),
               ]),
               _buildSectionTitle('Transportation & Technology', screenWidth),
