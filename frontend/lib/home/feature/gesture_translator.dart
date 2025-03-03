@@ -43,8 +43,8 @@ class _GestureTranslatorState extends State<GestureTranslator> {
         XFile? imageFile = await _cameraController!.takePicture();
         Uint8List imageBytes = await imageFile.readAsBytes();
 
-        var request = http.MultipartRequest(
-            'POST', Uri.parse('$url/gesture/hands'));
+        var request =
+            http.MultipartRequest('POST', Uri.parse('$url/gesture/hands'));
         request.files.add(http.MultipartFile.fromBytes('file', imageBytes,
             filename: "gesture.jpg"));
 
@@ -60,7 +60,7 @@ class _GestureTranslatorState extends State<GestureTranslator> {
           isPredicting = false;
         });
 
-        await Future.delayed(Duration(seconds: 2)); 
+        await Future.delayed(Duration(seconds: 2));
       }
     }
   }
@@ -85,51 +85,106 @@ class _GestureTranslatorState extends State<GestureTranslator> {
 
   @override
   Widget build(BuildContext context) {
-    double screenSize = MediaQuery.of(context).size.width * 0.9; // Large square
-
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor:
+          Colors.black, // Set background to black for full-screen effect
       appBar: AppBar(
         title: const Text('Gesture Translator'),
         centerTitle: true,
-        backgroundColor: Colors.white,
+        backgroundColor: Colors.transparent, // Make app bar transparent
+        elevation: 0, // Remove shadow
       ),
-      body: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
+      body: Stack(
         children: [
-          if (_cameraController != null && _cameraController!.value.isInitialized)
-            Container(
-              width: screenSize,
-              height: screenSize, // Large square camera preview
-              child: CameraPreview(_cameraController!),
+          // Full-screen camera preview with correct aspect ratio
+          if (_cameraController != null &&
+              _cameraController!.value.isInitialized)
+            Center(
+              child: FittedBox(
+                fit: BoxFit.cover,
+                child: SizedBox(
+                  width: MediaQuery.of(context).size.width,
+                  height: MediaQuery.of(context).size.width *
+                      _cameraController!.value.aspectRatio,
+                  child: CameraPreview(_cameraController!),
+                ),
+              ),
             )
           else
-            CircularProgressIndicator(),
-          SizedBox(height: 20),
-          Text(
-            "Predicted: $predictedCharacter",
-            style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
-          ),
-          SizedBox(height: 20),
-          Text(
-            "Word: $formedWord",
-            style: TextStyle(fontSize: 28, fontWeight: FontWeight.bold, color: Colors.blue),
-          ),
-          SizedBox(height: 20),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              ElevatedButton(
-                onPressed: _addToWord,
-                child: Text("Add to Word"),
+            Center(child: CircularProgressIndicator()),
+
+          // Overlay UI elements
+          Positioned(
+            bottom: 20, // Position at the bottom of the screen
+            left: 0,
+            right: 0,
+            child: Container(
+              padding: EdgeInsets.all(16),
+              decoration: BoxDecoration(
+                color: Colors.black.withOpacity(0.7),
+                borderRadius: BorderRadius.circular(12),
               ),
-              SizedBox(width: 10),
-              ElevatedButton(
-                onPressed: _clearWord,
-                child: Text("Clear Word"),
-                style: ElevatedButton.styleFrom(backgroundColor: Colors.red),
+              child: Column(
+                children: [
+                  Text(
+                    "Predicted Character:",
+                    style: TextStyle(fontSize: 18, color: Colors.white),
+                  ),
+                  SizedBox(height: 8),
+                  Text(
+                    predictedCharacter,
+                    style: TextStyle(
+                        fontSize: 24,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.blue),
+                  ),
+                  SizedBox(height: 20),
+                  Text(
+                    "Formed Word:",
+                    style: TextStyle(fontSize: 18, color: Colors.white),
+                  ),
+                  SizedBox(height: 8),
+                  Text(
+                    formedWord,
+                    style: TextStyle(
+                        fontSize: 28,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.blue),
+                  ),
+                  SizedBox(height: 20),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      ElevatedButton(
+                        onPressed: _addToWord,
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: Colors.blue,
+                          padding: EdgeInsets.symmetric(
+                              horizontal: 24, vertical: 12),
+                        ),
+                        child: Text(
+                          "Add to Word",
+                          style: TextStyle(fontSize: 16),
+                        ),
+                      ),
+                      SizedBox(width: 16),
+                      ElevatedButton(
+                        onPressed: _clearWord,
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: Colors.red,
+                          padding: EdgeInsets.symmetric(
+                              horizontal: 24, vertical: 12),
+                        ),
+                        child: Text(
+                          "Clear Word",
+                          style: TextStyle(fontSize: 16),
+                        ),
+                      ),
+                    ],
+                  ),
+                ],
               ),
-            ],
+            ),
           ),
         ],
       ),
