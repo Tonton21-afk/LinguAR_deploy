@@ -8,7 +8,7 @@ import 'package:lingua_arv1/bloc/Gif/gif_event.dart';
 import 'package:lingua_arv1/bloc/Gif/gif_state.dart';
 
 class GifBloc extends Bloc<GifEvent, GifState> {
-  final Map<String, String> _gifCache = {}; //for caching
+  final Map<String, String> _gifCache = {}; 
 
   GifBloc() : super(GifInitial()) {
     on<FetchGif>(_onFetchGif);
