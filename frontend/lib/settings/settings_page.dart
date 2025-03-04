@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:lingua_arv1/screens/login_signup/login_page.dart';
+import 'package:lingua_arv1/validators/token.dart';
 
 class SettingsPage extends StatefulWidget {
   @override
@@ -422,10 +423,17 @@ By using LinguaAR, you agree to this Privacy Policy.
               child: Text('Cancel', style: TextStyle(color: Colors.blue)),
             ),
             TextButton(
-              onPressed: () {
-                Navigator.push(
+              onPressed: () async {
+                // ✅ Clear token and user ID before logging out
+                await TokenService.logout();
+                print("✅ User successfully logged out");
+
+                // ✅ Navigate to LoginPage and remove previous screens from history
+                Navigator.pushAndRemoveUntil(
                   context,
                   MaterialPageRoute(builder: (context) => LoginPage()),
+                  (Route<dynamic> route) =>
+                      false, // This clears all previous screens
                 );
               },
               child: Text('Logout', style: TextStyle(color: Colors.red)),

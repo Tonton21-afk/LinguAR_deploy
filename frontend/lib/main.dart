@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:lingua_arv1/validators/token.dart';
 import 'package:lottie/lottie.dart';
 import 'package:lingua_arv1/screens/get_started/get_started_page1.dart';
 import 'home/home_page.dart';
@@ -6,11 +7,18 @@ import 'fsl_translate/fsl_translate_page.dart';
 import 'fsl_guide/fsl_guide_page.dart';
 import 'settings/settings_page.dart';
 
-void main() {
-  runApp(MyApp());
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  bool isLoggedIn = await TokenService.isUserLoggedIn();
+
+  runApp(MyApp(isLoggedIn: isLoggedIn));
 }
 
 class MyApp extends StatelessWidget {
+  final bool isLoggedIn;
+
+  const MyApp({Key? key, required this.isLoggedIn}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -18,7 +26,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         fontFamily: 'Jost',
       ),
-      home: SplashScreen(),
+      home: isLoggedIn ? HomeScreen() : SplashScreen(),
     );
   }
 }
@@ -37,23 +45,31 @@ class _SplashScreenState extends State<SplashScreen>
   void initState() {
     super.initState();
 
-    // Initialize animation controller for speed control
     _controller =
         AnimationController(vsync: this, duration: Duration(seconds: 3));
     _controller.forward();
 
-    // Navigate to GetStartedPage1 after 3 seconds
-    Future.delayed(Duration(seconds: 3), () {
+    _navigateToNextScreen();
+  }
+
+  Future<void> _navigateToNextScreen() async {
+    await Future.delayed(Duration(seconds: 3));
+
+    bool isLoggedIn = await TokenService.isUserLoggedIn();
+
+    if (mounted) {
       Navigator.pushReplacement(
         context,
-        MaterialPageRoute(builder: (context) => GetStartedPage1()),
+        MaterialPageRoute(
+            builder: (context) =>
+                isLoggedIn ? HomeScreen() : GetStartedPage1()),
       );
-    });
+    }
   }
 
   @override
   void dispose() {
-    _controller.dispose(); // Dispose the controller to prevent memory leaks
+    _controller.dispose();
     super.dispose();
   }
 
@@ -63,7 +79,6 @@ class _SplashScreenState extends State<SplashScreen>
       backgroundColor: Color(0xFF273236),
       body: Center(
         child: ClipOval(
-          // Circular animation
           child: Container(
             color: Colors.white,
             width: 200,
@@ -103,7 +118,7 @@ class _HomeScreenState extends State<HomeScreen> {
     return Scaffold(
       appBar: _currentIndex == 0
           ? AppBar(
-              backgroundColor: Color(0xFFFEFFFE),
+              backgroundColor: Colors.white,
               elevation: 0,
               title: Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 16.0),
@@ -115,13 +130,11 @@ class _HomeScreenState extends State<HomeScreen> {
                         fontFamily: 'Jost'),
                     children: [
                       TextSpan(
-                        text: 'Lingua',
-                        style: TextStyle(color: Color(0xFF000000)),
-                      ),
+                          text: 'Lingua',
+                          style: TextStyle(color: Colors.black)),
                       TextSpan(
-                        text: 'AR',
-                        style: TextStyle(color: Color(0xFF4A90E2)),
-                      ),
+                          text: 'AR',
+                          style: TextStyle(color: Color(0xFF4A90E2))),
                     ],
                   ),
                 ),
@@ -141,22 +154,12 @@ class _HomeScreenState extends State<HomeScreen> {
         selectedItemColor: Color(0xFF4A90E2),
         unselectedItemColor: Colors.grey,
         items: [
+          BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Home'),
           BottomNavigationBarItem(
-            icon: Icon(Icons.home),
-            label: 'Home',
-          ),
+              icon: Icon(Icons.translate), label: 'Translate'),
+          BottomNavigationBarItem(icon: Icon(Icons.menu_book), label: 'Guide'),
           BottomNavigationBarItem(
-            icon: Icon(Icons.menu_book),
-            label: 'FSL Quiz',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.bookmark),
-            label: 'FSL Dictionary',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.settings),
-            label: 'Settings',
-          ),
+              icon: Icon(Icons.settings), label: 'Settings'),
         ],
       ),
     );

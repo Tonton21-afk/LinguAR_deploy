@@ -66,6 +66,7 @@ def login():
     data = request.get_json()
     email = data.get('email')
     password = data.get('password')
+
     if not email or not password:
         return jsonify({'message': 'Email and password are required'}), 400
 
@@ -73,10 +74,14 @@ def login():
     if not user or not check_password_hash(user['password'], password):
         return jsonify({'message': 'Invalid email or password'}), 400
 
-    token = jwt.encode({'email': email, 'exp': datetime.datetime.utcnow() + datetime.timedelta(hours=1)},
-                       '79e026c5eaee509133e45e5004d457b0500cbbdc62c50b5f539497fdbd14e0d3', algorithm='HS256')
-    return jsonify({'message': 'Login successful', 'token': token}), 200
+    # ✅ Fix: Include _id in JWT payload
+    token = jwt.encode({
+        '_id': str(user['_id']),  # Convert ObjectId to string
+        'email': email,
+        'exp': datetime.datetime.utcnow() + datetime.timedelta(hours=1)
+    }, '79e026c5eaee509133e45e5004d457b0500cbbdc62c50b5f539497fdbd14e0d3', algorithm='HS256')
 
+    return jsonify({'message': 'Login successful', 'token': token}), 200
 # Reset Password Route
 @auth_bp.route('/reset-password', methods=['POST'])
 def reset_password():
