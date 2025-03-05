@@ -115,7 +115,6 @@ class _FamilyFriendsPageState extends State<FamilyFriendsPage> {
   }
 }
 
-  /// Show GIF popup
   void _showGifPopup(BuildContext context, String phrase, String gifUrl) {
     showDialog(
       context: context,

@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:lingua_arv1/screens/login_signup/login_page.dart';
+import 'package:lingua_arv1/settings/Update_Accounts/update_email_page.dart';
+import 'package:lingua_arv1/settings/Update_Accounts/update_password_page.dart';
 import 'package:lingua_arv1/validators/token.dart';
 
 class SettingsPage extends StatefulWidget {
@@ -257,46 +259,57 @@ class _SettingsPageState extends State<SettingsPage> {
     );
   }
 
-  Widget _buildListTile(
-    BuildContext context,
-    String title,
-    String trailing,
-    IconData icon,
-    List<String> options,
-    EdgeInsets padding,
-    double fontSize,
-  ) {
-    return Column(
-      children: [
-        ListTile(
-          leading: Icon(icon, color: Colors.grey),
-          title: Text(
-            title,
-            style: TextStyle(fontSize: fontSize, fontWeight: FontWeight.w500),
-          ),
-          trailing: trailing.isNotEmpty
-              ? Text(
-                  trailing,
-                  style:
-                      TextStyle(color: Colors.grey, fontSize: fontSize * 0.9),
-                )
-              : null,
-          onTap: title == 'Privacy Policy'
-              ? () => _showPrivacyPolicy(context)
-              : options.isNotEmpty
-                  ? () => _showOptionsDialog(context, title, options)
-                  : null,
+Widget _buildListTile(
+  BuildContext context,
+  String title,
+  String trailing,
+  IconData icon,
+  List<String> options,
+  EdgeInsets padding,
+  double fontSize,
+) {
+  return Column(
+    children: [
+      ListTile(
+        leading: Icon(icon, color: Colors.grey),
+        title: Text(
+          title,
+          style: TextStyle(fontSize: fontSize, fontWeight: FontWeight.w500),
         ),
-        Divider(
-          height: 1,
-          thickness: 0.5,
-          indent: padding.horizontal / 2,
-          endIndent: padding.horizontal / 2,
-          color: Colors.grey[300],
-        ),
-      ],
-    );
-  }
+        trailing: trailing.isNotEmpty
+            ? Text(
+                trailing,
+                style: TextStyle(color: Colors.grey, fontSize: fontSize * 0.9),
+              )
+            : null,
+        onTap: () {
+          if (title == 'Email') {
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => UpdateEmailPage()),
+            );
+          } else if (title == 'Password') {
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => UpdatePasswordPage()),
+            );
+          } else if (title == 'Privacy Policy') {
+            _showPrivacyPolicy(context);
+          } else if (options.isNotEmpty) {
+            _showOptionsDialog(context, title, options);
+          }
+        },
+      ),
+      Divider(
+        height: 1,
+        thickness: 0.5,
+        indent: padding.horizontal / 2,
+        endIndent: padding.horizontal / 2,
+        color: Colors.grey[300],
+      ),
+    ],
+  );
+}
 
   void _showOptionsDialog(
       BuildContext context, String title, List<String> options) {
