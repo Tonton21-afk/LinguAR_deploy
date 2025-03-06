@@ -54,7 +54,7 @@ class _CardPage4State extends State<CardPage4> {
             phrase: currentPhrase)),
       child: Scaffold(
         appBar: AppBar(
-          title: Text("Learn a new sign!"),
+          title: Text("Travel, Food, and Environment"),
           centerTitle: true,
           backgroundColor: Colors.white,
           elevation: 0,

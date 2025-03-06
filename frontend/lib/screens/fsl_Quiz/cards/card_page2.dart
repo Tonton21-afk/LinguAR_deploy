@@ -54,7 +54,7 @@ class _CardPage2State extends State<CardPage2> {
             phrase: currentPhrase)),
       child: Scaffold(
         appBar: AppBar(
-          title: Text("Learn a new sign!"),
+          title: Text("Family, Relationships, and Social Life"),
           centerTitle: true,
           backgroundColor: Colors.white,
           elevation: 0,

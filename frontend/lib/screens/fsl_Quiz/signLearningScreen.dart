@@ -54,7 +54,7 @@ class _SignLearningScreenState extends State<SignLearningScreen> {
             phrase: currentPhrase)),
       child: Scaffold(
         appBar: AppBar(
-          title: Text("Learn a new sign!"),
+          title: Text("Daily Communication"),
           centerTitle: true,
           backgroundColor: Colors.white,
           elevation: 0,

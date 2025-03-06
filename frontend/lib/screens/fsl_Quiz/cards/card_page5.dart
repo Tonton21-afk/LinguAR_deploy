@@ -54,7 +54,7 @@ class _CardPage5State extends State<CardPage5> {
             phrase: currentPhrase)),
       child: Scaffold(
         appBar: AppBar(
-          title: Text("Learn a new sign!"),
+          title: Text("Interactive Learning and Emergency"),
           centerTitle: true,
           backgroundColor: Colors.white,
           elevation: 0,
