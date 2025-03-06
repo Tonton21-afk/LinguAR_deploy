@@ -111,6 +111,30 @@ def reset_password():
     otp_storage.pop(email, None)
 
     return jsonify({'message': 'Password reset successfully'}), 200
+
+@auth_bp.route('/reset-email', methods=['POST'])
+def reset_email():
+    data = request.get_json()
+    email = data.get('email')
+    otp = data.get('otp')
+    new_email = data.get('new_email')
+
+    # Validate input
+    if not email or not otp or not new_email:
+        return jsonify({'message': 'Email, OTP, and new password are required'}), 400
+
+    # Verify OTP (imported from otp.py)
+    stored_otp = otp_storage.get(email)
+    if not stored_otp or stored_otp != otp:
+        return jsonify({'message': 'Invalid OTP'}), 400
+
+    if not email.endswith('@gmail.com'):
+        return jsonify({'message': 'Only Gmail accounts are allowed'}), 400
+
+    # Clear the OTP from storage after successful reset
+    otp_storage.pop(email, None)
+
+    return jsonify({'message': 'email change successfully'}), 200
 # Function to register routes with the app
 def create_auth_routes(app):
     app.register_blueprint(auth_bp, url_prefix='/auth')
