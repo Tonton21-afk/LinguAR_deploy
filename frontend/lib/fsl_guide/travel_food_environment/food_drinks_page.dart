@@ -68,7 +68,7 @@ class _FoodDrinksPageState extends State<FoodDrinksPage> {
       return;
     }
 
-    String mappedValue = educationMappings[phrase] ?? "";
+    String mappedValue = fooddrinksMappings[phrase] ?? "";
     if (mappedValue.isEmpty) {
       print("❌ Error: No mapped value found for phrase: $phrase");
       return;
@@ -161,51 +161,51 @@ class _FoodDrinksPageState extends State<FoodDrinksPage> {
     return BlocProvider(
       create: (context) => GifBloc(),
       child: Scaffold(
-        appBar: AppBar(
-          title: Text('Food and Drinks'),
-          centerTitle: true,
-          leading: IconButton(
-            icon: Icon(Icons.arrow_back),
-            onPressed: () {
-              Navigator.of(context).pop();
-            },
-          ),
-        ),
+        appBar: AppBar(title: Text('Food and Drinks')),
         body: ListView.builder(
+          padding: EdgeInsets.all(16),
           itemCount: phrases.length,
           itemBuilder: (context, index) {
             String phrase = phrases[index];
             bool isFavorite = favorites[phrase] ?? false;
-
-            return ListTile(
-              title: Text(phrase),
-              trailing: IconButton(
-                icon: Icon(
-                  isFavorite ? Icons.star : Icons.star_border,
-                  color: isFavorite ? Colors.yellow : Colors.grey,
+            return Card(
+              elevation: 5,
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(12)),
+              child: ListTile(
+                contentPadding:
+                    EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                title:
+                    Text(phrase, style: TextStyle(fontWeight: FontWeight.bold)),
+                trailing: IconButton(
+                  icon: Icon(
+                    isFavorite ? Icons.star : Icons.star_border,
+                    color: isFavorite ? Colors.yellow : Colors.grey,
+                  ),
+                  onPressed: () => _toggleFavorite(phrase),
                 ),
-                onPressed: () => _toggleFavorite(phrase),
+                onTap: () {
+                  String publicId = fooddrinksMappings[phrase] ?? '';
+                  if (publicId.isNotEmpty) {
+                    context
+                        .read<GifBloc>()
+                        .add(FetchGif(phrase: phrase, publicId: publicId));
+                  }
+                },
               ),
-              onTap: () {
-                String publicId = educationMappings[phrase] ?? '';
-                if (publicId.isNotEmpty) {
-                  context
-                      .read<GifBloc>()
-                      .add(FetchGif(phrase: phrase, publicId: publicId));
-                }
-              },
             );
           },
         ),
         bottomSheet: BlocBuilder<GifBloc, GifState>(
           builder: (context, state) {
-            if (state is GifLoading) {
+            if (state is GifLoading)
               return Center(child: CircularProgressIndicator());
-            } else if (state is GifLoaded) {
+            if (state is GifLoaded) {
               WidgetsBinding.instance.addPostFrameCallback((_) {
                 _showGifPopup(context, state.phrase, state.gifUrl);
               });
-            } else if (state is GifError) {
+            }
+            if (state is GifError) {
               return Center(
                   child:
                       Text(state.message, style: TextStyle(color: Colors.red)));

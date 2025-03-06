@@ -6,10 +6,8 @@ import 'package:lingua_arv1/bloc/Gif/gif_event.dart';
 import 'package:lingua_arv1/bloc/Gif/gif_state.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
-
 import 'package:lingua_arv1/repositories/Config.dart';
 import 'package:lingua_arv1/validators/token.dart';
-
 
 class AlphabetNumbersPage extends StatefulWidget {
   @override
@@ -18,11 +16,8 @@ class AlphabetNumbersPage extends StatefulWidget {
 
 class _AlphabetNumbersPageState extends State<AlphabetNumbersPage> {
   final List<String> phrases = alphabetNumbersMappings.keys.toList();
-
   String? userId;
-
-  Map<String, bool> favorites = {}; 
- // To track favorite phrases
+  Map<String, bool> favorites = {};
   String basicurl = BasicUrl.baseURL;
 
   @override
@@ -31,14 +26,10 @@ class _AlphabetNumbersPageState extends State<AlphabetNumbersPage> {
     _loadUserId();
   }
 
-  /// Load the user ID and fetch favorites
   Future<void> _loadUserId() async {
     userId = await TokenService.getUserId();
     if (userId != null) {
-      print("User ID Loaded: $userId"); // Debugging
       _fetchFavorites();
-    } else {
-      print("Error: User ID is null");
     }
   }
 
@@ -46,7 +37,8 @@ class _AlphabetNumbersPageState extends State<AlphabetNumbersPage> {
   Future<void> _fetchFavorites() async {
     if (userId == null) return; // Ensure userId is not null
     try {
-      final response = await http.get(Uri.parse('$basicurl/favorites/favorites/$userId'));
+      final response =
+          await http.get(Uri.parse('$basicurl/favorites/favorites/$userId'));
       if (response.statusCode == 200) {
         List<dynamic> data = jsonDecode(response.body);
         setState(() {
@@ -65,59 +57,63 @@ class _AlphabetNumbersPageState extends State<AlphabetNumbersPage> {
 
   /// Toggle favorite status for a phrase
   Future<void> _toggleFavorite(String phrase) async {
-  if (userId == null) {
-    print("❌ Error: User ID is null, cannot toggle favorite.");
-    return;
-  }
-
-  String mappedValue = alphabetNumbersMappings[phrase] ?? "";
-  if (mappedValue.isEmpty) {
-    print("❌ Error: No mapped value found for phrase: $phrase");
-    return;
-  }
-
-  bool isFavorite = favorites[phrase] ?? false;
-  String url = '$basicurl/favorites/favorites';
-  Map<String, String> headers = {"Content-Type": "application/json"};
-  Map<String, dynamic> body = {"user_id": userId, "item": phrase, "mapped_value": mappedValue};
-
-  try {
-    if (isFavorite) {
-      // Remove from favorites
-      final response = await http.delete(
-        Uri.parse('$url/$userId/${Uri.encodeComponent(phrase)}'),
-        headers: headers,
-      );
-
-      if (response.statusCode == 200) {
-        setState(() {
-          favorites[phrase] = false;
-        });
-        print("✅ Removed from favorites: $phrase ($mappedValue)");
-      } else {
-        print("❌ Error removing favorite: ${response.body}");
-      }
-    } else {
-      // Add to favorites with mapped value
-      final response = await http.post(
-        Uri.parse(url),
-        headers: headers,
-        body: jsonEncode(body),
-      );
-
-      if (response.statusCode == 201) {
-        setState(() {
-          favorites[phrase] = true;
-        });
-        print("✅ Added to favorites: $phrase ($mappedValue)");
-      } else {
-        print("❌ Error adding favorite: ${response.body}");
-      }
+    if (userId == null) {
+      print("❌ Error: User ID is null, cannot toggle favorite.");
+      return;
     }
-  } catch (e) {
-    print("❌ Exception in _toggleFavorite: $e");
+
+    String mappedValue = alphabetNumbersMappings[phrase] ?? "";
+    if (mappedValue.isEmpty) {
+      print("❌ Error: No mapped value found for phrase: $phrase");
+      return;
+    }
+
+    bool isFavorite = favorites[phrase] ?? false;
+    String url = '$basicurl/favorites/favorites';
+    Map<String, String> headers = {"Content-Type": "application/json"};
+    Map<String, dynamic> body = {
+      "user_id": userId,
+      "item": phrase,
+      "mapped_value": mappedValue
+    };
+
+    try {
+      if (isFavorite) {
+        // Remove from favorites
+        final response = await http.delete(
+          Uri.parse('$url/$userId/${Uri.encodeComponent(phrase)}'),
+          headers: headers,
+        );
+
+        if (response.statusCode == 200) {
+          setState(() {
+            favorites[phrase] = false;
+          });
+          print("✅ Removed from favorites: $phrase ($mappedValue)");
+        } else {
+          print("❌ Error removing favorite: ${response.body}");
+        }
+      } else {
+        // Add to favorites with mapped value
+        final response = await http.post(
+          Uri.parse(url),
+          headers: headers,
+          body: jsonEncode(body),
+        );
+
+        if (response.statusCode == 201) {
+          setState(() {
+            favorites[phrase] = true;
+          });
+          print("✅ Added to favorites: $phrase ($mappedValue)");
+        } else {
+          print("❌ Error adding favorite: ${response.body}");
+        }
+      }
+    } catch (e) {
+      print("❌ Exception in _toggleFavorite: $e");
+    }
   }
-}
 
   void _showGifPopup(BuildContext context, String phrase, String gifUrl) {
     showDialog(
@@ -127,24 +123,21 @@ class _AlphabetNumbersPageState extends State<AlphabetNumbersPage> {
           content: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              Text(
-                phrase,
-                style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-              ),
+              Text(phrase,
+                  style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
               SizedBox(height: 10),
               Container(
                 width: 500,
                 height: 410,
-                decoration: BoxDecoration(border: Border.all(color: Colors.grey)),
+                decoration:
+                    BoxDecoration(border: Border.all(color: Colors.grey)),
                 child: Image.network(gifUrl, fit: BoxFit.cover),
               ),
             ],
           ),
           actions: [
             TextButton(
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
+              onPressed: () => Navigator.of(context).pop(),
               child: Text('Back'),
             ),
           ],
@@ -158,50 +151,54 @@ class _AlphabetNumbersPageState extends State<AlphabetNumbersPage> {
     return BlocProvider(
       create: (context) => GifBloc(),
       child: Scaffold(
-        appBar: AppBar(
-          title: Text('Alphabets and Numbers'),
-          centerTitle: true,
-          leading: IconButton(
-            icon: Icon(Icons.arrow_back),
-            onPressed: () {
-              Navigator.of(context).pop();
-            },
-          ),
-        ),
+        appBar: AppBar(title: Text('Alphabets and Numbers')),
         body: ListView.builder(
+          padding: EdgeInsets.all(16),
           itemCount: phrases.length,
           itemBuilder: (context, index) {
             String phrase = phrases[index];
             bool isFavorite = favorites[phrase] ?? false;
-
-            return ListTile(
-              title: Text(phrase),
-              trailing: IconButton(
-                icon: Icon(
-                  isFavorite ? Icons.star : Icons.star_border,
-                  color: isFavorite ? Colors.yellow : Colors.grey,
+            return Card(
+              elevation: 5,
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(12)),
+              child: ListTile(
+                contentPadding:
+                    EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                title:
+                    Text(phrase, style: TextStyle(fontWeight: FontWeight.bold)),
+                trailing: IconButton(
+                  icon: Icon(
+                    isFavorite ? Icons.star : Icons.star_border,
+                    color: isFavorite ? Colors.yellow : Colors.grey,
+                  ),
+                  onPressed: () => _toggleFavorite(phrase),
                 ),
-                onPressed: () => _toggleFavorite(phrase),
+                onTap: () {
+                  String publicId = alphabetNumbersMappings[phrase] ?? '';
+                  if (publicId.isNotEmpty) {
+                    context
+                        .read<GifBloc>()
+                        .add(FetchGif(phrase: phrase, publicId: publicId));
+                  }
+                },
               ),
-              onTap: () {
-                String publicId = alphabetNumbersMappings[phrase] ?? '';
-                if (publicId.isNotEmpty) {
-                  context.read<GifBloc>().add(FetchGif(phrase: phrase, publicId: publicId));
-                }
-              },
             );
           },
         ),
         bottomSheet: BlocBuilder<GifBloc, GifState>(
           builder: (context, state) {
-            if (state is GifLoading) {
+            if (state is GifLoading)
               return Center(child: CircularProgressIndicator());
-            } else if (state is GifLoaded) {
+            if (state is GifLoaded) {
               WidgetsBinding.instance.addPostFrameCallback((_) {
                 _showGifPopup(context, state.phrase, state.gifUrl);
               });
-            } else if (state is GifError) {
-              return Center(child: Text(state.message, style: TextStyle(color: Colors.red)));
+            }
+            if (state is GifError) {
+              return Center(
+                  child:
+                      Text(state.message, style: TextStyle(color: Colors.red)));
             }
             return SizedBox.shrink();
           },
