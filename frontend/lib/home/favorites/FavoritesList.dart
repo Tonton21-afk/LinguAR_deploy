@@ -40,12 +40,14 @@ class FavoritesList extends StatelessWidget {
           content: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              Text(phrase, style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
+              Text(phrase,
+                  style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
               SizedBox(height: 10),
               Container(
                 width: 500,
                 height: 410,
-                decoration: BoxDecoration(border: Border.all(color: Colors.grey)),
+                decoration:
+                    BoxDecoration(border: Border.all(color: Colors.grey)),
                 child: Image.network(gifUrl, fit: BoxFit.cover),
               ),
             ],
@@ -86,13 +88,19 @@ class FavoritesList extends StatelessWidget {
                 final phrase = favorite['item'] ?? 'Unknown';
                 final mappedValue = favorite['mapped_value'] ?? 'Unknown Path';
 
-                return ListTile(
-                  leading: Icon(Icons.star, color: Colors.yellow),
-                  title: Text(phrase, style: TextStyle(fontWeight: FontWeight.bold)),
-                  onTap: () {
-                    context.read<GifBloc>().add(FetchGif(phrase: phrase, publicId: mappedValue));
-                  },
-                );
+                return Card(
+                    elevation: 5,
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(12)),
+                    child: ListTile(
+                      leading: Icon(Icons.star, color: Colors.yellow),
+                      title: Text(phrase,
+                          style: TextStyle(fontWeight: FontWeight.bold)),
+                      onTap: () {
+                        context.read<GifBloc>().add(
+                            FetchGif(phrase: phrase, publicId: mappedValue));
+                      },
+                    ));
               },
             ),
           ),
@@ -106,7 +114,8 @@ class FavoritesList extends StatelessWidget {
                 });
               } else if (state is GifError) {
                 return Center(
-                  child: Text(state.message, style: TextStyle(color: Colors.red)),
+                  child:
+                      Text(state.message, style: TextStyle(color: Colors.red)),
                 );
               }
               return SizedBox.shrink();
