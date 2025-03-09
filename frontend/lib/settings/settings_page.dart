@@ -40,11 +40,6 @@ class _SettingsPageState extends State<SettingsPage> {
     'Theme': 'Light',
     'Language': 'English',
     'Password': '********',
-    'Preferred Hand': 'Right',
-    'Translation Speed': 'Normal',
-    'Voice Selection': 'Male',
-    'Speech Speed': 'Normal',
-    'Pitch Control': 'Normal',
   };
 
   late ScrollController _scrollController;
@@ -55,10 +50,14 @@ class _SettingsPageState extends State<SettingsPage> {
     super.initState();
     _scrollController = ScrollController();
     _scrollController.addListener(() {
+      bool isDarkMode = Theme.of(context).brightness == Brightness.dark;
+
       setState(() {
         appBarColor = _scrollController.offset > 50
-            ? Color(0xFF4A90E2)
-            : Color(0xFFFEFFFE);
+            ? const Color(0xFF4A90E2) // Scrolled color
+            : (isDarkMode
+                ? Color(0xFF273236)
+                : const Color(0xFFFEFFFE)); // ✅ Black in dark mode
       });
     });
     _loadUserId();
@@ -112,7 +111,15 @@ class _SettingsPageState extends State<SettingsPage> {
   Widget build(BuildContext context) {
     final screenWidth = MediaQuery.of(context).size.width;
     final screenHeight = MediaQuery.of(context).size.height;
+    bool isDarkMode = Theme.of(context).brightness == Brightness.dark;
 
+    if (_scrollController.hasClients && _scrollController.offset > 50) {
+      appBarColor = const Color(0xFF4A90E2); // ✅ Keeps blue if already scrolled
+    } else {
+      appBarColor = isDarkMode
+          ? const Color.fromARGB(255, 29, 29, 29)
+          : const Color(0xFFFEFFFE);
+    }
     final subtitleFontSize = screenWidth * 0.04;
     final listTileFontSize = screenWidth * 0.035;
     final sectionHeaderPadding = EdgeInsets.symmetric(
@@ -125,7 +132,9 @@ class _SettingsPageState extends State<SettingsPage> {
     );
 
     return Scaffold(
-      backgroundColor: Color(0xFFFEFFFE),
+      backgroundColor: Theme.of(context).brightness == Brightness.dark
+          ? Color(0xFF273236)
+          : Color(0xFFFEFFFE),
       body: NestedScrollView(
         controller: _scrollController,
         headerSliverBuilder: (context, innerBoxIsScrolled) {
@@ -142,9 +151,11 @@ class _SettingsPageState extends State<SettingsPage> {
                   'Settings',
                   style: TextStyle(
                     fontSize: screenWidth * 0.045,
-                    color: appBarColor == Color(0xFFFEFFFE)
-                        ? Colors.black
-                        : Colors.white,
+                    color: Theme.of(context).brightness == Brightness.dark
+                        ? Colors.white // ✅ Always white in dark mode
+                        : (appBarColor == const Color(0xFFFEFFFE)
+                            ? Colors.black
+                            : Colors.white),
                   ),
                 ),
               ),
@@ -161,6 +172,7 @@ class _SettingsPageState extends State<SettingsPage> {
               icon: Icons.brightness_6,
               options: ['Light', 'Dark'],
               settings: settings,
+              
               onTap: () {
                 final themeProvider =
                     Provider.of<ThemeProvider>(context, listen: false);
@@ -228,7 +240,9 @@ class _SettingsPageState extends State<SettingsPage> {
       child: Text(
         title,
         style: TextStyle(
-          color: Colors.grey,
+          color: Theme.of(context).brightness == Brightness.dark
+              ? Colors.white // White button in dark mode
+              : Colors.grey,
           fontWeight: FontWeight.bold,
           fontSize: fontSize,
         ),

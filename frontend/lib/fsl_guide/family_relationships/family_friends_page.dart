@@ -42,7 +42,8 @@ class _FamilyFriendsPageState extends State<FamilyFriendsPage> {
   Future<void> _fetchFavorites() async {
     if (userId == null) return; // Ensure userId is not null
     try {
-      final response = await http.get(Uri.parse('$basicurl/favorites/favorites/$userId'));
+      final response =
+          await http.get(Uri.parse('$basicurl/favorites/favorites/$userId'));
       if (response.statusCode == 200) {
         List<dynamic> data = jsonDecode(response.body);
         setState(() {
@@ -61,59 +62,63 @@ class _FamilyFriendsPageState extends State<FamilyFriendsPage> {
 
   /// Toggle favorite status for a phrase
   Future<void> _toggleFavorite(String phrase) async {
-  if (userId == null) {
-    print("❌ Error: User ID is null, cannot toggle favorite.");
-    return;
-  }
-
-  String mappedValue = familyFriendsMappings[phrase] ?? "";
-  if (mappedValue.isEmpty) {
-    print("❌ Error: No mapped value found for phrase: $phrase");
-    return;
-  }
-
-  bool isFavorite = favorites[phrase] ?? false;
-  String url = '$basicurl/favorites/favorites';
-  Map<String, String> headers = {"Content-Type": "application/json"};
-  Map<String, dynamic> body = {"user_id": userId, "item": phrase, "mapped_value": mappedValue};
-
-  try {
-    if (isFavorite) {
-      // Remove from favorites
-      final response = await http.delete(
-        Uri.parse('$url/$userId/${Uri.encodeComponent(phrase)}'),
-        headers: headers,
-      );
-
-      if (response.statusCode == 200) {
-        setState(() {
-          favorites[phrase] = false;
-        });
-        print("✅ Removed from favorites: $phrase ($mappedValue)");
-      } else {
-        print("❌ Error removing favorite: ${response.body}");
-      }
-    } else {
-      // Add to favorites with mapped value
-      final response = await http.post(
-        Uri.parse(url),
-        headers: headers,
-        body: jsonEncode(body),
-      );
-
-      if (response.statusCode == 201) {
-        setState(() {
-          favorites[phrase] = true;
-        });
-        print("✅ Added to favorites: $phrase ($mappedValue)");
-      } else {
-        print("❌ Error adding favorite: ${response.body}");
-      }
+    if (userId == null) {
+      print("❌ Error: User ID is null, cannot toggle favorite.");
+      return;
     }
-  } catch (e) {
-    print("❌ Exception in _toggleFavorite: $e");
+
+    String mappedValue = familyFriendsMappings[phrase] ?? "";
+    if (mappedValue.isEmpty) {
+      print("❌ Error: No mapped value found for phrase: $phrase");
+      return;
+    }
+
+    bool isFavorite = favorites[phrase] ?? false;
+    String url = '$basicurl/favorites/favorites';
+    Map<String, String> headers = {"Content-Type": "application/json"};
+    Map<String, dynamic> body = {
+      "user_id": userId,
+      "item": phrase,
+      "mapped_value": mappedValue
+    };
+
+    try {
+      if (isFavorite) {
+        // Remove from favorites
+        final response = await http.delete(
+          Uri.parse('$url/$userId/${Uri.encodeComponent(phrase)}'),
+          headers: headers,
+        );
+
+        if (response.statusCode == 200) {
+          setState(() {
+            favorites[phrase] = false;
+          });
+          print("✅ Removed from favorites: $phrase ($mappedValue)");
+        } else {
+          print("❌ Error removing favorite: ${response.body}");
+        }
+      } else {
+        // Add to favorites with mapped value
+        final response = await http.post(
+          Uri.parse(url),
+          headers: headers,
+          body: jsonEncode(body),
+        );
+
+        if (response.statusCode == 201) {
+          setState(() {
+            favorites[phrase] = true;
+          });
+          print("✅ Added to favorites: $phrase ($mappedValue)");
+        } else {
+          print("❌ Error adding favorite: ${response.body}");
+        }
+      }
+    } catch (e) {
+      print("❌ Exception in _toggleFavorite: $e");
+    }
   }
-}
 
   void _showGifPopup(BuildContext context, String phrase, String gifUrl) {
     showDialog(
@@ -123,12 +128,14 @@ class _FamilyFriendsPageState extends State<FamilyFriendsPage> {
           content: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              Text(phrase, style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
+              Text(phrase,
+                  style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
               SizedBox(height: 10),
               Container(
                 width: 500,
                 height: 410,
-                decoration: BoxDecoration(border: Border.all(color: Colors.grey)),
+                decoration:
+                    BoxDecoration(border: Border.all(color: Colors.grey)),
                 child: Image.network(gifUrl, fit: BoxFit.cover),
               ),
             ],
@@ -151,7 +158,17 @@ class _FamilyFriendsPageState extends State<FamilyFriendsPage> {
     return BlocProvider(
       create: (context) => GifBloc(),
       child: Scaffold(
-        appBar: AppBar(title: Text('Family and Friends')),
+        backgroundColor: Theme.of(context).brightness == Brightness.dark
+            ? Color(0xFF273236)
+            // Dark mode color
+            : const Color(0xFFFEFFFE),
+        appBar: AppBar(
+          title: Text('Family and Friends'),
+          backgroundColor: Theme.of(context).brightness == Brightness.dark
+              ? const Color.fromARGB(
+                  255, 29, 29, 29) // White button in dark mode
+              : Colors.white,
+        ),
         body: ListView.builder(
           padding: EdgeInsets.all(16),
           itemCount: phrases.length,

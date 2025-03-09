@@ -27,10 +27,14 @@ class _FSLGuidePageState extends State<FSLGuidePage> {
     super.initState();
     _scrollController = ScrollController();
     _scrollController.addListener(() {
+      bool isDarkMode = Theme.of(context).brightness == Brightness.dark;
+
       setState(() {
         appBarColor = _scrollController.offset > 50
-            ? Color(0xFF4A90E2)
-            : Color(0xFFFEFFFE);
+            ? const Color(0xFF4A90E2) // Scrolled color
+            : (isDarkMode
+                ? Color(0xFF273236)
+                : const Color(0xFFFEFFFE)); // ✅ Black in dark mode
       });
     });
   }
@@ -44,9 +48,19 @@ class _FSLGuidePageState extends State<FSLGuidePage> {
   @override
   Widget build(BuildContext context) {
     final screenWidth = MediaQuery.of(context).size.width;
+    bool isDarkMode = Theme.of(context).brightness == Brightness.dark;
 
+    if (_scrollController.hasClients && _scrollController.offset > 50) {
+      appBarColor = const Color(0xFF4A90E2); // ✅ Keeps blue if already scrolled
+    } else {
+      appBarColor = isDarkMode
+          ? const Color.fromARGB(255, 29, 29, 29)
+          : const Color(0xFFFEFFFE);
+    }
     return Scaffold(
-      backgroundColor: Color(0xFFFEFFFE),
+      backgroundColor: Theme.of(context).brightness == Brightness.dark
+          ? Color(0xFF273236)
+          : Color(0xFFFEFFFE),
       body: NestedScrollView(
         controller: _scrollController,
         headerSliverBuilder: (context, innerBoxIsScrolled) {
@@ -63,9 +77,11 @@ class _FSLGuidePageState extends State<FSLGuidePage> {
                   'Filipino Sign Language Guides',
                   style: TextStyle(
                     fontSize: screenWidth * 0.045,
-                    color: appBarColor == Color(0xFFFEFFFE)
-                        ? Colors.black
-                        : Colors.white,
+                    color: Theme.of(context).brightness == Brightness.dark
+                        ? Colors.white // ✅ Always white in dark mode
+                        : (appBarColor == const Color(0xFFFEFFFE)
+                            ? Colors.black
+                            : Colors.white),
                   ),
                 ),
               ),
@@ -79,46 +95,119 @@ class _FSLGuidePageState extends State<FSLGuidePage> {
               _buildSectionTitle(
                   'Family, Relationships & Social Life', screenWidth),
               _buildGridView(context, [
-                _buildCard(context, Icons.family_restroom, 'Family & Friends',
-                    FamilyFriendsPage(), Color(0xFFACCFFB)),
-                _buildCard(context, Icons.favorite, 'Relationships',
-                    RelationshipsPage(), Color(0xFFFEE6DF)),
+                _buildCard(
+                    context,
+                    Icons.family_restroom,
+                    'Family & Friends',
+                    FamilyFriendsPage(),
+                    Theme.of(context).brightness == Brightness.dark
+                        ? Color(0xFF191E20)
+                        : Color(0xFFACCFFB) // White button in dark mode
+                    ),
+                _buildCard(
+                    context,
+                    Icons.favorite,
+                    'Relationships',
+                    RelationshipsPage(),
+                    Theme.of(context).brightness == Brightness.dark
+                        ? Colors.grey
+                        : Color(0xFFFEE6DF)),
               ]),
               _buildSectionTitle('Learning & Work', screenWidth),
               _buildGridView(context, [
-                _buildCard(context, Icons.school, 'Education', EducationPage(),
-                    Color(0xFFFEE6DF)),
-                _buildCard(context, Icons.work, 'Work & Profession',
-                    WorkProfessionPage(), Color(0xFFC3CDD1)),
+                _buildCard(
+                    context,
+                    Icons.school,
+                    'Education',
+                    EducationPage(),
+                    Theme.of(context).brightness == Brightness.dark
+                        ? Colors.grey
+                        : Color(0xFFFEE6DF)),
+                _buildCard(
+                    context,
+                    Icons.work,
+                    'Work & Profession',
+                    WorkProfessionPage(),
+                    Theme.of(context).brightness == Brightness.dark
+                        ? Color(0xFF191E20)
+                        : Color(0xFFC3CDD1)),
               ]),
               _buildSectionTitle('Food & Environment', screenWidth),
               _buildGridView(context, [
-                _buildCard(context, Icons.local_dining, 'Food & Drinks',
-                    FoodDrinksPage(), Color(0xFFACCFFB)),
-                _buildCard(context, Icons.park, 'Emergency and Nature',
-                    NatureEnvironmentPage(), Color(0xFFF4ABAA)),
+                _buildCard(
+                    context,
+                    Icons.local_dining,
+                    'Food & Drinks',
+                    FoodDrinksPage(),
+                    Theme.of(context).brightness == Brightness.dark
+                        ? Color(0xFF191E20)
+                        : Color(0xFFACCFFB)),
+                _buildCard(
+                    context,
+                    Icons.park,
+                    'Emergency and Nature',
+                    NatureEnvironmentPage(),
+                    Theme.of(context).brightness == Brightness.dark
+                        ? Colors.grey
+                        : Color(0xFFF4ABAA)),
               ]),
               _buildSectionTitle('Transportation & Technology', screenWidth),
               _buildGridView(context, [
-                _buildCard(context, Icons.directions_bus, 'Transportation',
-                    TransportationPage(), Color(0xFFFEE6DF)),
-                _buildCard(context, Icons.computer, 'Technology',
-                    TechnologyPage(), Color(0xFFC3CDD1)),
+                _buildCard(
+                    context,
+                    Icons.directions_bus,
+                    'Transportation',
+                    TransportationPage(),
+                    Theme.of(context).brightness == Brightness.dark
+                        ? Colors.grey
+                        : Color(0xFFFEE6DF)),
+                _buildCard(
+                    context,
+                    Icons.computer,
+                    'Technology',
+                    TechnologyPage(),
+                    Theme.of(context).brightness == Brightness.dark
+                        ? Color(0xFF191E20)
+                        : Color(0xFFC3CDD1)),
               ]),
               _buildSectionTitle('Daily Communication', screenWidth),
               _buildGridView(context, [
-                _buildCard(context, Icons.language, 'Pronouns', PronounsPage(),
-                    Color(0xFFC3CDD1)),
-                _buildCard(context, Icons.chat, 'Basic Phrases',
-                    BasicPhrasesPage(), Color(0xFFACCFFB)),
+                _buildCard(
+                    context,
+                    Icons.language,
+                    'Pronouns',
+                    PronounsPage(),
+                    Theme.of(context).brightness == Brightness.dark
+                        ? Color(0xFF191E20)
+                        : Color(0xFFC3CDD1)),
+                _buildCard(
+                    context,
+                    Icons.chat,
+                    'Basic Phrases',
+                    BasicPhrasesPage(),
+                    Theme.of(context).brightness == Brightness.dark
+                        ? Colors.grey
+                        : Color(0xFFACCFFB)),
               ]),
               _buildSectionTitle(
                   'Interactive Learning & Emergency', screenWidth),
               _buildGridView(context, [
-                _buildCard(context, Icons.palette, 'Shape & Colors',
-                    ShapeColorsPage(), Color(0xFFF4ABAA)),
-                _buildCard(context, Icons.numbers, 'Alphabet & Numbers',
-                    AlphabetNumbersPage(), Color(0xFFFEE6DF)),
+                _buildCard(
+                    context,
+                    Icons.palette,
+                    'Shape & Colors',
+                    ShapeColorsPage(),
+                    Theme.of(context).brightness == Brightness.dark
+                        ? Colors.grey
+                        : Color(0xFFF4ABAA)),
+                _buildCard(
+                    context,
+                    Icons.numbers,
+                    'Alphabet & Numbers',
+                    AlphabetNumbersPage(),
+                    Theme.of(context).brightness == Brightness.dark
+                        ? Color(0xFF191E20)
+                        : Color(0xFFFEE6DF)),
               ]),
             ],
           ),
@@ -135,7 +224,9 @@ class _FSLGuidePageState extends State<FSLGuidePage> {
         style: TextStyle(
           fontSize: screenWidth * 0.04,
           fontWeight: FontWeight.bold,
-          color: Colors.black,
+          color: Theme.of(context).brightness == Brightness.dark
+              ? Colors.white
+              : Colors.black,
         ),
       ),
     );

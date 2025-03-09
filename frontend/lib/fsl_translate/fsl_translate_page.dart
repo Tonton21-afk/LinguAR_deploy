@@ -60,7 +60,7 @@ class _FSLTranslatePageState extends State<FSLTranslatePage> {
       appBarColor = _scrollController.offset > 50
           ? const Color(0xFF4A90E2) // Scrolled color
           : (isDarkMode
-              ? Color(0xFF273236)
+              ? const Color.fromARGB(255, 29, 29, 29)
               : const Color(0xFFFEFFFE)); // ✅ Black in dark mode
     });
   }

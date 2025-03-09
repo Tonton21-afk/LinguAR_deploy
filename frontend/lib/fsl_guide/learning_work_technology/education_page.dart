@@ -2,14 +2,13 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:lingua_arv1/api/Education.dart'; 
+import 'package:lingua_arv1/api/Education.dart';
 import 'package:lingua_arv1/bloc/Gif/gif_bloc.dart';
 import 'package:lingua_arv1/bloc/Gif/gif_event.dart';
 import 'package:lingua_arv1/bloc/Gif/gif_state.dart';
 import 'package:http/http.dart' as http;
 import 'package:lingua_arv1/repositories/Config.dart';
 import 'package:lingua_arv1/validators/token.dart';
-
 
 class EducationPage extends StatefulWidget {
   @override
@@ -161,7 +160,17 @@ class _EducationPageState extends State<EducationPage> {
     return BlocProvider(
       create: (context) => GifBloc(),
       child: Scaffold(
-        appBar: AppBar(title: Text('Education')),
+        backgroundColor: Theme.of(context).brightness == Brightness.dark
+            ? Color(0xFF273236)
+            // Dark mode color
+            : const Color(0xFFFEFFFE),
+        appBar: AppBar(
+          title: Text('Education'),
+          backgroundColor: Theme.of(context).brightness == Brightness.dark
+              ? const Color.fromARGB(
+                  255, 29, 29, 29) // White button in dark mode
+              : Colors.white,
+        ),
         body: ListView.builder(
           padding: EdgeInsets.all(16),
           itemCount: phrases.length,

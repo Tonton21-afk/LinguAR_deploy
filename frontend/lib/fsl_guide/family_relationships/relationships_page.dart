@@ -19,7 +19,6 @@ class _RelationshipsPageState extends State<RelationshipsPage> {
   String? userId;
   Map<String, bool> favorites = {}; // To track favorite phrases
   String basicurl = BasicUrl.baseURL;
-  
 
   @override
   void initState() {
@@ -160,7 +159,17 @@ class _RelationshipsPageState extends State<RelationshipsPage> {
     return BlocProvider(
       create: (context) => GifBloc(),
       child: Scaffold(
-        appBar: AppBar(title: Text('Relationships')),
+        backgroundColor: Theme.of(context).brightness == Brightness.dark
+            ? Color(0xFF273236)
+            // Dark mode color
+            : const Color(0xFFFEFFFE),
+        appBar: AppBar(
+          title: Text('Relationships'),
+          backgroundColor: Theme.of(context).brightness == Brightness.dark
+              ? const Color.fromARGB(
+                  255, 29, 29, 29) // White button in dark mode
+              : Colors.white,
+        ),
         body: ListView.builder(
           padding: EdgeInsets.all(16),
           itemCount: phrases.length,

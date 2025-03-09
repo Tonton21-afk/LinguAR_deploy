@@ -161,7 +161,17 @@ class _FoodDrinksPageState extends State<FoodDrinksPage> {
     return BlocProvider(
       create: (context) => GifBloc(),
       child: Scaffold(
-        appBar: AppBar(title: Text('Food and Drinks')),
+        backgroundColor: Theme.of(context).brightness == Brightness.dark
+            ? Color(0xFF273236)
+            // Dark mode color
+            : const Color(0xFFFEFFFE),
+        appBar: AppBar(
+          title: Text('Food and Drinks'),
+          backgroundColor: Theme.of(context).brightness == Brightness.dark
+              ? const Color.fromARGB(
+                  255, 29, 29, 29) // White button in dark mode
+              : Colors.white,
+        ),
         body: ListView.builder(
           padding: EdgeInsets.all(16),
           itemCount: phrases.length,
