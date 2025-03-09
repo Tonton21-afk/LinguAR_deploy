@@ -1,32 +1,62 @@
 import 'package:flutter/material.dart';
+import 'package:lingua_arv1/settings/theme/theme_provider.dart';
 import 'package:lingua_arv1/validators/token.dart';
 import 'package:lottie/lottie.dart';
 import 'package:lingua_arv1/screens/get_started/get_started_page1.dart';
+import 'package:provider/provider.dart';
 import 'home/home_page.dart';
 import 'fsl_translate/fsl_translate_page.dart';
 import 'fsl_guide/fsl_guide_page.dart';
 import 'settings/settings_page.dart';
 
-void main() async {
+void main() {
   WidgetsFlutterBinding.ensureInitialized();
-  bool isLoggedIn = await TokenService.isUserLoggedIn();
 
-  runApp(MyApp(isLoggedIn: isLoggedIn));
+  runApp(
+    MultiProvider(
+      providers: [
+        ChangeNotifierProvider(
+            create: (context) => ThemeProvider()), // ✅ Provides ThemeProvider
+      ],
+      child: MyApp(),
+    ),
+  );
 }
 
 class MyApp extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return FutureBuilder<bool>(
+      future: TokenService.isUserLoggedIn(), // ✅ Async check for login status
+      builder: (context, snapshot) {
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          return MaterialApp(
+              home: SplashScreen()); // ✅ Show SplashScreen while waiting
+        }
+        bool isLoggedIn = snapshot.data ?? false;
+        return AppWrapper(isLoggedIn: isLoggedIn);
+      },
+    );
+  }
+}
+
+class AppWrapper extends StatelessWidget {
   final bool isLoggedIn;
 
-  const MyApp({Key? key, required this.isLoggedIn}) : super(key: key);
+  const AppWrapper({Key? key, required this.isLoggedIn}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      theme: ThemeData(
-        fontFamily: 'Jost',
-      ),
-      home: isLoggedIn ? HomeScreen() : SplashScreen(),
+    return Consumer<ThemeProvider>(
+      builder: (context, themeProvider, child) {
+        return MaterialApp(
+          debugShowCheckedModeBanner: false,
+          theme: ThemeData(fontFamily: 'Jost', brightness: Brightness.light),
+          darkTheme: ThemeData(fontFamily: 'Jost', brightness: Brightness.dark),
+          themeMode: themeProvider.themeMode, // ✅ Dynamic theme switching
+          home: isLoggedIn ? HomeScreen() : GetStartedPage1(),
+        );
+      },
     );
   }
 }
@@ -118,7 +148,9 @@ class _HomeScreenState extends State<HomeScreen> {
     return Scaffold(
       appBar: _currentIndex == 0
           ? AppBar(
-              backgroundColor: Colors.white,
+              backgroundColor: Theme.of(context).brightness == Brightness.dark
+                  ? const Color.fromARGB(255, 29, 29, 29) // ✅ Darker gray
+                  : Colors.white,
               elevation: 0,
               title: Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 16.0),
@@ -131,7 +163,11 @@ class _HomeScreenState extends State<HomeScreen> {
                     children: [
                       TextSpan(
                           text: 'Lingua',
-                          style: TextStyle(color: Colors.black)),
+                          style: TextStyle(
+                              color: Theme.of(context).brightness ==
+                                      Brightness.dark
+                                  ? Colors.white // Dark mode color
+                                  : Colors.black)),
                       TextSpan(
                           text: 'AR',
                           style: TextStyle(color: Color(0xFF4A90E2))),

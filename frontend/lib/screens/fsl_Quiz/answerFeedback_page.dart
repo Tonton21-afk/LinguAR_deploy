@@ -24,10 +24,14 @@ class AnswerFeedbackPage extends StatelessWidget {
         }
       },
       child: Scaffold(
-        backgroundColor: const Color(0xFFFCEEFF),
+        backgroundColor: Theme.of(context).brightness == Brightness.dark
+            ? Color(0xFF273236)  // Dark mode color
+            : const Color(0xFFFCEEFF),
         appBar: AppBar(
           centerTitle: true,
-          backgroundColor: Colors.white,
+          backgroundColor: Theme.of(context).brightness == Brightness.dark
+              ?const Color.fromARGB(255, 29, 29, 29) // Dark mode color
+              : Colors.white,
           elevation: 0,
         ),
         body: Column(
@@ -49,22 +53,28 @@ class AnswerFeedbackPage extends StatelessWidget {
                         CorrectButton(
                           text: state.question["answer1"]!,
                           isCorrect: state.isCorrect != null
-                              ? state.question["answer1"] == state.question["correct"]
+                              ? state.question["answer1"] ==
+                                  state.question["correct"]
                               : null,
                           isDisabled: state.isCorrect != null,
                           onPressed: () {
-                            context.read<QuizBloc>().add(CheckAnswer(state.question["answer1"]!));
+                            context
+                                .read<QuizBloc>()
+                                .add(CheckAnswer(state.question["answer1"]!));
                           },
                         ),
                         const SizedBox(height: 5),
                         CorrectButton(
                           text: state.question["answer2"]!,
                           isCorrect: state.isCorrect != null
-                              ? state.question["answer2"] == state.question["correct"]
+                              ? state.question["answer2"] ==
+                                  state.question["correct"]
                               : null,
                           isDisabled: state.isCorrect != null,
                           onPressed: () {
-                            context.read<QuizBloc>().add(CheckAnswer(state.question["answer2"]!));
+                            context
+                                .read<QuizBloc>()
+                                .add(CheckAnswer(state.question["answer2"]!));
                           },
                         ),
                         const SizedBox(height: 5),
@@ -85,7 +95,8 @@ class AnswerFeedbackPage extends StatelessWidget {
               padding: const EdgeInsets.only(bottom: 55),
               child: BlocBuilder<QuizBloc, QuizState>(
                 builder: (context, state) {
-                  bool isEnabled = state is QuestionLoaded && state.isCorrect != null;
+                  bool isEnabled =
+                      state is QuestionLoaded && state.isCorrect != null;
 
                   return NextButton(
                     isEnabled: isEnabled,

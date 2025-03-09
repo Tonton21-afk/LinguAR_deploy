@@ -35,7 +35,9 @@ class _GetStartedPage2State extends State<GetStartedPage2> {
                   style: TextStyle(
                     fontSize: baseFontSize * textScale,
                     fontWeight: FontWeight.bold,
-                    color: Colors.black,
+                    color: Theme.of(context).brightness == Brightness.dark
+                        ? Colors.white // Dark mode color
+                        : Color(0xFF273236),
                   ),
                 ),
                 SizedBox(height: screenHeight * 0.02),

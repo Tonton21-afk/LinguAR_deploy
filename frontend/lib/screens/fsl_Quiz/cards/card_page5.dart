@@ -47,28 +47,41 @@ class _CardPage5State extends State<CardPage5> {
 
   @override
   Widget build(BuildContext context) {
+    bool isDarkMode = Theme.of(context).brightness == Brightness.dark;
+
     return BlocProvider(
       create: (context) => GifBloc()
         ..add(FetchGif(
             publicId: emergencyNatureMappings[currentPhrase] ?? "",
             phrase: currentPhrase)),
       child: Scaffold(
+        backgroundColor: isDarkMode 
+            ? Color(0xFF273236) // ✅ Dark mode background
+            : const Color(0xFFFCEEFF), // ✅ Light mode background
         appBar: AppBar(
-          title: Text("Interactive Learning and Emergency"),
+          title: Text(
+            "Interactive Learning and Emergency",
+            style: TextStyle(
+              fontSize: 20,
+              fontWeight: FontWeight.bold,
+              color: isDarkMode ? Colors.white : Color(0xFF273236),
+            ),
+          ),
           centerTitle: true,
-          backgroundColor: Colors.white,
+          backgroundColor: isDarkMode
+              ? const Color.fromARGB(255, 29, 29, 29) // ✅ Dark mode app bar
+              : Colors.white, // ✅ Light mode app bar
           elevation: 0,
           leading: IconButton(
-            icon: Icon(Icons.arrow_back, color: Colors.black),
+            icon: Icon(Icons.arrow_back, color: isDarkMode ? Colors.white : Colors.black),
             onPressed: () {
               Navigator.pop(context);
             },
           ),
           actions: [
             IconButton(
-              icon: Icon(Icons.help_outline,
-                  color: Colors.black), // Changed to guide icon
-              onPressed: _showUserGuide, // Show guide when clicked
+              icon: Icon(Icons.help_outline, color: isDarkMode ? Colors.white : Colors.black),
+              onPressed: _showUserGuide,
             ),
           ],
         ),
@@ -110,7 +123,10 @@ class _CardPage5State extends State<CardPage5> {
                   width: 150,
                   height: 60,
                   decoration: BoxDecoration(
-                    border: Border.all(color: Colors.black, width: 1),
+                    border: Border.all(
+                      color: isDarkMode ? Colors.white : Colors.black,
+                      width: 1,
+                    ),
                     borderRadius: BorderRadius.circular(10),
                   ),
                   alignment: Alignment.center,
@@ -119,7 +135,7 @@ class _CardPage5State extends State<CardPage5> {
                     style: TextStyle(
                       fontSize: 25,
                       fontWeight: FontWeight.bold,
-                      color: Colors.black,
+                      color: isDarkMode ? Colors.white : Colors.black,
                     ),
                   ),
                 ),
@@ -131,15 +147,14 @@ class _CardPage5State extends State<CardPage5> {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (context) =>
-                              AnswerFeedback(category: "Emergency"),
+                          builder: (context) => AnswerFeedback(
+                              category: "Emergency"),
                         ),
                       );
                     },
                     style: ElevatedButton.styleFrom(
                       backgroundColor: Colors.indigo[900],
-                      padding:
-                          EdgeInsets.symmetric(vertical: 15, horizontal: 80),
+                      padding: EdgeInsets.symmetric(vertical: 15, horizontal: 80),
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(30),
                       ),
@@ -162,9 +177,10 @@ class _CardPage5State extends State<CardPage5> {
                       Text(
                         "Welcome to Sign Learning!",
                         style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 22,
-                            fontWeight: FontWeight.bold),
+                          color: Colors.white,
+                          fontSize: 22,
+                          fontWeight: FontWeight.bold,
+                        ),
                       ),
                       SizedBox(height: 20),
                       Text(
@@ -177,15 +193,15 @@ class _CardPage5State extends State<CardPage5> {
                         onPressed: _dismissGuide,
                         style: ElevatedButton.styleFrom(
                           backgroundColor: Colors.orange,
-                          padding: EdgeInsets.symmetric(
-                              horizontal: 40, vertical: 15),
+                          padding: EdgeInsets.symmetric(horizontal: 40, vertical: 15),
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(20),
                           ),
                         ),
-                        child: Text("Got it!",
-                            style:
-                                TextStyle(color: Colors.white, fontSize: 16)),
+                        child: Text(
+                          "Got it!",
+                          style: TextStyle(color: Colors.white, fontSize: 16),
+                        ),
                       ),
                     ],
                   ),

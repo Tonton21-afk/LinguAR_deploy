@@ -12,7 +12,9 @@ import 'package:lingua_arv1/settings/Dialog/dialogs.dart';
 import 'package:lingua_arv1/settings/Lists/setting_list_tile.dart';
 import 'package:lingua_arv1/settings/Update_Accounts/update_email_page.dart';
 import 'package:lingua_arv1/settings/Update_Accounts/update_password_page.dart';
+import 'package:lingua_arv1/settings/theme/theme_provider.dart';
 import 'package:lingua_arv1/validators/token.dart';
+import 'package:provider/provider.dart';
 
 class SettingsPage extends StatefulWidget {
   @override
@@ -86,7 +88,8 @@ class _SettingsPageState extends State<SettingsPage> {
       ),
     );
   }
-    void _showUpdatePasswordlModal(BuildContext context) {
+
+  void _showUpdatePasswordlModal(BuildContext context) {
     showModalBottomSheet(
       context: context,
       isScrollControlled: true,
@@ -97,7 +100,8 @@ class _SettingsPageState extends State<SettingsPage> {
         providers: [
           BlocProvider(create: (context) => OtpBloc(OtpRepositoryImpl())),
           BlocProvider(
-              create: (context) => ChangePasswordBloc(PasswordRepositoryImpl())),
+              create: (context) =>
+                  ChangePasswordBloc(PasswordRepositoryImpl())),
         ],
         child: UpdatePasswordModal(), // Now it's correctly provided.
       ),
@@ -155,8 +159,17 @@ class _SettingsPageState extends State<SettingsPage> {
               title: 'Theme',
               value: settings['Theme'] ?? 'Light',
               icon: Icons.brightness_6,
-              options: ['Auto', 'Light', 'Dark'],
+              options: ['Light', 'Dark'],
               settings: settings,
+              onTap: () {
+                final themeProvider =
+                    Provider.of<ThemeProvider>(context, listen: false);
+                bool isDark = settings['Theme'] == 'Light' ? true : false;
+                themeProvider.toggleTheme(isDark);
+                setState(() {
+                  settings['Theme'] = isDark ? 'Dark' : 'Light';
+                });
+              },
             ),
             SettingListTile(
               title: 'Language',

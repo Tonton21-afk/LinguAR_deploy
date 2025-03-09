@@ -53,13 +53,27 @@ class _CardPage2State extends State<CardPage2> {
             publicId: familyFriendsMappings[currentPhrase] ?? "",
             phrase: currentPhrase)),
       child: Scaffold(
+        backgroundColor: Theme.of(context).brightness == Brightness.dark
+            ? Color(0xFF273236) // Dark mode color
+            : const Color(0xFFFCEEFF),
         appBar: AppBar(
-          title: Text("Family, Relationships, and Social Life"),
+          title: Text("Family, Relationships, and Social Life",
+              style: TextStyle(
+                  fontSize: 20,
+                  fontWeight: FontWeight.bold,
+                  color: Theme.of(context).brightness == Brightness.dark
+                      ? Colors.white // Dark mode color
+                      : Color(0xFF273236))),
           centerTitle: true,
-          backgroundColor: Colors.white,
+          backgroundColor: Theme.of(context).brightness == Brightness.dark
+              ? const Color.fromARGB(255, 29, 29, 29) // Dark mode color
+              : Colors.white,
           elevation: 0,
           leading: IconButton(
-            icon: Icon(Icons.arrow_back, color: Colors.black),
+            icon: Icon(Icons.arrow_back,
+                color: Theme.of(context).brightness == Brightness.dark
+                    ? Colors.white
+                    : Colors.black),
             onPressed: () {
               Navigator.pop(context);
             },
@@ -67,7 +81,9 @@ class _CardPage2State extends State<CardPage2> {
           actions: [
             IconButton(
               icon: Icon(Icons.help_outline,
-                  color: Colors.black), // Changed to guide icon
+                  color: Theme.of(context).brightness == Brightness.dark
+                      ? Colors.white // Dark mode color
+                      : Colors.black), // Changed to guide icon
               onPressed: _showUserGuide, // Show guide when clicked
             ),
           ],
@@ -110,7 +126,11 @@ class _CardPage2State extends State<CardPage2> {
                   width: 150,
                   height: 60,
                   decoration: BoxDecoration(
-                    border: Border.all(color: Colors.black, width: 1),
+                    border: Border.all(
+                        color: Theme.of(context).brightness == Brightness.dark
+                            ? Colors.white // Dark mode color
+                            : Colors.black,
+                        width: 1),
                     borderRadius: BorderRadius.circular(10),
                   ),
                   alignment: Alignment.center,
@@ -119,7 +139,9 @@ class _CardPage2State extends State<CardPage2> {
                     style: TextStyle(
                       fontSize: 25,
                       fontWeight: FontWeight.bold,
-                      color: Colors.black,
+                      color: Theme.of(context).brightness == Brightness.dark
+                          ? Colors.white // Dark mode color
+                          : Colors.black,
                     ),
                   ),
                 ),

@@ -25,11 +25,19 @@ class TopicSection extends StatelessWidget {
             style: TextStyle(
               fontSize: screenWidth * 0.045,
               fontWeight: FontWeight.bold,
+              color: Theme.of(context).brightness == Brightness.dark
+                  ? Colors.white // Dark mode color
+                  : Colors.black,
             ),
           ),
         ),
         SizedBox(height: screenHeight * 0.02),
-        ...topics.map((topic) => TopicCard(topic: topic, screenWidth: screenWidth, screenHeight: screenHeight)).toList(),
+        ...topics
+            .map((topic) => TopicCard(
+                topic: topic,
+                screenWidth: screenWidth,
+                screenHeight: screenHeight))
+            .toList(),
       ],
     );
   }

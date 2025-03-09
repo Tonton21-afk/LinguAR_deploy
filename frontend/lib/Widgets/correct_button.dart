@@ -16,8 +16,11 @@ class CorrectButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    Color borderColor = Colors.black;
-    Color textColor = Colors.black;
+    bool isDarkMode = Theme.of(context).brightness == Brightness.dark;
+
+    // ✅ Default colors (based on theme)
+    Color textColor = isDarkMode ? Colors.white : Colors.black;
+    Color borderColor = isDarkMode ? Colors.white : Colors.black;
 
     // Only change color if the button is disabled (i.e., after selection)
     if (isDisabled) {
@@ -39,7 +42,11 @@ class CorrectButton extends StatelessWidget {
         text,
         style: TextStyle(
           fontSize: 18,
-          color: isDisabled ? textColor : Colors.black, // Grey when disabled
+          color: isDisabled
+              ? textColor
+              : Theme.of(context).brightness == Brightness.dark
+                  ? Colors.white // Dark mode color
+                  : Colors.black, // Grey when disabled
         ),
       ),
     );

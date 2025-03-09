@@ -23,7 +23,7 @@ class TopicCard extends StatelessWidget {
           ),
         );
       },
-      splashColor: Colors.transparent,  
+      splashColor: Colors.transparent,
       highlightColor: Colors.transparent,
       borderRadius: BorderRadius.circular(15),
       child: Padding(
@@ -31,7 +31,9 @@ class TopicCard extends StatelessWidget {
         child: ClipRRect(
           borderRadius: BorderRadius.circular(15),
           child: Card(
-            color: Colors.white,
+            color: Theme.of(context).brightness == Brightness.dark
+                ? const Color.fromARGB(255, 29, 29, 29) // ✅ Darker gray
+                : Colors.white,
             elevation: 5,
             child: Container(
               width: screenWidth * 0.9,
@@ -51,7 +53,10 @@ class TopicCard extends StatelessWidget {
                           style: TextStyle(
                             fontSize: screenWidth * 0.04,
                             fontWeight: FontWeight.bold,
-                            color: const Color(0xFF4A90E2),
+                            color:
+                                Theme.of(context).brightness == Brightness.dark
+                                    ? const Color(0xFF4A90E2) // Dark mode color
+                                    : const Color(0xFF4A90E2),
                           ),
                         ),
                         SizedBox(height: screenHeight * 0.005),
@@ -59,7 +64,10 @@ class TopicCard extends StatelessWidget {
                           topic['description'],
                           style: TextStyle(
                             fontSize: screenWidth * 0.035,
-                            color: const Color(0xFF000000),
+                            color:
+                                Theme.of(context).brightness == Brightness.dark
+                                    ? Colors.white // Dark mode color
+                                    : const Color(0xFF000000),
                           ),
                         ),
                       ],
@@ -69,7 +77,9 @@ class TopicCard extends StatelessWidget {
                   Icon(
                     Icons.arrow_forward,
                     size: screenWidth * 0.06,
-                    color: const Color(0xff191E20),
+                    color: Theme.of(context).brightness == Brightness.dark
+                        ? Colors.white // Dark mode color
+                        : const Color(0xFF4A90E2),
                   ),
                 ],
               ),

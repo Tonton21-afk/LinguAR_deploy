@@ -81,7 +81,10 @@ class _GetStartedPage4State extends State<GetStartedPage4> {
     final bool isLargeScreen = screenWidth > 600;
 
     return Scaffold(
-      backgroundColor: Color(0xFFFEFEFF),
+      backgroundColor: Theme.of(context).brightness == Brightness.dark
+          ? Color(0xFF191E20)
+          // White button in dark mode
+          : Color(0xFFFEFEFF),
       body: Center(
         child: SingleChildScrollView(
           child: Column(
@@ -96,12 +99,24 @@ class _GetStartedPage4State extends State<GetStartedPage4> {
                     color: Colors.black,
                   ),
                   children: [
-                    TextSpan(text: 'Say '),
+                    TextSpan(
+                        text: 'Say ',
+                        style: TextStyle(
+                            color:
+                                Theme.of(context).brightness == Brightness.dark
+                                    ? Colors.white // Dark mode color
+                                    : Color(0xFF273236))),
                     TextSpan(
                       text: '“Mabuhay”',
                       style: TextStyle(color: Colors.blue),
                     ),
-                    TextSpan(text: '\nto recognize your\nvoice'),
+                    TextSpan(
+                        text: '\nto recognize your\nvoice',
+                        style: TextStyle(
+                            color:
+                                Theme.of(context).brightness == Brightness.dark
+                                    ? Colors.white // Dark mode color
+                                    : Color(0xFF273236))),
                   ],
                 ),
               ),
@@ -128,30 +143,30 @@ class _GetStartedPage4State extends State<GetStartedPage4> {
                   color: Colors.black,
                 ),
               ),
-              // SizedBox(height: screenHeight * 0.05),
-              // ElevatedButton(
-              //   style: ElevatedButton.styleFrom(
-              //     backgroundColor: Colors.red,
-              //     padding: EdgeInsets.symmetric(
-              //       vertical: screenHeight * 0.02,
-              //       horizontal:
-              //           isLargeScreen ? screenWidth * 0.05 : screenWidth * 0.1,
-              //     ),
-              //   ),
-              //   onPressed: () {
-              //     Navigator.pushReplacement(
-              //       context,
-              //       MaterialPageRoute(builder: (context) => GetStartedPage5()),
-              //     );
-              //   },
-              //   child: Text(
-              //     "DEBUG: Skip Voice Detection",
-              //     style: TextStyle(
-              //       color: Colors.white,
-              //       fontSize: isLargeScreen ? 24 : screenWidth * 0.04,
-              //     ),
-              //   ),
-              // ),
+              SizedBox(height: screenHeight * 0.05),
+              ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Colors.red,
+                  padding: EdgeInsets.symmetric(
+                    vertical: screenHeight * 0.02,
+                    horizontal:
+                        isLargeScreen ? screenWidth * 0.05 : screenWidth * 0.1,
+                  ),
+                ),
+                onPressed: () {
+                  Navigator.pushReplacement(
+                    context,
+                    MaterialPageRoute(builder: (context) => GetStartedPage5()),
+                  );
+                },
+                child: Text(
+                  "DEBUG: Skip Voice Detection",
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: isLargeScreen ? 24 : screenWidth * 0.04,
+                  ),
+                ),
+              ),
             ],
           ),
         ),

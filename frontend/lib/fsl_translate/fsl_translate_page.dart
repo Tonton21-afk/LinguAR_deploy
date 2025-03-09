@@ -54,10 +54,14 @@ class _FSLTranslatePageState extends State<FSLTranslatePage> {
   }
 
   void _onScroll() {
+    bool isDarkMode = Theme.of(context).brightness == Brightness.dark;
+
     setState(() {
       appBarColor = _scrollController.offset > 50
-          ? const Color(0xFF4A90E2)
-          : const Color(0xFFFEFFFE);
+          ? const Color(0xFF4A90E2) // Scrolled color
+          : (isDarkMode
+              ? Color(0xFF273236)
+              : const Color(0xFFFEFFFE)); // ✅ Black in dark mode
     });
   }
 
@@ -72,9 +76,19 @@ class _FSLTranslatePageState extends State<FSLTranslatePage> {
   Widget build(BuildContext context) {
     final screenWidth = MediaQuery.of(context).size.width;
     final screenHeight = MediaQuery.of(context).size.height;
+    // ✅ Ensure the initial app bar color is correct for dark mode
+    bool isDarkMode = Theme.of(context).brightness == Brightness.dark;
 
+    if (_scrollController.hasClients && _scrollController.offset > 50) {
+      appBarColor = const Color(0xFF4A90E2); // ✅ Keeps blue if already scrolled
+    } else {
+      appBarColor = isDarkMode ? const Color.fromARGB(255, 29, 29, 29) : const Color(0xFFFEFFFE);
+    }
     return Scaffold(
-      backgroundColor: const Color(0xFFFEFFFE),
+      backgroundColor: Theme.of(context).brightness == Brightness.dark
+          ? Color(0xFF273236)
+          // Dark mode color
+          : const Color(0xFFFEFFFE),
       body: NestedScrollView(
         controller: _scrollController,
         headerSliverBuilder: (context, innerBoxIsScrolled) {
@@ -91,9 +105,11 @@ class _FSLTranslatePageState extends State<FSLTranslatePage> {
                   'Filipino Sign Language Lessons',
                   style: TextStyle(
                     fontSize: screenWidth * 0.045,
-                    color: appBarColor == const Color(0xFFFEFFFE)
-                        ? Colors.black
-                        : Colors.white,
+                    color: Theme.of(context).brightness == Brightness.dark
+                        ? Colors.white // ✅ Always white in dark mode
+                        : (appBarColor == const Color(0xFFFEFFFE)
+                            ? Colors.black
+                            : Colors.white),
                   ),
                 ),
               ),
@@ -102,7 +118,8 @@ class _FSLTranslatePageState extends State<FSLTranslatePage> {
         },
         body: ListView(
           padding: EdgeInsets.all(screenWidth * 0.04),
-          physics: ClampingScrollPhysics(), //  smooth scrolling
+          physics: ClampingScrollPhysics(),
+          //  smooth scrolling
           children: [
             // Topics Section (From Widgets Folder)
             TopicSection(
@@ -116,3 +133,5 @@ class _FSLTranslatePageState extends State<FSLTranslatePage> {
     );
   }
 }
+
+

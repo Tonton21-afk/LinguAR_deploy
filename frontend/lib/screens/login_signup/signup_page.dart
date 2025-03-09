@@ -72,7 +72,10 @@ class _SignUpPageState extends State<SignUpPage> {
                               style: TextStyle(
                                 fontSize: 28,
                                 fontWeight: FontWeight.bold,
-                                color: Color(0xFF273236),
+                                color: Theme.of(context).brightness ==
+                                        Brightness.dark
+                                    ? Colors.white // Dark mode color
+                                    : Color(0xFF273236), // Light mode color,
                               ),
                             ),
                             SizedBox(height: 8),
@@ -215,7 +218,12 @@ class _SignUpPageState extends State<SignUpPage> {
                                   }
                                 },
                                 style: ElevatedButton.styleFrom(
-                                  backgroundColor: Color(0xFF191E20),
+                                  backgroundColor: Theme.of(context)
+                                              .brightness ==
+                                          Brightness.dark
+                                      ? Colors
+                                          .white // White button in dark mode
+                                      : Color(0xFF191E20),
                                   padding: EdgeInsets.symmetric(vertical: 18),
                                   shape: RoundedRectangleBorder(
                                     borderRadius: BorderRadius.circular(12),
@@ -227,7 +235,12 @@ class _SignUpPageState extends State<SignUpPage> {
                                     : Text(
                                         'Sign Up',
                                         style: TextStyle(
-                                            fontSize: 16, color: Colors.white),
+                                            fontSize: 16,
+                                            color:
+                                                Theme.of(context).brightness ==
+                                                        Brightness.dark
+                                                    ? Color(0xFF273236)
+                                                    : Colors.white),
                                       ),
                               ),
                             ),
@@ -238,8 +251,12 @@ class _SignUpPageState extends State<SignUpPage> {
                                 children: [
                                   Text("Already have an account? ",
                                       style: TextStyle(
-                                          fontSize: 16,
-                                          color: Color(0xFF273236))),
+                                        fontSize: 16,
+                                        color: Theme.of(context).brightness ==
+                                                Brightness.dark
+                                            ? Colors.white // Dark mode color
+                                            : Color(0xFF273236),
+                                      )),
                                   TextButton(
                                     onPressed: () {
                                       Navigator.pushReplacement(

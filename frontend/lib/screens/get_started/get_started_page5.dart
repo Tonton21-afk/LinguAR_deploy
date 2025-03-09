@@ -9,7 +9,10 @@ class GetStartedPage5 extends StatelessWidget {
     final bool isLargeScreen = screenWidth > 600;
 
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: Theme.of(context).brightness == Brightness.dark
+          ? Color(0xFF191E20)
+          // White button in dark mode
+          : Color(0xFFFEFEFF),
       body: Center(
         child: SingleChildScrollView(
           child: Padding(
@@ -30,7 +33,9 @@ class GetStartedPage5 extends StatelessWidget {
                   style: TextStyle(
                     fontSize: isLargeScreen ? 32 : screenWidth * 0.07,
                     fontWeight: FontWeight.bold,
-                    color: Colors.black,
+                    color: Theme.of(context).brightness == Brightness.dark
+                        ? Colors.white // Dark mode color
+                        : Color(0xFF273236),
                   ),
                 ),
                 SizedBox(height: isLargeScreen ? 10 : screenHeight * 0.01),
@@ -39,7 +44,9 @@ class GetStartedPage5 extends StatelessWidget {
                   textAlign: TextAlign.center,
                   style: TextStyle(
                     fontSize: isLargeScreen ? 20 : screenWidth * 0.045,
-                    color: Colors.black54,
+                    color: Theme.of(context).brightness == Brightness.dark
+                        ? Colors.white // Dark mode color
+                        : Colors.black54,
                   ),
                 ),
                 SizedBox(height: isLargeScreen ? 40 : screenHeight * 0.05),

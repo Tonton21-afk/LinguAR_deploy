@@ -24,7 +24,6 @@ class _HomePageState extends State<HomePage> {
   String basicurl = BasicUrl.baseURL;
   String? userId;
 
-
   @override
   void initState() {
     super.initState();
@@ -46,7 +45,8 @@ class _HomePageState extends State<HomePage> {
   Future<void> _fetchFavorites() async {
     if (userId == null) return;
     try {
-      final response = await http.get(Uri.parse('$basicurl/favorites/favorites/$userId'));
+      final response =
+          await http.get(Uri.parse('$basicurl/favorites/favorites/$userId'));
       if (response.statusCode == 200) {
         List<dynamic> data = jsonDecode(response.body);
         setState(() {
@@ -66,7 +66,10 @@ class _HomePageState extends State<HomePage> {
     double screenHeight = MediaQuery.of(context).size.height;
 
     return Scaffold(
-      backgroundColor: const Color(0xFFFEFFFE),
+      backgroundColor: Theme.of(context).brightness == Brightness.dark
+          ? Color(0xFF273236)
+          // Dark mode color
+          : Color(0xFFFEFFFE),
       body: SafeArea(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -76,7 +79,8 @@ class _HomePageState extends State<HomePage> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  _buildTitle('Shortcuts', screenWidth),
+                  _buildTitle('Shortcuts', screenWidth,
+                      context), // ✅ Pass context for theming
                   SizedBox(height: screenHeight * 0.015),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
@@ -86,7 +90,17 @@ class _HomePageState extends State<HomePage> {
                           aspectRatio: 1,
                           child: ShortcutButton(
                             icon: Icons.fingerprint,
-                            label: 'Gesture Translator',
+                            iconColor: Colors.white,
+                            labelWidget: Text(
+                              'Gesture Translator',
+                              textAlign: TextAlign.center,
+                              style: TextStyle(
+                                fontSize: 16, // Adjust size as needed
+                                fontWeight: FontWeight.bold,
+                                color:
+                                    Colors.white, // ✅ White text in light mode
+                              ),
+                            ),
                             backgroundColor: const Color(0xFF4A90E2),
                             onTap: () {
                               Navigator.push(
@@ -105,8 +119,28 @@ class _HomePageState extends State<HomePage> {
                           aspectRatio: 1,
                           child: ShortcutButton(
                             icon: Icons.volume_up,
-                            label: 'LinguaVoice',
-                            backgroundColor: const Color(0xFF273236),
+                            iconColor:
+                                Theme.of(context).brightness == Brightness.dark
+                                    ? Colors.white // ✅ Dark icon in dark mode
+                                    : Colors.white,
+                            labelWidget: Text(
+                              'LinguaVoice',
+                              textAlign: TextAlign.center,
+                              style: TextStyle(
+                                fontSize: 16, // Adjust size as needed
+                                fontWeight: FontWeight.bold,
+                                color: Theme.of(context).brightness ==
+                                        Brightness.dark
+                                    ? Colors.white // ✅ Dark text in dark mode
+                                    : Colors
+                                        .white, // ✅ White text in light mode
+                              ),
+                            ),
+                            backgroundColor:
+                                Theme.of(context).brightness == Brightness.dark
+                                    ? const Color.fromARGB(255, 29, 29, 29) // ✅ Darker gray
+                                    // Dark mode color
+                                    : Color(0xFF273236),
                             onTap: () {
                               Navigator.push(
                                 context,
@@ -124,7 +158,7 @@ class _HomePageState extends State<HomePage> {
               ),
             ),
             SizedBox(height: screenHeight * 0.02),
-            _buildTitle('Favorites', screenWidth),
+            _buildTitle('Favorites', screenWidth, context),
             SizedBox(height: screenHeight * 0.01),
             Expanded(
               child: FavoritesList(favorites: favorites),
@@ -135,15 +169,17 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
-  Widget _buildTitle(String text, double screenWidth) {
+  Widget _buildTitle(String text, double screenWidth, BuildContext context) {
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: screenWidth * 0.04),
       child: Text(
         text,
         style: TextStyle(
-          fontSize: screenWidth * 0.045,
-          fontWeight: FontWeight.bold,
-        ),
+            fontSize: screenWidth * 0.045,
+            fontWeight: FontWeight.bold,
+            color: Theme.of(context).brightness == Brightness.dark
+                ? Colors.white // White in dark mode
+                : Color(0xFF273236)),
       ),
     );
   }
@@ -151,13 +187,15 @@ class _HomePageState extends State<HomePage> {
 
 class ShortcutButton extends StatelessWidget {
   final IconData icon;
-  final String label;
+  final Color iconColor; // ✅ Add iconColor property
+  final Widget labelWidget; // ✅ Change from String to Widget
   final Color backgroundColor;
   final VoidCallback onTap;
 
   const ShortcutButton({
     required this.icon,
-    required this.label,
+    required this.iconColor, // ✅ Add to constructor
+    required this.labelWidget, // ✅ Use a Widget for dynamic styling
     required this.backgroundColor,
     required this.onTap,
   });
@@ -185,16 +223,9 @@ class ShortcutButton extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Icon(icon, color: Colors.white, size: screenWidth * 0.08),
+            Icon(icon, color: iconColor, size: screenWidth * 0.08),
             SizedBox(height: screenHeight * 0.01),
-            Text(
-              label,
-              textAlign: TextAlign.center,
-              style: TextStyle(
-                color: Colors.white,
-                fontSize: screenWidth * 0.035,
-              ),
-            ),
+            labelWidget, // ✅ Use the widget for label
           ],
         ),
       ),

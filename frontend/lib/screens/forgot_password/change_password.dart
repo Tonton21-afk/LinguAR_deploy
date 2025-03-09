@@ -93,7 +93,6 @@ class _ChangePasswordModalState extends State<ChangePasswordModal> {
                       errorText:
                           newPasswordError, // Display error under the text field
                     ),
-                
                   ),
                   SizedBox(height: 10),
                   TextField(
@@ -172,14 +171,22 @@ class _ChangePasswordModalState extends State<ChangePasswordModal> {
                       }, // Call validation function
 
                       style: ElevatedButton.styleFrom(
-                        backgroundColor: Color(0xFF191E20),
+                        backgroundColor:
+                            Theme.of(context).brightness == Brightness.dark
+                                ? Colors.white // White button in dark mode
+                                : Color(0xFF191E20),
                         padding: EdgeInsets.symmetric(vertical: 16),
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(12),
                         ),
                       ),
                       child: Text('Change Password',
-                          style: TextStyle(fontSize: 16, color: Colors.white)),
+                          style: TextStyle(
+                              fontSize: 16,
+                              color: Theme.of(context).brightness ==
+                                      Brightness.dark
+                                  ? Colors.white
+                                  : Color(0xFF273236))),
                     ),
                   ),
                 ],

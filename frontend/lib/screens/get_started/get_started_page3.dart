@@ -123,7 +123,10 @@ class _GetStartedPage3State extends State<GetStartedPage3> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color(0xFFFEFEFF),
+      backgroundColor: Theme.of(context).brightness == Brightness.dark
+          ? Color(0xFF191E20)
+          // White button in dark mode
+          : Color(0xFFFEFEFF),
       appBar: AppBar(
         automaticallyImplyLeading: false,
         backgroundColor: Colors.transparent,
@@ -132,9 +135,14 @@ class _GetStartedPage3State extends State<GetStartedPage3> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            const Text(
+            Text(
               "Place your hand inside the circle",
-              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+              style: TextStyle(
+                  fontSize: 18,
+                  fontWeight: FontWeight.bold,
+                  color: Theme.of(context).brightness == Brightness.dark
+                      ? Colors.white // Dark mode color
+                      : Color(0xFF273236)),
             ),
             SizedBox(height: 10),
 
@@ -171,7 +179,12 @@ class _GetStartedPage3State extends State<GetStartedPage3> {
                 child: Center(child: CircularProgressIndicator()),
               ),
             SizedBox(height: 40),
-            Text(detectedLabel, style: TextStyle(fontSize: 24)),
+            Text(detectedLabel,
+                style: TextStyle(
+                    fontSize: 24,
+                    color: Theme.of(context).brightness == Brightness.dark
+                        ? Colors.white // Dark mode color
+                        : Color(0xFF273236))),
             // SizedBox(height: 40),
 
             // // Button appears immediately

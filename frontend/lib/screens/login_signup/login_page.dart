@@ -33,7 +33,11 @@ class _LoginPageState extends State<LoginPage> {
           child: Container(
             padding: EdgeInsets.all(24),
             decoration: BoxDecoration(
-                color: Colors.white, borderRadius: BorderRadius.circular(16)),
+                color: Theme.of(context).brightness == Brightness.dark
+                    ? Color(0xFF273236)
+                    // Dark mode color
+                    : Colors.white,
+                borderRadius: BorderRadius.circular(16)),
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: [
@@ -43,10 +47,16 @@ class _LoginPageState extends State<LoginPage> {
                     style: TextStyle(
                         fontSize: 20,
                         fontWeight: FontWeight.bold,
-                        color: Colors.black87)),
+                        color: Theme.of(context).brightness == Brightness.dark
+                            ? Colors.white // Dark mode color
+                            : Color(0xFF273236))),
                 SizedBox(height: 8),
                 Text('You have successfully logged in.',
-                    style: TextStyle(fontSize: 16, color: Colors.grey[600]),
+                    style: TextStyle(
+                        fontSize: 16,
+                        color: Theme.of(context).brightness == Brightness.dark
+                            ? Colors.white
+                            : Colors.grey[600]),
                     textAlign: TextAlign.center),
               ],
             ),
@@ -116,9 +126,13 @@ class _LoginPageState extends State<LoginPage> {
                             Text(
                               'Welcome Back!',
                               style: TextStyle(
-                                  fontSize: 28,
-                                  fontWeight: FontWeight.bold,
-                                  color: Color(0xFF273236)),
+                                fontSize: 28,
+                                fontWeight: FontWeight.bold,
+                                color: Theme.of(context).brightness ==
+                                        Brightness.dark
+                                    ? Colors.white // Dark mode color
+                                    : Color(0xFF273236), // Light mode color
+                              ),
                             ),
                             SizedBox(height: 8),
                             Text(
@@ -213,14 +227,24 @@ class _LoginPageState extends State<LoginPage> {
                                           email: email, password: password));
                                 },
                                 style: ElevatedButton.styleFrom(
-                                  backgroundColor: Color(0xFF191E20),
+                                  backgroundColor: Theme.of(context)
+                                              .brightness ==
+                                          Brightness.dark
+                                      ? Colors
+                                          .white // White button in dark mode
+                                      : Color(
+                                          0xFF191E20), // Dark button in light mode
                                   padding: EdgeInsets.symmetric(vertical: 18),
                                   shape: RoundedRectangleBorder(
                                       borderRadius: BorderRadius.circular(12)),
                                 ),
                                 child: Text('Login',
                                     style: TextStyle(
-                                        fontSize: 16, color: Colors.white)),
+                                        fontSize: 16,
+                                        color: Theme.of(context).brightness ==
+                                                Brightness.dark
+                                            ? Color(0xFF273236)
+                                            : Colors.white)),
                               ),
                             ),
                             SizedBox(height: 24),
@@ -231,7 +255,10 @@ class _LoginPageState extends State<LoginPage> {
                                   Text("Don’t have an account? ",
                                       style: TextStyle(
                                           fontSize: 16,
-                                          color: Color(0xFF273236))),
+                                          color: Theme.of(context).brightness ==
+                                                  Brightness.dark
+                                              ? Colors.white // Dark mode color
+                                              : Color(0xFF273236))),
                                   TextButton(
                                     onPressed: () {
                                       Navigator.push(
