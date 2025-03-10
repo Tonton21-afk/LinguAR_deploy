@@ -22,15 +22,20 @@ class AnswerFeedbackPage extends StatelessWidget {
             ),
           );
         }
+
+        if (state is QuestionLoaded && state.isCorrect != null) {
+          // Show feedback pop-up when an answer is selected
+          _showFeedbackDialog(context, state.isCorrect!);
+        }
       },
       child: Scaffold(
         backgroundColor: Theme.of(context).brightness == Brightness.dark
-            ? Color(0xFF273236)  // Dark mode color
+            ? Color(0xFF273236) // Dark mode color
             : const Color(0xFFFCEEFF),
         appBar: AppBar(
           centerTitle: true,
           backgroundColor: Theme.of(context).brightness == Brightness.dark
-              ?const Color.fromARGB(255, 29, 29, 29) // Dark mode color
+              ? const Color.fromARGB(255, 29, 29, 29) // Dark mode color
               : Colors.white,
           elevation: 0,
         ),
@@ -50,38 +55,40 @@ class AnswerFeedbackPage extends StatelessWidget {
                       children: [
                         GifDisplay(gifUrl: state.gifUrl),
                         const SizedBox(height: 5),
-                        CorrectButton(
-                          text: state.question["answer1"]!,
-                          isCorrect: state.isCorrect != null
-                              ? state.question["answer1"] ==
-                                  state.question["correct"]
-                              : null,
-                          isDisabled: state.isCorrect != null,
-                          onPressed: () {
-                            context
-                                .read<QuizBloc>()
-                                .add(CheckAnswer(state.question["answer1"]!));
-                          },
+                        SizedBox(
+                          width: double.infinity,
+                          child: CorrectButton(
+                            text: state.question["answer1"]!,
+                            isCorrect: state.isCorrect != null
+                                ? state.question["answer1"] ==
+                                    state.question["correct"]
+                                : null,
+                            isDisabled: state.isCorrect != null,
+                            onPressed: () {
+                              context
+                                  .read<QuizBloc>()
+                                  .add(CheckAnswer(state.question["answer1"]!));
+                            },
+                          ),
                         ),
                         const SizedBox(height: 5),
-                        CorrectButton(
-                          text: state.question["answer2"]!,
-                          isCorrect: state.isCorrect != null
-                              ? state.question["answer2"] ==
-                                  state.question["correct"]
-                              : null,
-                          isDisabled: state.isCorrect != null,
-                          onPressed: () {
-                            context
-                                .read<QuizBloc>()
-                                .add(CheckAnswer(state.question["answer2"]!));
-                          },
+                        SizedBox(
+                          width: double.infinity,
+                          child: CorrectButton(
+                            text: state.question["answer2"]!,
+                            isCorrect: state.isCorrect != null
+                                ? state.question["answer2"] ==
+                                    state.question["correct"]
+                                : null,
+                            isDisabled: state.isCorrect != null,
+                            onPressed: () {
+                              context
+                                  .read<QuizBloc>()
+                                  .add(CheckAnswer(state.question["answer2"]!));
+                            },
+                          ),
                         ),
                         const SizedBox(height: 5),
-                        if (state.isCorrect != null) ...[
-                          const SizedBox(height: 5),
-                          FeedbackIndicator(isCorrect: state.isCorrect!),
-                        ],
                       ],
                     );
                   }
@@ -112,6 +119,31 @@ class AnswerFeedbackPage extends StatelessWidget {
           ],
         ),
       ),
+    );
+  }
+
+  /// Function to show a pop-up feedback dialog that closes automatically after 3 seconds
+  void _showFeedbackDialog(BuildContext context, bool isCorrect) {
+    showDialog(
+      context: context,
+      barrierDismissible: false, // Prevent manual dismissal
+      builder: (BuildContext dialogContext) {
+        Future.delayed(const Duration(seconds: 3), () {
+          if (Navigator.canPop(dialogContext)) {
+            Navigator.pop(dialogContext); // Auto-close after 3 seconds
+          }
+        });
+
+        return Dialog(
+          backgroundColor: Colors.transparent, // Transparent for better effect
+          child: Container(
+            width: double.infinity,
+            height: double.infinity,
+            alignment: Alignment.center,
+            child: FeedbackIndicator(isCorrect: isCorrect), // Centered content
+          ),
+        );
+      },
     );
   }
 }
