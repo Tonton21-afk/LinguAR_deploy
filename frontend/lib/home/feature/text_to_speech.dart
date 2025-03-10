@@ -13,6 +13,7 @@ class _TextToSpeechState extends State<TextToSpeech>
   stt.SpeechToText _speech = stt.SpeechToText();
   bool _isListening = false;
   String _recognizedText = 'Kumusta ka aking kaibigan!';
+  bool _isMaleVoice = true; // Track selected voice
 
   // Text-to-Speech
   FlutterTts _flutterTts = FlutterTts();
@@ -65,7 +66,26 @@ class _TextToSpeechState extends State<TextToSpeech>
     await _flutterTts.setLanguage('en-US');
     await _flutterTts.setPitch(1.0);
     await _flutterTts.setSpeechRate(0.5);
-    print('Text-to-Speech initialized');
+    _setVoice(); // Set initial voice
+  }
+
+  void _setVoice() async {
+    List<dynamic> voices = await _flutterTts.getVoices;
+    if (voices.isEmpty) {
+      print("No available voices found.");
+      return;
+    }
+
+    String? selectedVoice =
+        _isMaleVoice ? "fil-ph-x-fie-local" : "fil-ph-x-fic-local";
+
+    await _flutterTts.setVoice({"name": selectedVoice, "locale": "fil-PH"});
+    print("Voice set to: $selectedVoice");
+  }
+
+  void _speakText(String text) async {
+    _setVoice(); // Apply voice before speaking
+    await _flutterTts.speak(text);
   }
 
   void _startListening() async {
@@ -92,10 +112,6 @@ class _TextToSpeechState extends State<TextToSpeech>
     }
   }
 
-  void _speakText(String text) async {
-    await _flutterTts.speak(text);
-  }
-
   @override
   Widget build(BuildContext context) {
     final screenWidth = MediaQuery.of(context).size.width;
@@ -105,16 +121,11 @@ class _TextToSpeechState extends State<TextToSpeech>
     return DefaultTabController(
       length: 2,
       child: Scaffold(
-        backgroundColor: Theme.of(context).brightness == Brightness.dark
-            ? Color(0xFF273236) // White button in dark mode
-            : Colors.white,
+        backgroundColor: Colors.white,
         appBar: AppBar(
           title: const Text('LinguaVoice'),
           centerTitle: true,
-          backgroundColor: Theme.of(context).brightness == Brightness.dark
-              ? const Color.fromARGB(
-                  255, 29, 29, 29) // White button in dark mode
-              : Colors.white,
+          backgroundColor: Colors.white,
           bottom: TabBar(
             tabs: [
               Tab(text: 'Speech to Text'),
@@ -138,13 +149,8 @@ class _TextToSpeechState extends State<TextToSpeech>
                       height: isSmallScreen ? 150 : 190,
                     ),
                     const SizedBox(height: 20),
-                    Text(
-                      'Hold the button and speak to display the text.',
-                      style: TextStyle(
-                          color: Theme.of(context).brightness == Brightness.dark
-                              ? Colors.white // White button in dark mode
-                              : const Color.fromARGB(255, 29, 29, 29)),
-                    ),
+                    const Text(
+                        'Hold the button and speak to display the text.'),
                     const SizedBox(height: 20),
                     Container(
                       width: screenWidth * 0.9,
@@ -170,6 +176,19 @@ class _TextToSpeechState extends State<TextToSpeech>
                         _buildIconButton(
                           icon: Icons.volume_up,
                           onTap: () => _speakText(_recognizedText),
+                          size: isSmallScreen ? 28 : 32,
+                        ),
+                        const SizedBox(width: 20),
+                        _buildIconButton(
+                          icon: _isMaleVoice ? Icons.male : Icons.female,
+                          onTap: () {
+                            setState(() {
+                              _isMaleVoice = !_isMaleVoice;
+                            });
+                            _setVoice(); // ✅ Set voice immediately on toggle
+                            print(
+                                "Voice switched to ${_isMaleVoice ? 'Male' : 'Female'}");
+                          },
                           size: isSmallScreen ? 28 : 32,
                         ),
                         const SizedBox(width: 20),
@@ -211,10 +230,7 @@ class _TextToSpeechState extends State<TextToSpeech>
                                 child: Icon(
                                   _isListening ? Icons.mic : Icons.mic_none,
                                   size: isSmallScreen ? 50 : 60,
-                                  color: Theme.of(context).brightness ==
-                                          Brightness.dark
-                                      ? Colors.white
-                                      : Colors.white,
+                                  color: Colors.white,
                                 ),
                               ),
                             ),
@@ -278,6 +294,19 @@ class _TextToSpeechState extends State<TextToSpeech>
                       ),
                     ),
                     SizedBox(height: isSmallScreen ? 40 : 60),
+                    _buildIconButton(
+                      icon: _isMaleVoice ? Icons.male : Icons.female,
+                      onTap: () {
+                        setState(() {
+                          _isMaleVoice = !_isMaleVoice;
+                        });
+                        _setVoice(); // ✅ Set voice immediately on toggle
+                        print(
+                            "Voice switched to ${_isMaleVoice ? 'Male' : 'Female'}");
+                      },
+                      size: isSmallScreen ? 28 : 32,
+                    ),
+                    const SizedBox(width: 20),
                     GestureDetector(
                       onTap: () {
                         if (_textToSpeak.isNotEmpty) {
@@ -329,26 +358,17 @@ class _TextToSpeechState extends State<TextToSpeech>
       child: Container(
         padding: const EdgeInsets.all(12.0),
         decoration: BoxDecoration(
-          color: Theme.of(context).brightness == Brightness.dark
-              ? const Color.fromARGB(
-                  255, 29, 29, 29) // White button in dark mode
-              : Colors.white,
+          color: Colors.white,
           shape: BoxShape.circle,
           boxShadow: [
             BoxShadow(
-              color: Theme.of(context).brightness == Brightness.dark
-                  ? Colors.grey.withOpacity(0.4) // White button in dark mode
-                  : Colors.grey.withOpacity(0.4),
+              color: Colors.grey.withOpacity(0.4),
               spreadRadius: 2,
               blurRadius: 5,
             ),
           ],
         ),
-        child: Icon(icon,
-            size: size,
-            color: Theme.of(context).brightness == Brightness.dark
-                ? Colors.white // White button in dark mode
-                : Colors.black),
+        child: Icon(icon, size: size, color: Colors.black),
       ),
     );
   }
