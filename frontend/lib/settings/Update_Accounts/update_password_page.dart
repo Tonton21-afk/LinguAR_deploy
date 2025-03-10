@@ -72,7 +72,9 @@ class _UpdatePasswordModalState extends State<UpdatePasswordModal> {
             width: double.infinity,
             height: modalHeight,
             decoration: BoxDecoration(
-              color: Colors.white,
+              color: Theme.of(context).brightness == Brightness.dark
+                  ? Color(0xFF273236)
+                  : Colors.white,
               borderRadius: BorderRadius.vertical(top: Radius.circular(16)),
             ),
             padding: EdgeInsets.all(16),
@@ -103,12 +105,20 @@ class _UpdatePasswordModalState extends State<UpdatePasswordModal> {
                 if (currentStep == 0) ...[
                   Center(
                     child: ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                          backgroundColor:
+                              Theme.of(context).brightness == Brightness.dark
+                                  ? const Color.fromARGB(255, 29, 29, 29)
+                                  : Color(0xFF4A90E2)),
                       onPressed: () {
                         context
                             .read<OtpBloc>()
                             .add(SendOtpEvent(email: userEmail));
                       },
-                      child: Text('Send Code'),
+                      child: Text('Send Code',
+                          style: TextStyle(
+                            color: Colors.white,
+                          )),
                     ),
                   ),
                 ],
@@ -121,11 +131,19 @@ class _UpdatePasswordModalState extends State<UpdatePasswordModal> {
                   SizedBox(height: 16),
                   Center(
                     child: ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                          backgroundColor:
+                              Theme.of(context).brightness == Brightness.dark
+                                  ? const Color.fromARGB(255, 29, 29, 29)
+                                  : Color(0xFF4A90E2)),
                       onPressed: () {
                         context.read<OtpBloc>().add(VerifyOtpEvent(
                             email: userEmail, otp: codeController.text));
                       },
-                      child: Text('Verify Code'),
+                      child: Text(
+                        'Verify Code',
+                        style: TextStyle(color: Colors.white),
+                      ),
                     ),
                   ),
                 ],
@@ -182,6 +200,11 @@ class _UpdatePasswordModalState extends State<UpdatePasswordModal> {
                   SizedBox(height: 16),
                   Center(
                     child: ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                          backgroundColor:
+                              Theme.of(context).brightness == Brightness.dark
+                                  ? const Color.fromARGB(255, 29, 29, 29)
+                                  : Color(0xFF4A90E2)),
                       onPressed: () {
                         final newPassword = newPasswordController.text.trim();
                         final confirmPassword =
@@ -228,7 +251,10 @@ class _UpdatePasswordModalState extends State<UpdatePasswordModal> {
                           });
                         }
                       }, // Call validation function
-                      child: Text('Change Password'),
+                      child: Text(
+                        'Change Password',
+                        style: TextStyle(color: Colors.white),
+                      ),
                     ),
                   ),
                 ],

@@ -105,11 +105,16 @@ class _TextToSpeechState extends State<TextToSpeech>
     return DefaultTabController(
       length: 2,
       child: Scaffold(
-        backgroundColor: Colors.white,
+        backgroundColor: Theme.of(context).brightness == Brightness.dark
+            ? Color(0xFF273236) // White button in dark mode
+            : Colors.white,
         appBar: AppBar(
           title: const Text('LinguaVoice'),
           centerTitle: true,
-          backgroundColor: Colors.white,
+          backgroundColor: Theme.of(context).brightness == Brightness.dark
+              ? const Color.fromARGB(
+                  255, 29, 29, 29) // White button in dark mode
+              : Colors.white,
           bottom: TabBar(
             tabs: [
               Tab(text: 'Speech to Text'),
@@ -133,8 +138,13 @@ class _TextToSpeechState extends State<TextToSpeech>
                       height: isSmallScreen ? 150 : 190,
                     ),
                     const SizedBox(height: 20),
-                    const Text(
-                        'Hold the button and speak to display the text.'),
+                    Text(
+                      'Hold the button and speak to display the text.',
+                      style: TextStyle(
+                          color: Theme.of(context).brightness == Brightness.dark
+                              ? Colors.white // White button in dark mode
+                              : const Color.fromARGB(255, 29, 29, 29)),
+                    ),
                     const SizedBox(height: 20),
                     Container(
                       width: screenWidth * 0.9,
@@ -201,7 +211,10 @@ class _TextToSpeechState extends State<TextToSpeech>
                                 child: Icon(
                                   _isListening ? Icons.mic : Icons.mic_none,
                                   size: isSmallScreen ? 50 : 60,
-                                  color: Colors.white,
+                                  color: Theme.of(context).brightness ==
+                                          Brightness.dark
+                                      ? Colors.white
+                                      : Colors.white,
                                 ),
                               ),
                             ),
@@ -316,17 +329,26 @@ class _TextToSpeechState extends State<TextToSpeech>
       child: Container(
         padding: const EdgeInsets.all(12.0),
         decoration: BoxDecoration(
-          color: Colors.white,
+          color: Theme.of(context).brightness == Brightness.dark
+              ? const Color.fromARGB(
+                  255, 29, 29, 29) // White button in dark mode
+              : Colors.white,
           shape: BoxShape.circle,
           boxShadow: [
             BoxShadow(
-              color: Colors.grey.withOpacity(0.4),
+              color: Theme.of(context).brightness == Brightness.dark
+                  ? Colors.grey.withOpacity(0.4) // White button in dark mode
+                  : Colors.grey.withOpacity(0.4),
               spreadRadius: 2,
               blurRadius: 5,
             ),
           ],
         ),
-        child: Icon(icon, size: size, color: Colors.black),
+        child: Icon(icon,
+            size: size,
+            color: Theme.of(context).brightness == Brightness.dark
+                ? Colors.white // White button in dark mode
+                : Colors.black),
       ),
     );
   }

@@ -3,11 +3,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:lingua_arv1/bloc/Change_email/change_email_bloc.dart';
 import 'package:lingua_arv1/bloc/Otp/otp_bloc.dart';
 
-
 import 'package:lingua_arv1/validators/token.dart';
 import 'package:provider/provider.dart';
-
-
 
 class UpdateEmailModal extends StatefulWidget {
   @override
@@ -72,7 +69,9 @@ class _UpdateEmailModalState extends State<UpdateEmailModal> {
             width: double.infinity,
             height: modalHeight,
             decoration: BoxDecoration(
-              color: Colors.white,
+              color: Theme.of(context).brightness == Brightness.dark
+                  ? Color(0xFF273236)
+                  : Colors.white,
               borderRadius: BorderRadius.vertical(top: Radius.circular(16)),
             ),
             padding: EdgeInsets.all(16),
@@ -102,18 +101,36 @@ class _UpdateEmailModalState extends State<UpdateEmailModal> {
                 SizedBox(height: 20),
                 if (currentStep == 0) ...[
                   Text("Current Email:",
-                      style:
-                          TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
+                      style: TextStyle(
+                          fontSize: 16,
+                          fontWeight: FontWeight.bold,
+                          color: Theme.of(context).brightness == Brightness.dark
+                              ? Colors.white // White button in dark mode
+                              : Colors.black)),
                   SizedBox(height: 4),
                   Text(userEmail,
-                      style: TextStyle(fontSize: 16, color: Colors.grey[700])),
+                      style: TextStyle(
+                          fontSize: 16,
+                          color: Theme.of(context).brightness == Brightness.dark
+                              ? Colors.white // White button in dark mode
+                              : Colors.grey[700])),
                   SizedBox(height: 16),
                   Center(
                     child: ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                          backgroundColor:
+                              Theme.of(context).brightness == Brightness.dark
+                                  ? const Color.fromARGB(255, 29, 29, 29)
+                                  : Color(0xFF4A90E2)),
                       onPressed: () {
-                        context.read<OtpBloc>().add(SendOtpEvent(email:userEmail));
+                        context
+                            .read<OtpBloc>()
+                            .add(SendOtpEvent(email: userEmail));
                       },
-                      child: Text('Send Code'),
+                      child: Text('Send Code',
+                          style: TextStyle(
+                            color: Colors.white,
+                          )),
                     ),
                   ),
                 ],
@@ -126,11 +143,19 @@ class _UpdateEmailModalState extends State<UpdateEmailModal> {
                   SizedBox(height: 16),
                   Center(
                     child: ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                          backgroundColor:
+                              Theme.of(context).brightness == Brightness.dark
+                                  ? const Color.fromARGB(255, 29, 29, 29)
+                                  : Color(0xFF4A90E2)),
                       onPressed: () {
-                        context.read<OtpBloc>().add(
-                            VerifyOtpEvent(email:userEmail, otp:codeController.text));
+                        context.read<OtpBloc>().add(VerifyOtpEvent(
+                            email: userEmail, otp: codeController.text));
                       },
-                      child: Text('Verify Code'),
+                      child: Text(
+                        'Verify Code',
+                        style: TextStyle(color: Colors.white),
+                      ),
                     ),
                   ),
                 ],
@@ -143,6 +168,11 @@ class _UpdateEmailModalState extends State<UpdateEmailModal> {
                   SizedBox(height: 16),
                   Center(
                     child: ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                          backgroundColor:
+                              Theme.of(context).brightness == Brightness.dark
+                                  ? const Color.fromARGB(255, 29, 29, 29)
+                                  : Color(0xFF4A90E2)),
                       onPressed: () {
                         context.read<ResetEmailBloc>().add(
                               SubmitResetEmail(
@@ -152,7 +182,10 @@ class _UpdateEmailModalState extends State<UpdateEmailModal> {
                               ),
                             );
                       },
-                      child: Text('Change Email'),
+                      child: Text(
+                        'Change Email',
+                        style: TextStyle(color: Colors.white),
+                      ),
                     ),
                   ),
                 ],

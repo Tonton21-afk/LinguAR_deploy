@@ -23,24 +23,21 @@ class SettingsPage extends StatefulWidget {
 
 class _SettingsPageState extends State<SettingsPage> {
   String? userId;
+  Map<String, String> settings = {};
 
   Future<void> _loadUserId() async {
     String? fetchedUserId = await TokenService.getUserId();
     String? fetchedEmail = await TokenService.getEmail();
+    bool isDarkMode = Theme.of(context).brightness == Brightness.dark;
 
     if (mounted) {
       setState(() {
         userId = fetchedUserId ?? 'Unknown';
         settings['Email'] = fetchedEmail ?? 'No Email Found';
+        settings['Theme'] = isDarkMode ? 'Dark' : 'Light';
       });
     }
   }
-
-  Map<String, String> settings = {
-    'Theme': 'Light',
-    'Language': 'English',
-    'Password': '********',
-  };
 
   late ScrollController _scrollController;
   Color appBarColor = Color(0xFFFEFFFE);
@@ -85,6 +82,44 @@ class _SettingsPageState extends State<SettingsPage> {
         ],
         child: UpdateEmailModal(), // Now it's correctly provided.
       ),
+    );
+  }
+
+  void _showThemeDialog(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text("Choose Theme"),
+          content: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              ListTile(
+                title: Text("Light"),
+                onTap: () {
+                  Provider.of<ThemeProvider>(context, listen: false)
+                      .toggleTheme(false);
+                  setState(() {
+                    settings['Theme'] = 'Light';
+                  });
+                  Navigator.of(context).pop();
+                },
+              ),
+              ListTile(
+                title: Text("Dark"),
+                onTap: () {
+                  Provider.of<ThemeProvider>(context, listen: false)
+                      .toggleTheme(true);
+                  setState(() {
+                    settings['Theme'] = 'Dark';
+                  });
+                  Navigator.of(context).pop();
+                },
+              ),
+            ],
+          ),
+        );
+      },
     );
   }
 
@@ -170,18 +205,7 @@ class _SettingsPageState extends State<SettingsPage> {
               title: 'Theme',
               value: settings['Theme'] ?? 'Light',
               icon: Icons.brightness_6,
-              options: ['Light', 'Dark'],
-              settings: settings,
-              
-              onTap: () {
-                final themeProvider =
-                    Provider.of<ThemeProvider>(context, listen: false);
-                bool isDark = settings['Theme'] == 'Light' ? true : false;
-                themeProvider.toggleTheme(isDark);
-                setState(() {
-                  settings['Theme'] = isDark ? 'Dark' : 'Light';
-                });
-              },
+              onTap: () => _showThemeDialog(context),
             ),
             SettingListTile(
               title: 'Language',
