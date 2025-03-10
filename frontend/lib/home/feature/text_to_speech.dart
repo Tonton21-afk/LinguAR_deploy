@@ -126,6 +126,18 @@ class _TextToSpeechState extends State<TextToSpeech>
           title: const Text('LinguaVoice'),
           centerTitle: true,
           backgroundColor: Colors.white,
+          actions: [
+            IconButton(
+              icon: Icon(_isMaleVoice ? Icons.male : Icons.female),
+              onPressed: () {
+                setState(() {
+                  _isMaleVoice = !_isMaleVoice;
+                });
+                _setVoice(); // ✅ Set voice immediately on toggle
+                print("Voice switched to ${_isMaleVoice ? 'Male' : 'Female'}");
+              },
+            ),
+          ],
           bottom: TabBar(
             tabs: [
               Tab(text: 'Speech to Text'),
@@ -176,19 +188,6 @@ class _TextToSpeechState extends State<TextToSpeech>
                         _buildIconButton(
                           icon: Icons.volume_up,
                           onTap: () => _speakText(_recognizedText),
-                          size: isSmallScreen ? 28 : 32,
-                        ),
-                        const SizedBox(width: 20),
-                        _buildIconButton(
-                          icon: _isMaleVoice ? Icons.male : Icons.female,
-                          onTap: () {
-                            setState(() {
-                              _isMaleVoice = !_isMaleVoice;
-                            });
-                            _setVoice(); // ✅ Set voice immediately on toggle
-                            print(
-                                "Voice switched to ${_isMaleVoice ? 'Male' : 'Female'}");
-                          },
                           size: isSmallScreen ? 28 : 32,
                         ),
                         const SizedBox(width: 20),
@@ -294,19 +293,6 @@ class _TextToSpeechState extends State<TextToSpeech>
                       ),
                     ),
                     SizedBox(height: isSmallScreen ? 40 : 60),
-                    _buildIconButton(
-                      icon: _isMaleVoice ? Icons.male : Icons.female,
-                      onTap: () {
-                        setState(() {
-                          _isMaleVoice = !_isMaleVoice;
-                        });
-                        _setVoice(); // ✅ Set voice immediately on toggle
-                        print(
-                            "Voice switched to ${_isMaleVoice ? 'Male' : 'Female'}");
-                      },
-                      size: isSmallScreen ? 28 : 32,
-                    ),
-                    const SizedBox(width: 20),
                     GestureDetector(
                       onTap: () {
                         if (_textToSpeak.isNotEmpty) {
