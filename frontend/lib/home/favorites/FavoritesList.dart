@@ -3,32 +3,84 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:lingua_arv1/bloc/Gif/gif_bloc.dart';
 import 'package:lingua_arv1/bloc/Gif/gif_event.dart';
 import 'package:lingua_arv1/bloc/Gif/gif_state.dart';
+import 'package:http/http.dart' as http;
+import 'dart:convert';
+import 'package:lingua_arv1/repositories/Config.dart';
+import 'package:lingua_arv1/validators/token.dart';
 
-class FavoritesList extends StatelessWidget {
+class FavoritesList extends StatefulWidget {
   final List<Map<String, dynamic>> favorites;
 
   const FavoritesList({Key? key, required this.favorites}) : super(key: key);
 
-  /// Show a dialog with the mapped value
-  void _showFavoriteDialog(
-      BuildContext context, String phrase, String mappedValue) {
+  @override
+  State<FavoritesList> createState() => _FavoritesListState();
+}
+
+class _FavoritesListState extends State<FavoritesList> {
+  String? userId;
+  String basicurl = BasicUrl.baseURL;
+
+  @override
+  void initState() {
+    super.initState();
+    _loadUserId();
+  }
+
+  /// Load the User ID
+  Future<void> _loadUserId() async {
+    userId = await TokenService.getUserId();
+  }
+
+  /// Show a pop-up confirmation before deleting a favorite
+  void _showDeleteConfirmation(BuildContext context, String phrase) {
     showDialog(
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: Text(phrase, style: TextStyle(fontWeight: FontWeight.bold)),
-          content: Text("Mapped Value: $mappedValue"),
+          title: Text("Remove Favorite"),
+          content: Text(
+              "Are you sure you want to remove \"$phrase\" from your favorites?"),
           actions: [
             TextButton(
+              onPressed: () => Navigator.of(context).pop(),
+              child: Text("Cancel"),
+            ),
+            TextButton(
               onPressed: () {
+                _removeFavorite(phrase);
                 Navigator.of(context).pop();
               },
-              child: Text("Close"),
+              child: Text("OK", style: TextStyle(color: Colors.red)),
             ),
           ],
         );
       },
     );
+  }
+
+  /// Remove a favorite from the database
+  Future<void> _removeFavorite(String phrase) async {
+    if (userId == null) return;
+
+    try {
+      final response = await http.delete(
+        Uri.parse(
+            '$basicurl/favorites/favorites/$userId/${Uri.encodeComponent(phrase)}'),
+        headers: {"Content-Type": "application/json"},
+      );
+
+      if (response.statusCode == 200) {
+        setState(() {
+          widget.favorites.removeWhere((fav) => fav['item'] == phrase);
+        });
+        print("✅ Removed from favorites: $phrase");
+      } else {
+        print("❌ Error removing favorite: ${response.body}");
+      }
+    } catch (e) {
+      print("❌ Exception removing favorite: $e");
+    }
   }
 
   /// Show a GIF popup
@@ -67,7 +119,7 @@ class FavoritesList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    if (favorites.isEmpty) {
+    if (widget.favorites.isEmpty) {
       return Center(
         child: Text(
           "No favorites added yet.",
@@ -82,25 +134,41 @@ class FavoritesList extends StatelessWidget {
         children: [
           Expanded(
             child: ListView.builder(
-              itemCount: favorites.length,
+              itemCount: widget.favorites.length,
               itemBuilder: (context, index) {
-                final favorite = favorites[index];
+                final favorite = widget.favorites[index];
                 final phrase = favorite['item'] ?? 'Unknown';
                 final mappedValue = favorite['mapped_value'] ?? 'Unknown Path';
 
-                return Card(
-                    elevation: 5,
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(12)),
-                    child: ListTile(
-                      leading: Icon(Icons.star, color: Colors.yellow),
-                      title: Text(phrase,
-                          style: TextStyle(fontWeight: FontWeight.bold)),
-                      onTap: () {
-                        context.read<GifBloc>().add(
-                            FetchGif(phrase: phrase, publicId: mappedValue));
-                      },
-                    ));
+                return Dismissible(
+                    key: Key(phrase),
+                    direction:
+                        DismissDirection.endToStart, // Swipe from right to left
+                    background: Container(
+                      color: Colors.red,
+                      alignment: Alignment.centerRight,
+                      padding: EdgeInsets.symmetric(horizontal: 20),
+                      child: Icon(Icons.delete, color: Colors.white),
+                    ),
+                    confirmDismiss: (direction) async {
+                      _showDeleteConfirmation(context, phrase);
+                      return false; // Prevent immediate deletion until confirmed
+                    },
+                    child: Card(
+                        elevation: 5,
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(12)),
+                        child: ListTile(
+                          title: Text(phrase,
+                              style: TextStyle(fontWeight: FontWeight.bold)),
+                          trailing: Icon(Icons.star,
+                              color: Colors.yellow), // Star on the right side
+
+                          onTap: () {
+                            context.read<GifBloc>().add(FetchGif(
+                                phrase: phrase, publicId: mappedValue));
+                          },
+                        )));
               },
             ),
           ),
