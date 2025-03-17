@@ -138,7 +138,8 @@ class _HomePageState extends State<HomePage> {
                             ),
                             backgroundColor:
                                 Theme.of(context).brightness == Brightness.dark
-                                    ? const Color.fromARGB(255, 29, 29, 29) // ✅ Darker gray
+                                    ? const Color.fromARGB(
+                                        255, 29, 29, 29) // ✅ Darker gray
                                     // Dark mode color
                                     : Color(0xFF273236),
                             onTap: () {

@@ -55,7 +55,7 @@ class _CardPage3State extends State<CardPage3> {
             publicId: educationMappings[currentPhrase] ?? "",
             phrase: currentPhrase)),
       child: Scaffold(
-        backgroundColor: isDarkMode 
+        backgroundColor: isDarkMode
             ? Color(0xFF273236) // ✅ Dark mode background
             : const Color(0xFFFCEEFF), // ✅ Light mode background
         appBar: AppBar(
@@ -73,14 +73,16 @@ class _CardPage3State extends State<CardPage3> {
               : Colors.white, // ✅ Light mode app bar
           elevation: 0,
           leading: IconButton(
-            icon: Icon(Icons.arrow_back, color: isDarkMode ? Colors.white : Colors.black),
+            icon: Icon(Icons.arrow_back,
+                color: isDarkMode ? Colors.white : Colors.black),
             onPressed: () {
               Navigator.pop(context);
             },
           ),
           actions: [
             IconButton(
-              icon: Icon(Icons.help_outline, color: isDarkMode ? Colors.white : Colors.black),
+              icon: Icon(Icons.help_outline,
+                  color: isDarkMode ? Colors.white : Colors.black),
               onPressed: _showUserGuide,
             ),
           ],
@@ -153,8 +155,9 @@ class _CardPage3State extends State<CardPage3> {
                       );
                     },
                     style: ElevatedButton.styleFrom(
-                      backgroundColor: Colors.indigo[900],
-                      padding: EdgeInsets.symmetric(vertical: 15, horizontal: 80),
+                      backgroundColor: Color(0xFF273236),
+                      padding:
+                          EdgeInsets.symmetric(vertical: 15, horizontal: 80),
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(30),
                       ),
@@ -193,7 +196,8 @@ class _CardPage3State extends State<CardPage3> {
                         onPressed: _dismissGuide,
                         style: ElevatedButton.styleFrom(
                           backgroundColor: Colors.orange,
-                          padding: EdgeInsets.symmetric(horizontal: 40, vertical: 15),
+                          padding: EdgeInsets.symmetric(
+                              horizontal: 40, vertical: 15),
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(20),
                           ),

@@ -159,7 +159,7 @@ class _CardPage2State extends State<CardPage2> {
                       );
                     },
                     style: ElevatedButton.styleFrom(
-                      backgroundColor: Colors.indigo[900],
+                      backgroundColor: Color(0xFF273236),
                       padding:
                           EdgeInsets.symmetric(vertical: 15, horizontal: 80),
                       shape: RoundedRectangleBorder(
