@@ -122,8 +122,7 @@ class _CardPage5State extends State<CardPage5> {
                 ),
                 SizedBox(height: 30),
                 Container(
-                  width: 150,
-                  height: 60,
+                  padding: EdgeInsets.symmetric(vertical: 10, horizontal: 15),
                   decoration: BoxDecoration(
                     border: Border.all(
                       color: isDarkMode ? Colors.white : Colors.black,
@@ -131,11 +130,11 @@ class _CardPage5State extends State<CardPage5> {
                     ),
                     borderRadius: BorderRadius.circular(10),
                   ),
-                  alignment: Alignment.center,
                   child: Text(
                     currentPhrase,
+                    textAlign: TextAlign.center,
                     style: TextStyle(
-                      fontSize: 25,
+                      fontSize: 22,
                       fontWeight: FontWeight.bold,
                       color: isDarkMode ? Colors.white : Colors.black,
                     ),
@@ -155,7 +154,7 @@ class _CardPage5State extends State<CardPage5> {
                       );
                     },
                     style: ElevatedButton.styleFrom(
-                      backgroundColor: Color(0xFF273236),
+                      backgroundColor: Color(0xFF4A90E2),
                       padding:
                           EdgeInsets.symmetric(vertical: 15, horizontal: 80),
                       shape: RoundedRectangleBorder(

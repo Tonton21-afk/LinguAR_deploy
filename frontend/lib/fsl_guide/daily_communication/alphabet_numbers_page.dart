@@ -20,10 +20,31 @@ class _AlphabetNumbersPageState extends State<AlphabetNumbersPage> {
   Map<String, bool> favorites = {};
   String basicurl = BasicUrl.baseURL;
 
+  late ScrollController _scrollController;
+  Color appBarColor = Color(0xFFFEFFFE);
+
   @override
   void initState() {
     super.initState();
+    _scrollController = ScrollController();
+    _scrollController.addListener(() {
+      bool isDarkMode = Theme.of(context).brightness == Brightness.dark;
+
+      setState(() {
+        appBarColor = _scrollController.offset > 50
+            ? const Color(0xFF4A90E2) // Scrolled color
+            : (isDarkMode
+                ? Color(0xFF273236)
+                : const Color(0xFFFEFFFE)); // ✅ Black in dark mode
+      });
+    });
     _loadUserId();
+  }
+
+  @override
+  void dispose() {
+    _scrollController.dispose();
+    super.dispose();
   }
 
   Future<void> _loadUserId() async {
@@ -148,53 +169,84 @@ class _AlphabetNumbersPageState extends State<AlphabetNumbersPage> {
 
   @override
   Widget build(BuildContext context) {
+    final screenWidth = MediaQuery.of(context).size.width;
+    bool isDarkMode = Theme.of(context).brightness == Brightness.dark;
+
+    if (_scrollController.hasClients && _scrollController.offset > 50) {
+      appBarColor = const Color(0xFF4A90E2); // ✅ Keeps blue if already scrolled
+    } else {
+      appBarColor = isDarkMode
+          ? const Color.fromARGB(255, 29, 29, 29)
+          : const Color(0xFFFEFFFE);
+    }
+
     return BlocProvider(
       create: (context) => GifBloc(),
       child: Scaffold(
         backgroundColor: Theme.of(context).brightness == Brightness.dark
             ? Color(0xFF273236)
-            // Dark mode color
             : const Color(0xFFFEFFFE),
-        appBar: AppBar(
-          title: Text('Alphabets and Numbers'),
-          backgroundColor: Theme.of(context).brightness == Brightness.dark
-              ? const Color.fromARGB(
-                  255, 29, 29, 29) // White button in dark mode
-              : Colors.white,
-        ),
-        body: ListView.builder(
-          padding: EdgeInsets.all(16),
-          itemCount: phrases.length,
-          itemBuilder: (context, index) {
-            String phrase = phrases[index];
-            bool isFavorite = favorites[phrase] ?? false;
-            return Card(
-              elevation: 5,
-              shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(12)),
-              child: ListTile(
-                contentPadding:
-                    EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-                title:
-                    Text(phrase, style: TextStyle(fontWeight: FontWeight.bold)),
-                trailing: IconButton(
-                  icon: Icon(
-                    isFavorite ? Icons.star : Icons.star_border,
-                    color: isFavorite ? Colors.yellow : Colors.grey,
+        body: NestedScrollView(
+          controller: _scrollController,
+          headerSliverBuilder: (context, innerBoxIsScrolled) {
+            return [
+              SliverAppBar(
+                pinned: true,
+                // automaticallyImplyLeading: false,
+                backgroundColor: appBarColor,
+                elevation: 4,
+                expandedHeight: kToolbarHeight,
+                flexibleSpace: FlexibleSpaceBar(
+                  centerTitle: true,
+                  title: Text(
+                    'Alphabets and Numbers',
+                    style: TextStyle(
+                      fontSize: screenWidth * 0.045,
+                      color: Theme.of(context).brightness == Brightness.dark
+                          ? Colors.white // ✅ Always white in dark mode
+                          : (appBarColor == const Color(0xFFFEFFFE)
+                              ? Colors.black
+                              : Colors.white),
+                    ),
                   ),
-                  onPressed: () => _toggleFavorite(phrase),
                 ),
-                onTap: () {
-                  String publicId = alphabetNumbersMappings[phrase] ?? '';
-                  if (publicId.isNotEmpty) {
-                    context
-                        .read<GifBloc>()
-                        .add(FetchGif(phrase: phrase, publicId: publicId));
-                  }
-                },
               ),
-            );
+            ];
           },
+          body: ListView.builder(
+            padding: EdgeInsets.all(16),
+            itemCount: phrases.length,
+            itemBuilder: (context, index) {
+              String phrase = phrases[index];
+              bool isFavorite = favorites[phrase] ?? false;
+              return Card(
+                elevation: 5,
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(12)),
+                child: ListTile(
+                  contentPadding:
+                      EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                  title: Text(phrase,
+                      style: TextStyle(fontWeight: FontWeight.bold)),
+                  trailing: IconButton(
+                    icon: Icon(
+                      isFavorite ? Icons.star : Icons.star_border,
+                      color: isFavorite ? Colors.yellow : Colors.grey,
+                    ),
+                    onPressed: () => _toggleFavorite(phrase),
+                  ),
+                  onTap: () {
+                    String publicId = alphabetNumbersMappings[phrase] ?? '';
+                    if (publicId.isNotEmpty) {
+                      context
+                          .read<GifBloc>()
+                          .add(FetchGif(phrase: phrase, publicId: publicId));
+                    }
+                  },
+                ),
+              );
+            },
+          ),
         ),
         bottomSheet: BlocBuilder<GifBloc, GifState>(
           builder: (context, state) {

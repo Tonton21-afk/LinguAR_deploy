@@ -14,7 +14,7 @@ class NextButton extends StatelessWidget {
       child: ElevatedButton(
         onPressed: isEnabled ? onPressed : null,
         style: ElevatedButton.styleFrom(
-          backgroundColor: isEnabled ? const Color(0xFF273236) : Colors.grey,
+          backgroundColor: isEnabled ? const Color(0xFF4A90E2) : Colors.grey,
           padding: const EdgeInsets.symmetric(vertical: 15, horizontal: 80),
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(30),
