@@ -123,7 +123,13 @@ class _TextToSpeechState extends State<TextToSpeech>
       child: Scaffold(
         backgroundColor: Colors.white,
         appBar: AppBar(
-          title: const Text('LinguaVoice'),
+          title: Text(
+            'LinguaVoice',
+            style: TextStyle(
+              fontSize: screenWidth * 0.045,
+              // fontWeight: FontWeight.bold, // Bold font
+            ),
+          ),
           centerTitle: true,
           backgroundColor: Colors.white,
           actions: [
