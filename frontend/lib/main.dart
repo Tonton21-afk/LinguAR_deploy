@@ -4,6 +4,7 @@ import 'package:lingua_arv1/validators/token.dart';
 import 'package:lottie/lottie.dart';
 import 'package:lingua_arv1/screens/get_started/get_started_page1.dart';
 import 'package:provider/provider.dart';
+import 'package:flutter_vector_icons/flutter_vector_icons.dart'; // Import for cooler icons
 import 'home/home_page.dart';
 import 'fsl_translate/fsl_translate_page.dart';
 import 'fsl_guide/fsl_guide_page.dart';
@@ -190,12 +191,22 @@ class _HomeScreenState extends State<HomeScreen> {
         selectedItemColor: Color(0xFF4A90E2),
         unselectedItemColor: Colors.grey,
         items: [
-          BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Home'),
           BottomNavigationBarItem(
-              icon: Icon(Icons.translate), label: 'Translate'),
-          BottomNavigationBarItem(icon: Icon(Icons.menu_book), label: 'Guide'),
+            icon: Icon(AntDesign.home),
+            label: 'Home',
+          ),
           BottomNavigationBarItem(
-              icon: Icon(Icons.settings), label: 'Settings'),
+            icon: Icon(Feather.book),
+            label: 'Lessons',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(MaterialCommunityIcons.book_open),
+            label: 'Guide',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Feather.settings),
+            label: 'Settings',
+          ),
         ],
       ),
     );
