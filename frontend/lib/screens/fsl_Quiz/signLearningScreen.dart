@@ -184,7 +184,7 @@ class _SignLearningScreenState extends State<SignLearningScreen> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Text(
-                        "Welcome to Sign Learning!",
+                        "Welcome to Fsl Quiz!",
                         style: TextStyle(
                             color: Colors.white,
                             fontSize: 22,

@@ -178,7 +178,7 @@ class _CardPage3State extends State<CardPage3> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Text(
-                        "Welcome to Sign Learning!",
+                        "Welcome to FSL Quiz!",
                         style: TextStyle(
                           color: Colors.white,
                           fontSize: 22,
