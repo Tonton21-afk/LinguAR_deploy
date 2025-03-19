@@ -78,7 +78,9 @@ class _GestureTranslatorState extends State<GestureTranslator> {
   /// Captures an image and sends it to the API for gesture recognition
   void _startPrediction() async {
     while (_isMounted && !_stopPrediction) {
-      if (!isPredicting && _cameraController != null && _cameraController!.value.isInitialized) {
+      if (!isPredicting &&
+          _cameraController != null &&
+          _cameraController!.value.isInitialized) {
         setState(() {
           isPredicting = true;
         });
@@ -87,12 +89,15 @@ class _GestureTranslatorState extends State<GestureTranslator> {
           XFile? imageFile = await _cameraController!.takePicture();
           Uint8List imageBytes = await imageFile.readAsBytes();
 
-          var request = http.MultipartRequest('POST', Uri.parse('$url/gesture/hands'));
-          request.files.add(http.MultipartFile.fromBytes('file', imageBytes, filename: "gesture.jpg"));
+          var request =
+              http.MultipartRequest('POST', Uri.parse('$url/gesture/hands'));
+          request.files.add(http.MultipartFile.fromBytes('file', imageBytes,
+              filename: "gesture.jpg"));
 
           var response = await request.send();
           if (response.statusCode == 200) {
-            var jsonResponse = jsonDecode(await response.stream.bytesToString());
+            var jsonResponse =
+                jsonDecode(await response.stream.bytesToString());
             setState(() {
               predictedCharacter = jsonResponse["predicted_character"];
             });
@@ -154,20 +159,21 @@ class _GestureTranslatorState extends State<GestureTranslator> {
       ),
       body: Stack(
         children: [
-          if (_cameraController != null && _cameraController!.value.isInitialized)
+          if (_cameraController != null &&
+              _cameraController!.value.isInitialized)
             Center(
               child: FittedBox(
                 fit: BoxFit.cover,
                 child: SizedBox(
                   width: MediaQuery.of(context).size.width,
-                  height: MediaQuery.of(context).size.width * _cameraController!.value.aspectRatio,
+                  height: MediaQuery.of(context).size.width *
+                      _cameraController!.value.aspectRatio,
                   child: CameraPreview(_cameraController!),
                 ),
               ),
             )
           else
             Center(child: CircularProgressIndicator()),
-
           Positioned(
             bottom: 20,
             left: 0,
@@ -180,13 +186,23 @@ class _GestureTranslatorState extends State<GestureTranslator> {
               ),
               child: Column(
                 children: [
-                  Text("Predicted Character:", style: TextStyle(fontSize: 18, color: Colors.white)),
+                  Text("Predicted Character:",
+                      style: TextStyle(fontSize: 18, color: Colors.white)),
                   SizedBox(height: 8),
-                  Text(predictedCharacter, style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold, color: Colors.blue)),
+                  Text(predictedCharacter,
+                      style: TextStyle(
+                          fontSize: 24,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.blue)),
                   SizedBox(height: 20),
-                  Text("Formed Word:", style: TextStyle(fontSize: 18, color: Colors.white)),
+                  Text("Formed Word:",
+                      style: TextStyle(fontSize: 18, color: Colors.white)),
                   SizedBox(height: 8),
-                  Text(formedWord, style: TextStyle(fontSize: 28, fontWeight: FontWeight.bold, color: Colors.blue)),
+                  Text(formedWord,
+                      style: TextStyle(
+                          fontSize: 28,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.blue)),
                   SizedBox(height: 20),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
@@ -195,18 +211,22 @@ class _GestureTranslatorState extends State<GestureTranslator> {
                         onPressed: _addToWord,
                         style: ElevatedButton.styleFrom(
                           backgroundColor: Colors.blue,
-                          padding: EdgeInsets.symmetric(horizontal: 24, vertical: 12),
+                          padding: EdgeInsets.symmetric(
+                              horizontal: 24, vertical: 12),
                         ),
-                        child: Text("Add to Word", style: TextStyle(fontSize: 16)),
+                        child:
+                            Text("Add to Word", style: TextStyle(fontSize: 16)),
                       ),
                       SizedBox(width: 16),
                       ElevatedButton(
                         onPressed: _clearWord,
                         style: ElevatedButton.styleFrom(
                           backgroundColor: Colors.red,
-                          padding: EdgeInsets.symmetric(horizontal: 24, vertical: 12),
+                          padding: EdgeInsets.symmetric(
+                              horizontal: 24, vertical: 12),
                         ),
-                        child: Text("Clear Word", style: TextStyle(fontSize: 16)),
+                        child:
+                            Text("Clear Word", style: TextStyle(fontSize: 16)),
                       ),
                     ],
                   ),
