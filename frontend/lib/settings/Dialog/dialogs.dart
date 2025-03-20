@@ -9,7 +9,7 @@ void showPrivacyPolicy(BuildContext context) {
       return AlertDialog(
         title: Text('Privacy Policy'),
         content: const SingleChildScrollView(
-            child: Text('''Effective Date: [January 32, 2025]
+            child: Text('''Effective Date: [November 31, 2025]
 
 Thank you for using LinguaAR. Your privacy is important to us. This Privacy Policy explains how we collect, use, and protect your information when you use our application.
 
@@ -17,13 +17,10 @@ Thank you for using LinguaAR. Your privacy is important to us. This Privacy Poli
 
 LinguaAR requires user account creation, and we collect the following types of information:
 
-Personal Information: We collect personal information that you voluntarily provide when creating your account, such as your name, email address, and password.
-
-Usage Data: We may collect anonymized data related to app usage, such as feature engagement, error logs, and general statistics to improve our services.
-
-Device Information: We may collect information about the device you use, including device type, operating system, and language preferences to optimize your experience.
-
-Speech & Gesture Data: Any speech or gesture inputs processed by the app remain on your device and are not stored or shared.
+- Personal Information: We collect personal information that you voluntarily provide when creating your account, such as your name, email address, and password.
+- Usage Data: We may collect anonymized data related to app usage, such as feature engagement, error logs, and general statistics to improve our services.
+- Device Information: We may collect information about the device you use, including device type, operating system, and language preferences to optimize your experience.
+- Speech & Gesture Data: Any speech or gesture inputs processed by the app remain on your device and are not stored or shared.
 
 2. How We Use Your Information
 
@@ -35,11 +32,9 @@ The data we collect is used solely to enhance your experience with LinguaAR. Spe
 
 3. Data Sharing and Security
 
-We do not sell, rent, or share your personal information with third parties.
-
-All data processing occurs within your device, ensuring privacy and security.
-
-If third-party services (such as text-to-speech engines or gesture recognition APIs) are used, they may have their own privacy policies, which we recommend reviewing.
+- We do not sell, rent, or share your personal information with third parties.
+- All data processing occurs within your device, ensuring privacy and security.
+- If third-party services (such as text-to-speech engines or gesture recognition APIs) are used, they may have their own privacy policies, which we recommend reviewing.
 
 4. Third-Party Services
 
@@ -52,9 +47,8 @@ These services may process data according to their respective privacy policies.
 
 5. Your Rights & Choices
 
-You can disable certain features (e.g., speech recognition) in the app settings.
-
-You may contact us to request data deletion if applicable.
+- You can disable certain features (e.g., speech recognition) in the app settings.
+- You may contact us to request data deletion if applicable.
 
 6. Changes to This Policy
 
@@ -67,7 +61,6 @@ If you have any questions or concerns regarding this Privacy Policy, please cont
 dacl.ramos.up@phinmaed.com
 
 By using LinguaAR, you agree to this Privacy Policy.
-
               ''')),
         actions: [
           TextButton(
