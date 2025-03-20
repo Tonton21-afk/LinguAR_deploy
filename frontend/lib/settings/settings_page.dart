@@ -207,13 +207,13 @@ class _SettingsPageState extends State<SettingsPage> {
               icon: Icons.brightness_6,
               onTap: () => _showThemeDialog(context),
             ),
-            SettingListTile(
-              title: 'Language',
-              value: settings['Language'] ?? 'English',
-              icon: Icons.language,
-              options: ['English', 'Spanish', 'French', 'Filipino'],
-              settings: settings,
-            ),
+            // SettingListTile(
+            //   title: 'Language',
+            //   value: settings['Language'] ?? 'English',
+            //   icon: Icons.language,
+            //   options: ['English', 'Spanish', 'French', 'Filipino'],
+            //   settings: settings,
+            // ),
             _buildSectionHeader(
                 'ACCOUNT', sectionHeaderPadding, subtitleFontSize),
             SettingListTile(

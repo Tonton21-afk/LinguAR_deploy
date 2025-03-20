@@ -177,9 +177,7 @@ class _SignLearningScreenState extends State<SignLearningScreen> {
             if (_showGuide)
               Positioned.fill(
                 child: Container(
-                  color: Theme.of(context).brightness == Brightness.dark
-                      ? Colors.white // Dark mode color
-                      : Colors.black.withOpacity(0.7),
+                  color: Colors.black.withOpacity(0.7),
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [

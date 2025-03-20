@@ -13,7 +13,7 @@ final Map<String, String> basicPhrasesMappings = {
   "Kanila": "LinguaAR/Dal/Basic Phrases/Kanila",
   "Sa Kanila": "LinguaAR/Dal/Basic Phrases/Them",
   "Kanya (Lalaki)": "LinguaAR/Dal/Basic Phrases/Him",
-  "Sa Kanya (Lalaki)": "LinguaAR/Dal/Basic Phrases/Him",
+  "Sa Kanya (Lalaki)": "LinguaAR/Dal/Basic Phrases/His",
   "Tayo": "LinguaAR/Dal/Basic Phrases/Tayo",
   "Ako": "LinguaAR/Dal/Basic Phrases/Ako",
   "Sa Kanya (Babae)": "LinguaAR/Dal/Basic Phrases/Her",

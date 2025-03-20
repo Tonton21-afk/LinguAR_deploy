@@ -128,7 +128,7 @@ class AnswerFeedbackPage extends StatelessWidget {
       context: context,
       barrierDismissible: false, // Prevent manual dismissal
       builder: (BuildContext dialogContext) {
-        Future.delayed(const Duration(seconds: 3), () {
+        Future.delayed(const Duration(seconds: 1), () {
           if (Navigator.canPop(dialogContext)) {
             Navigator.pop(dialogContext); // Auto-close after 3 seconds
           }

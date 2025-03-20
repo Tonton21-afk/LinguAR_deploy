@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:lingua_arv1/bloc/Otp/otp_bloc.dart';
 import 'package:lingua_arv1/bloc/Register/register_bloc.dart';
+import 'package:lingua_arv1/repositories/otp_repositories/otp_repository_impl.dart';
 import 'package:lingua_arv1/repositories/register_repositories/register_repository_impl.dart';
+import 'package:lingua_arv1/screens/verification/verification_email.dart';
 import 'package:lingua_arv1/validators/password_validator.dart';
 import 'login_page.dart';
 
@@ -43,12 +46,6 @@ class _SignUpPageState extends State<SignUpPage> {
                   child: BlocConsumer<RegisterBloc, RegisterState>(
                     listener: (context, state) {
                       if (state is RegisterSuccess) {
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          SnackBar(
-                            content:
-                                Text('Registration Successful! Please log in.'),
-                          ),
-                        );
                         Navigator.pushAndRemoveUntil(
                           context,
                           MaterialPageRoute(builder: (context) => LoginPage()),
@@ -211,10 +208,26 @@ class _SignUpPageState extends State<SignUpPage> {
                                   if (emailError == null &&
                                       passwordError == null &&
                                       confirmPasswordError == null) {
-                                    context.read<RegisterBloc>().add(
-                                          RegisterButtonPressed(
-                                              email: email, password: password),
-                                        );
+                                    showDialog(
+                                      context: context,
+                                      barrierDismissible:
+                                          false, // Prevent closing without verification
+                                      builder: (context) => BlocProvider(
+                                        create: (context) => OtpBloc(
+                                            OtpRepositoryImpl()), // ✅ Provide OtpBloc
+                                        child: EmailVerificationModal(
+                                          email: email,
+                                          onVerified: () {
+                                            // ✅ After email verification, trigger the registration event
+                                            context.read<RegisterBloc>().add(
+                                                  RegisterButtonPressed(
+                                                      email: email,
+                                                      password: password),
+                                                );
+                                          },
+                                        ),
+                                      ),
+                                    );
                                   }
                                 },
                                 style: ElevatedButton.styleFrom(

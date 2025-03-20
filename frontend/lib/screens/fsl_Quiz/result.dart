@@ -27,9 +27,13 @@ class QuizResultScreen extends StatelessWidget {
     }
 
     return Scaffold(
-      backgroundColor: Colors.grey[100],
+      backgroundColor: Theme.of(context).brightness == Brightness.dark
+          ? Color(0xFF273236) // White button in dark mode
+          : Colors.grey[100],
       appBar: AppBar(
-        backgroundColor: Colors.white,
+        backgroundColor: Theme.of(context).brightness == Brightness.dark
+            ? Color(0xFF273236) // White button in dark mode
+            : Colors.white,
         elevation: 1,
         toolbarHeight: 0,
       ),
@@ -43,12 +47,14 @@ class QuizResultScreen extends StatelessWidget {
               children: [
                 Icon(Icons.emoji_events, size: 36, color: Colors.amber),
                 const SizedBox(width: 10),
-                const Text(
+                Text(
                   "Your Results",
                   style: TextStyle(
                     fontSize: 28,
                     fontWeight: FontWeight.bold,
-                    color: Colors.black87,
+                    color: Theme.of(context).brightness == Brightness.dark
+                        ? Colors.amber // White button in dark mode
+                        : Colors.black87,
                   ),
                 ),
               ],
@@ -56,7 +62,7 @@ class QuizResultScreen extends StatelessWidget {
             const SizedBox(height: 20),
             _buildFeedbackCard(feedbackMessage, feedbackColor),
             const SizedBox(height: 20),
-            _buildScoreCard(scorePercentage),
+            _buildScoreCard(scorePercentage, context),
             const SizedBox(height: 30),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -101,11 +107,13 @@ class QuizResultScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildScoreCard(double percentage) {
+  Widget _buildScoreCard(double percentage, BuildContext context) {
+    bool isDarkMode = Theme.of(context).brightness == Brightness.dark;
+
     return Container(
       padding: const EdgeInsets.all(20),
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: isDarkMode ? Color.fromARGB(255, 57, 65, 65) : Colors.white,
         borderRadius: BorderRadius.circular(20),
         boxShadow: [
           BoxShadow(
@@ -117,11 +125,11 @@ class QuizResultScreen extends StatelessWidget {
       ),
       child: Column(
         children: [
-          const Text(
+          Text(
             "Your Score",
             style: TextStyle(
               fontSize: 18,
-              color: Colors.black54,
+              color: isDarkMode ? Colors.white : Colors.black54,
               fontWeight: FontWeight.bold,
             ),
           ),
