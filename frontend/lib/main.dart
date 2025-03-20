@@ -27,15 +27,15 @@ void main() {
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return FutureBuilder<bool>(
-      future: TokenService.isUserLoggedIn(), // ✅ Async check for login status
-      builder: (context, snapshot) {
-        if (snapshot.connectionState == ConnectionState.waiting) {
-          return MaterialApp(
-              home: SplashScreen()); // ✅ Show SplashScreen while waiting
-        }
-        bool isLoggedIn = snapshot.data ?? false;
-        return AppWrapper(isLoggedIn: isLoggedIn);
+    return Consumer<ThemeProvider>(
+      builder: (context, themeProvider, child) {
+        return MaterialApp(
+          debugShowCheckedModeBanner: false,
+          theme: ThemeData(fontFamily: 'Jost', brightness: Brightness.light),
+          darkTheme: ThemeData(fontFamily: 'Jost', brightness: Brightness.dark),
+          themeMode: themeProvider.themeMode,
+          home: SplashScreen(), // Always start with SplashScreen
+        );
       },
     );
   }
@@ -88,14 +88,12 @@ class _SplashScreenState extends State<SplashScreen>
 
     bool isLoggedIn = await TokenService.isUserLoggedIn();
 
-    if (mounted) {
-      Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(
-            builder: (context) =>
-                isLoggedIn ? HomeScreen() : GetStartedPage1()),
-      );
-    }
+    Navigator.pushReplacement(
+      context,
+      MaterialPageRoute(
+        builder: (context) => isLoggedIn ? HomeScreen() : GetStartedPage1(),
+      ),
+    );
   }
 
   @override
@@ -115,7 +113,7 @@ class _SplashScreenState extends State<SplashScreen>
             width: 200,
             height: 200,
             child: Lottie.asset(
-              'assets/animations/FSL blue.json',
+              'assets/animations/fslBlue.json',
               fit: BoxFit.cover,
               repeat: true,
               animate: true,
