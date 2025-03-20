@@ -144,29 +144,29 @@ class _GetStartedPage4State extends State<GetStartedPage4> {
                 ),
               ),
               SizedBox(height: screenHeight * 0.05),
-              ElevatedButton(
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.red,
-                  padding: EdgeInsets.symmetric(
-                    vertical: screenHeight * 0.02,
-                    horizontal:
-                        isLargeScreen ? screenWidth * 0.05 : screenWidth * 0.1,
-                  ),
-                ),
-                onPressed: () {
-                  Navigator.pushReplacement(
-                    context,
-                    MaterialPageRoute(builder: (context) => GetStartedPage5()),
-                  );
-                },
-                child: Text(
-                  "DEBUG: Skip Voice Detection",
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: isLargeScreen ? 24 : screenWidth * 0.04,
-                  ),
-                ),
-              ),
+              // ElevatedButton(
+              //   style: ElevatedButton.styleFrom(
+              //     backgroundColor: Colors.red,
+              //     padding: EdgeInsets.symmetric(
+              //       vertical: screenHeight * 0.02,
+              //       horizontal:
+              //           isLargeScreen ? screenWidth * 0.05 : screenWidth * 0.1,
+              //     ),
+              //   ),
+              //   onPressed: () {
+              //     Navigator.pushReplacement(
+              //       context,
+              //       MaterialPageRoute(builder: (context) => GetStartedPage5()),
+              //     );
+              //   },
+              //   child: Text(
+              //     "DEBUG: Skip Voice Detection",
+              //     style: TextStyle(
+              //       color: Colors.white,
+              //       fontSize: isLargeScreen ? 24 : screenWidth * 0.04,
+              //     ),
+              //   ),
+              // ),
             ],
           ),
         ),

@@ -188,24 +188,24 @@ class _GetStartedPage3State extends State<GetStartedPage3> {
             // SizedBox(height: 40),
 
             // Button appears immediately
-            ElevatedButton(
-              onPressed: () {
-                print("DEBUG: Skipping gesture detection.");
-                _timer?.cancel();
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => GetStartedPage4()),
-                );
-              },
-              style: ElevatedButton.styleFrom(
-                backgroundColor: Colors.redAccent,
-                padding: EdgeInsets.symmetric(vertical: 12, horizontal: 24),
-                shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(12)),
-              ),
-              child: Text('DEBUG: Skip Gesture Detection',
-                  style: TextStyle(fontSize: 14, color: Colors.white)),
-            ),
+            // ElevatedButton(
+            //   onPressed: () {
+            //     print("DEBUG: Skipping gesture detection.");
+            //     _timer?.cancel();
+            //     Navigator.push(
+            //       context,
+            //       MaterialPageRoute(builder: (context) => GetStartedPage4()),
+            //     );
+            //   },
+            //   style: ElevatedButton.styleFrom(
+            //     backgroundColor: Colors.redAccent,
+            //     padding: EdgeInsets.symmetric(vertical: 12, horizontal: 24),
+            //     shape: RoundedRectangleBorder(
+            //         borderRadius: BorderRadius.circular(12)),
+            //   ),
+            //   child: Text('DEBUG: Skip Gesture Detection',
+            //       style: TextStyle(fontSize: 14, color: Colors.white)),
+            // ),
           ],
         ),
       ),
