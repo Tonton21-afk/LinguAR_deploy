@@ -57,33 +57,40 @@ class _CardPage2State extends State<CardPage2> {
             ? Color(0xFF273236) // Dark mode color
             : const Color(0xFFFCEEFF),
         appBar: AppBar(
-          title: Text("Family, Relationships, and Social Life",
-              style: TextStyle(
-                  fontSize: 20,
-                  fontWeight: FontWeight.bold,
-                  color: Theme.of(context).brightness == Brightness.dark
-                      ? Colors.white // Dark mode color
-                      : Color(0xFF273236))),
+          title: Text(
+            "Family, Relationships, and Social Life",
+            style: TextStyle(
+              fontSize: 20,
+              fontWeight: FontWeight.bold,
+              color: Theme.of(context).brightness == Brightness.dark
+                  ? Colors.white // Dark mode color
+                  : Color(0xFF273236),
+            ),
+          ),
           centerTitle: true,
           backgroundColor: Theme.of(context).brightness == Brightness.dark
               ? const Color.fromARGB(255, 29, 29, 29) // Dark mode color
               : Colors.white,
           elevation: 0,
           leading: IconButton(
-            icon: Icon(Icons.arrow_back,
-                color: Theme.of(context).brightness == Brightness.dark
-                    ? Colors.white
-                    : Colors.black),
+            icon: Icon(
+              Icons.arrow_back,
+              color: Theme.of(context).brightness == Brightness.dark
+                  ? Colors.white
+                  : Colors.black,
+            ),
             onPressed: () {
               Navigator.pop(context);
             },
           ),
           actions: [
             IconButton(
-              icon: Icon(Icons.help_outline,
-                  color: Theme.of(context).brightness == Brightness.dark
-                      ? Colors.white // Dark mode color
-                      : Colors.black), // Changed to guide icon
+              icon: Icon(
+                Icons.help_outline,
+                color: Theme.of(context).brightness == Brightness.dark
+                    ? Colors.white // Dark mode color
+                    : Colors.black,
+              ),
               onPressed: _showUserGuide, // Show guide when clicked
             ),
           ],
@@ -112,8 +119,10 @@ class _CardPage2State extends State<CardPage2> {
                         );
                       } else if (state is GifError) {
                         return Center(
-                          child: Text("Error: ${state.message}",
-                              style: TextStyle(color: Colors.red)),
+                          child: Text(
+                            "Error: ${state.message}",
+                            style: TextStyle(color: Colors.red),
+                          ),
                         );
                       } else {
                         return Center(child: Text("No GIF available."));
@@ -127,10 +136,11 @@ class _CardPage2State extends State<CardPage2> {
                   height: 60,
                   decoration: BoxDecoration(
                     border: Border.all(
-                        color: Theme.of(context).brightness == Brightness.dark
-                            ? Colors.white // Dark mode color
-                            : Colors.black,
-                        width: 1),
+                      color: Theme.of(context).brightness == Brightness.dark
+                          ? Colors.white // Dark mode color
+                          : Colors.black,
+                      width: 1,
+                    ),
                     borderRadius: BorderRadius.circular(10),
                   ),
                   alignment: Alignment.center,
@@ -184,13 +194,23 @@ class _CardPage2State extends State<CardPage2> {
                       Text(
                         "Welcome to FSL Quiz!",
                         style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 22,
-                            fontWeight: FontWeight.bold),
+                          color: Colors.white,
+                          fontSize: 22,
+                          fontWeight: FontWeight.bold,
+                        ),
                       ),
                       SizedBox(height: 20),
                       Text(
-                        "- The image above shows the sign animation.\n- Below it, you'll see the phrase you're learning.\n- Click NEXT to proceed!",
+                        "This quiz consists of 15 questions designed to help you learn basic phrases in Filipino Sign Language (FSL). Here's how to navigate through the quiz:\n\n"
+                        "- The image above shows the sign animation for the current phrase.\n"
+                        "- Below the image, you'll see the phrase you're learning.\n"
+                        "- Click the 'NEXT' button to proceed to the next question.\n"
+                        "- After answering all 15 questions, you'll receive feedback on your performance.\n\n"
+                        "Tips:\n"
+                        "- Take your time to observe the sign animations carefully.\n"
+                        "- Try to mimic the signs as you go through each question.\n"
+                        "- If you need to review a phrase, you can always go back to the previous question.\n\n"
+                        "Good luck and have fun learning!",
                         textAlign: TextAlign.center,
                         style: TextStyle(color: Colors.white, fontSize: 16),
                       ),
@@ -205,9 +225,10 @@ class _CardPage2State extends State<CardPage2> {
                             borderRadius: BorderRadius.circular(20),
                           ),
                         ),
-                        child: Text("Got it!",
-                            style:
-                                TextStyle(color: Colors.white, fontSize: 16)),
+                        child: Text(
+                          "Got it!",
+                          style: TextStyle(color: Colors.white, fontSize: 16),
+                        ),
                       ),
                     ],
                   ),

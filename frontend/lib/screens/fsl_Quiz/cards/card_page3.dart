@@ -56,8 +56,8 @@ class _CardPage3State extends State<CardPage3> {
             phrase: currentPhrase)),
       child: Scaffold(
         backgroundColor: isDarkMode
-            ? Color(0xFF273236) // ✅ Dark mode background
-            : const Color(0xFFFCEEFF), // ✅ Light mode background
+            ? Color(0xFF273236) // Dark mode background
+            : const Color(0xFFFCEEFF), // Light mode background
         appBar: AppBar(
           title: Text(
             "Learning, Work, and Technology",
@@ -69,20 +69,24 @@ class _CardPage3State extends State<CardPage3> {
           ),
           centerTitle: true,
           backgroundColor: isDarkMode
-              ? const Color.fromARGB(255, 29, 29, 29) // ✅ Dark mode app bar
-              : Colors.white, // ✅ Light mode app bar
+              ? const Color.fromARGB(255, 29, 29, 29) // Dark mode app bar
+              : Colors.white, // Light mode app bar
           elevation: 0,
           leading: IconButton(
-            icon: Icon(Icons.arrow_back,
-                color: isDarkMode ? Colors.white : Colors.black),
+            icon: Icon(
+              Icons.arrow_back,
+              color: isDarkMode ? Colors.white : Colors.black,
+            ),
             onPressed: () {
               Navigator.pop(context);
             },
           ),
           actions: [
             IconButton(
-              icon: Icon(Icons.help_outline,
-                  color: isDarkMode ? Colors.white : Colors.black),
+              icon: Icon(
+                Icons.help_outline,
+                color: isDarkMode ? Colors.white : Colors.black,
+              ),
               onPressed: _showUserGuide,
             ),
           ],
@@ -111,8 +115,10 @@ class _CardPage3State extends State<CardPage3> {
                         );
                       } else if (state is GifError) {
                         return Center(
-                          child: Text("Error: ${state.message}",
-                              style: TextStyle(color: Colors.red)),
+                          child: Text(
+                            "Error: ${state.message}",
+                            style: TextStyle(color: Colors.red),
+                          ),
                         );
                       } else {
                         return Center(child: Text("No GIF available."));
@@ -187,7 +193,16 @@ class _CardPage3State extends State<CardPage3> {
                       ),
                       SizedBox(height: 20),
                       Text(
-                        "- The image above shows the sign animation.\n- Below it, you'll see the phrase you're learning.\n- Click NEXT to proceed!",
+                        "This quiz consists of 15 questions designed to help you learn basic phrases in Filipino Sign Language (FSL). Here's how to navigate through the quiz:\n\n"
+                        "- The image above shows the sign animation for the current phrase.\n"
+                        "- Below the image, you'll see the phrase you're learning.\n"
+                        "- Click the 'NEXT' button to proceed to the next question.\n"
+                        "- After answering all 15 questions, you'll receive feedback on your performance.\n\n"
+                        "Tips:\n"
+                        "- Take your time to observe the sign animations carefully.\n"
+                        "- Try to mimic the signs as you go through each question.\n"
+                        "- If you need to review a phrase, you can always go back to the previous question.\n\n"
+                        "Good luck and have fun learning!",
                         textAlign: TextAlign.center,
                         style: TextStyle(color: Colors.white, fontSize: 16),
                       ),
