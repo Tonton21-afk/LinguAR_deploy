@@ -121,7 +121,9 @@ class _TextToSpeechState extends State<TextToSpeech>
     return DefaultTabController(
       length: 2,
       child: Scaffold(
-        backgroundColor: Colors.white,
+        backgroundColor: Theme.of(context).brightness == Brightness.dark
+            ? Color(0xFF273236) // White button in dark mode
+            : Colors.white,
         appBar: AppBar(
           title: Text(
             'LinguaVoice',
@@ -131,7 +133,9 @@ class _TextToSpeechState extends State<TextToSpeech>
             ),
           ),
           centerTitle: true,
-          backgroundColor: Colors.white,
+          backgroundColor: Theme.of(context).brightness == Brightness.dark
+              ? Color(0xFF273236) // White button in dark mode
+              : Colors.white,
           actions: [
             IconButton(
               icon: Icon(_isMaleVoice ? Icons.male : Icons.female),
