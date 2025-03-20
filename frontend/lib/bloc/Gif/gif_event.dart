@@ -16,3 +16,5 @@ class FetchGif extends GifEvent {
   @override
   List<Object> get props => [phrase, publicId];
 }
+
+class ResetGifState extends GifEvent {}

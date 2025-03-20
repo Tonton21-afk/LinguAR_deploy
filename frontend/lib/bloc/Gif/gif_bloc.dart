@@ -8,10 +8,11 @@ import 'package:lingua_arv1/bloc/Gif/gif_event.dart';
 import 'package:lingua_arv1/bloc/Gif/gif_state.dart';
 
 class GifBloc extends Bloc<GifEvent, GifState> {
-  final Map<String, String> _gifCache = {}; 
+  final Map<String, String> _gifCache = {};
 
   GifBloc() : super(GifInitial()) {
     on<FetchGif>(_onFetchGif);
+    on<ResetGifState>(_onResetGifState); // Add this handler
   }
 
   Future<void> _onFetchGif(FetchGif event, Emitter<GifState> emit) async {
@@ -26,7 +27,7 @@ class GifBloc extends Bloc<GifEvent, GifState> {
     String url = "${Cloud_url.baseURL}?public_id=${event.publicId}";
 
     print("Fetching GIF for: ${event.phrase}");
-    print("Generated URL: $url"); 
+    print("Generated URL: $url");
 
     try {
       final response = await http.get(Uri.parse(url)).timeout(
@@ -52,5 +53,9 @@ class GifBloc extends Bloc<GifEvent, GifState> {
       print("Error occurred: $error");
       emit(GifError(message: 'Error occurred: $error'));
     }
+  }
+
+  void _onResetGifState(ResetGifState event, Emitter<GifState> emit) {
+    emit(GifInitial()); // Reset the state to initial
   }
 }

@@ -259,11 +259,15 @@ class _BasicPhrasesPageState extends State<BasicPhrasesPage> {
         ),
         bottomSheet: BlocBuilder<GifBloc, GifState>(
           builder: (context, state) {
-            if (state is GifLoading)
+            if (state is GifLoading) {
               return Center(child: CircularProgressIndicator());
+            }
             if (state is GifLoaded) {
               WidgetsBinding.instance.addPostFrameCallback((_) {
                 _showGifPopup(context, state.phrase, state.gifUrl);
+
+                // Reset Bloc state to prevent showing the popup again
+                context.read<GifBloc>().add(ResetGifState());
               });
             }
             if (state is GifError) {
