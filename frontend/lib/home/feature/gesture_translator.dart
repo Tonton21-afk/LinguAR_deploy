@@ -214,8 +214,12 @@ class _GestureTranslatorState extends State<GestureTranslator> {
                           padding: EdgeInsets.symmetric(
                               horizontal: 24, vertical: 12),
                         ),
-                        child:
-                            Text("Add to Word", style: TextStyle(fontSize: 16)),
+                        child: Text(
+                          "Add to Word",
+                          style: TextStyle(
+                              fontSize: 16,
+                              color: Colors.white), // Updated font color
+                        ),
                       ),
                       SizedBox(width: 16),
                       ElevatedButton(
@@ -225,8 +229,12 @@ class _GestureTranslatorState extends State<GestureTranslator> {
                           padding: EdgeInsets.symmetric(
                               horizontal: 24, vertical: 12),
                         ),
-                        child:
-                            Text("Clear Word", style: TextStyle(fontSize: 16)),
+                        child: Text(
+                          "Clear Word",
+                          style: TextStyle(
+                              fontSize: 16,
+                              color: Colors.white), // Updated font color
+                        ),
                       ),
                     ],
                   ),
