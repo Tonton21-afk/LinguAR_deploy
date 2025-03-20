@@ -76,7 +76,9 @@ void showLogoutDialog(BuildContext context) {
     context: context,
     builder: (BuildContext context) {
       return AlertDialog(
-        backgroundColor: Color(0xFFFEFFFE),
+        backgroundColor: Theme.of(context).brightness == Brightness.dark
+            ? Color(0xFF273236)
+            : Color(0xFFFEFFFE),
         title: Text('Logout'),
         content: Text('Are you sure you want to logout?'),
         actions: [
