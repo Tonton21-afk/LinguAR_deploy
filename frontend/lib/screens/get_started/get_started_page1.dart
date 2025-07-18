@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:lingua_arv1/screens/login_signup/login_page.dart';
+import 'package:lingua_arv1/screens/authentication/login/login_page.dart';
 import 'package:animate_do/animate_do.dart';
 
 class GetStartedPage1 extends StatelessWidget {

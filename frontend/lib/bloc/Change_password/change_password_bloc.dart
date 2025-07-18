@@ -6,7 +6,7 @@ part 'change_password_state.dart';
 class ChangePasswordBloc extends Bloc<ChangePasswordEvent, ChangePasswordState> {
   final ResetPasswordRepository _resetpasswordRepository;
 
-  ChangePasswordBloc(this._resetpasswordRepository) : super(ChangePasswordInitial()) {
+  ChangePasswordBloc(this._resetpasswordRepository, {required resetPasswordRepository}) : super(ChangePasswordInitial()) {
     on<ResetPasswordEvent>(_onResetPasswordEvent);
   }
 

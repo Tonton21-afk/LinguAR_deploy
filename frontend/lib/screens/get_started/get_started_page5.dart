@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:lingua_arv1/main.dart';
+import 'package:lingua_arv1/screens/home/home_screen.dart';
 
 class GetStartedPage5 extends StatelessWidget {
   @override

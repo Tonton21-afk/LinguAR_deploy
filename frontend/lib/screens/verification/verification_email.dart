@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:lingua_arv1/bloc/Otp/otp_bloc.dart';
 import 'package:lingua_arv1/repositories/otp_repositories/otp_repository_impl.dart';
-import 'package:lingua_arv1/screens/login_signup/login_page.dart';
+import 'package:lingua_arv1/screens/authentication/login/login_page.dart';
 
 class EmailVerificationModal extends StatefulWidget {
   final String email;

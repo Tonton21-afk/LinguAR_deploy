@@ -4,9 +4,9 @@ import 'package:lingua_arv1/bloc/Otp/otp_bloc.dart';
 import 'package:lingua_arv1/bloc/Register/register_bloc.dart';
 import 'package:lingua_arv1/repositories/otp_repositories/otp_repository_impl.dart';
 import 'package:lingua_arv1/repositories/register_repositories/register_repository_impl.dart';
+import 'package:lingua_arv1/screens/authentication/login/login_page.dart';
 import 'package:lingua_arv1/screens/verification/verification_email.dart';
 import 'package:lingua_arv1/validators/password_validator.dart';
-import 'login_page.dart';
 
 class SignUpPage extends StatefulWidget {
   @override
@@ -204,14 +204,14 @@ class _SignUpPageState extends State<SignUpPage> {
                                     });
                                   }
 
-                                  // If all validations pass, trigger the registration event
+                                  // If all validations pass, trigger the registration eventsw
                                   if (emailError == null &&
                                       passwordError == null &&
                                       confirmPasswordError == null) {
                                     showDialog(
                                       context: context,
                                       barrierDismissible:
-                                          false, // Prevent closing without verification
+                                          false, // Prevent closing without verificationw
                                       builder: (context) => BlocProvider(
                                         create: (context) => OtpBloc(
                                             OtpRepositoryImpl()), // ✅ Provide OtpBloc

@@ -7,12 +7,12 @@ import 'package:lingua_arv1/repositories/change_email_repositories/change_email_
 import 'package:lingua_arv1/repositories/change_password_repositories/reset_password_repository.dart';
 import 'package:lingua_arv1/repositories/change_password_repositories/reset_password_repository_impl.dart';
 import 'package:lingua_arv1/repositories/otp_repositories/otp_repository_impl.dart';
-import 'package:lingua_arv1/screens/login_signup/login_page.dart';
-import 'package:lingua_arv1/settings/Dialog/dialogs.dart';
-import 'package:lingua_arv1/settings/Lists/setting_list_tile.dart';
-import 'package:lingua_arv1/settings/Update_Accounts/update_email_page.dart';
-import 'package:lingua_arv1/settings/Update_Accounts/update_password_page.dart';
-import 'package:lingua_arv1/settings/theme/theme_provider.dart';
+import 'package:lingua_arv1/screens/authentication/login/login_page.dart';
+import 'package:lingua_arv1/screens/settings/Dialog/dialogs.dart';
+import 'package:lingua_arv1/screens/settings/Lists/setting_list_tile.dart';
+import 'package:lingua_arv1/screens/settings/Update_Accounts/update_email_page.dart';
+import 'package:lingua_arv1/screens/settings/Update_Accounts/update_password_page.dart';
+import 'package:lingua_arv1/screens/settings/theme/theme_provider.dart';
 import 'package:lingua_arv1/validators/token.dart';
 import 'package:provider/provider.dart';
 
@@ -135,7 +135,7 @@ class _SettingsPageState extends State<SettingsPage> {
           BlocProvider(create: (context) => OtpBloc(OtpRepositoryImpl())),
           BlocProvider(
               create: (context) =>
-                  ChangePasswordBloc(PasswordRepositoryImpl())),
+                  ChangePasswordBloc(PasswordRepositoryImpl(), resetPasswordRepository: null)),
         ],
         child: UpdatePasswordModal(), // Now it's correctly provided.
       ),

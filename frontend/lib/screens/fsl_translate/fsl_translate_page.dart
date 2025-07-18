@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:lingua_arv1/screens/fsl_Quiz/signLearningScreen.dart';
-import '../screens/fsl_Quiz/cards/sample_page.dart';
-import '../screens/fsl_Quiz/cards/card_page2.dart';
-import '../screens/fsl_Quiz/cards/card_page3.dart';
-import '../screens/fsl_Quiz/cards/card_page4.dart';
-import '../screens/fsl_Quiz/cards/card_page5.dart';
+import '../fsl_Quiz/cards/sample_page.dart';
+import '../fsl_Quiz/cards/card_page2.dart';
+import '../fsl_Quiz/cards/card_page3.dart';
+import '../fsl_Quiz/cards/card_page4.dart';
+import '../fsl_Quiz/cards/card_page5.dart';
 import 'package:lingua_arv1/Widgets/topic_section.dart';
 
 class FSLTranslatePage extends StatefulWidget {

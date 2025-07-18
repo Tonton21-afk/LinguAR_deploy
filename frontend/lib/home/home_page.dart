@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:lingua_arv1/home/favorites/FavoritesList.dart';
-import 'feature/gesture_translator.dart';
-import 'feature/text_to_speech.dart';
+import '../screens/gesture/gesture_translator.dart';
+import '../screens/text_to_speech/text_to_speech.dart';
 import 'package:lingua_arv1/validators/token.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';

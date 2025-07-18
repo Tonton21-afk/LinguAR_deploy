@@ -1,5 +1,6 @@
 import 'dart:math';
 import 'package:lingua_arv1/api/basic_phrases.dart';
+import 'package:lingua_arv1/api/pronouns.dart';
 import 'package:lingua_arv1/api/valid_wrong_answers.dart';
 import 'package:lingua_arv1/api/family_friends.dart';
 import 'package:lingua_arv1/api/relationships.dart';
@@ -26,7 +27,7 @@ List<Map<String, String>> generateQuizData(String category) {
 
   switch (category) {
     case "Daily Communication":
-      selectedMappings = basicPhrasesMappings;
+      selectedMappings = pronounsMappings;
       break;
     case "Family & Relationships":
       selectedMappings = {...familyFriendsMappings, ...relationshipMappings};

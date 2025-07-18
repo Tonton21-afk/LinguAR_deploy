@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:lingua_arv1/api/pronouns.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:lingua_arv1/api/basic_phrases.dart';
@@ -50,7 +51,7 @@ class _SignLearningScreenState extends State<SignLearningScreen> {
     return BlocProvider(
       create: (context) => GifBloc()
         ..add(FetchGif(
-            publicId: basicPhrasesMappings[currentPhrase] ?? "",
+            publicId: pronounsMappings[currentPhrase] ?? "",
             phrase: currentPhrase)),
       child: Scaffold(
         backgroundColor: Theme.of(context).brightness == Brightness.dark
@@ -130,6 +131,7 @@ class _SignLearningScreenState extends State<SignLearningScreen> {
                     },
                   ),
                 ),
+                
                 SizedBox(height: 30),
                 Container(
                   width: 150,

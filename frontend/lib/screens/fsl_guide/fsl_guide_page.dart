@@ -1,17 +1,17 @@
 import 'package:flutter/material.dart';
-import 'package:lingua_arv1/fsl_guide/daily_communication/alphabet_numbers_page.dart';
-import 'package:lingua_arv1/fsl_guide/daily_communication/pronouns_page.dart';
-import 'package:lingua_arv1/fsl_guide/daily_communication/common_expressions_page.dart';
-import 'package:lingua_arv1/fsl_guide/daily_communication/basic_phrases_page.dart';
-import 'package:lingua_arv1/fsl_guide/family_relationships/family_friends_page.dart';
-import 'package:lingua_arv1/fsl_guide/family_relationships/relationships_page.dart';
-import 'package:lingua_arv1/fsl_guide/learning_work_technology/education_page.dart';
-import 'package:lingua_arv1/fsl_guide/learning_work_technology/technology_page.dart';
-import 'package:lingua_arv1/fsl_guide/learning_work_technology/work_profession_page.dart';
-import 'package:lingua_arv1/fsl_guide/travel_food_environment/food_drinks_page.dart';
-import 'package:lingua_arv1/fsl_guide/travel_food_environment/nature_environment_page.dart';
-import 'package:lingua_arv1/fsl_guide/travel_food_environment/transportation_page.dart';
-import 'package:lingua_arv1/fsl_guide/interactive_learning_emergency/shape_colors_page.dart';
+import 'package:lingua_arv1/screens/fsl_guide/daily_communication/alphabet_numbers_page.dart';
+import 'package:lingua_arv1/screens/fsl_guide/daily_communication/pronouns_page.dart';
+import 'package:lingua_arv1/screens/fsl_guide/daily_communication/common_expressions_page.dart';
+import 'package:lingua_arv1/screens/fsl_guide/daily_communication/basic_phrases_page.dart';
+import 'package:lingua_arv1/screens/fsl_guide/family_relationships/family_friends_page.dart';
+import 'package:lingua_arv1/screens/fsl_guide/family_relationships/relationships_page.dart';
+import 'package:lingua_arv1/screens/fsl_guide/learning_work_technology/education_page.dart';
+import 'package:lingua_arv1/screens/fsl_guide/learning_work_technology/technology_page.dart';
+import 'package:lingua_arv1/screens/fsl_guide/learning_work_technology/work_profession_page.dart';
+import 'package:lingua_arv1/screens/fsl_guide/travel_food_environment/food_drinks_page.dart';
+import 'package:lingua_arv1/screens/fsl_guide/travel_food_environment/nature_environment_page.dart';
+import 'package:lingua_arv1/screens/fsl_guide/travel_food_environment/transportation_page.dart';
+import 'package:lingua_arv1/screens/fsl_guide/interactive_learning_emergency/shape_colors_page.dart';
 
 class FSLGuidePage extends StatefulWidget {
   @override

@@ -2,7 +2,6 @@ import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:lingua_arv1/repositories/change_email_repositories/change_email_repository.dart';
 import 'package:meta/meta.dart';
-
 part 'change_email_event.dart';
 part 'change_email_state.dart';
 
