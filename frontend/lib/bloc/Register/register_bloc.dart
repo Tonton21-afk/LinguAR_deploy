@@ -1,6 +1,6 @@
 import 'package:bloc/bloc.dart';
 import 'package:lingua_arv1/model/Authentication.dart';
-import 'package:lingua_arv1/repositories/register_repositories/register_repository.dart';
+import 'package:lingua_arv1/repositories/Register_repositories/register_repository.dart';
 part 'register_event.dart';
 part 'register_state.dart';
 
@@ -10,10 +10,14 @@ class RegisterBloc extends Bloc<RegisterEvent, RegisterState> {
   RegisterBloc(this._registerRepository) : super(RegisterInitial()) {
     on<RegisterButtonPressed>((event, emit) async {
       emit(RegisterLoading());
-      print("Registering user with email: ${event.email}");
+      print("Registering user with email: ${event.email}, disability: ${event.disability}");
 
       try {
-        final authentication = await _registerRepository.register(event.email, event.password);
+        final authentication = await _registerRepository.register(
+          event.email,
+          event.password,
+          event.disability, // Pass the disability parameter
+        );
 
         print("Registration Successful: Message = ${authentication.message}");
         emit(RegisterSuccess(authentication));

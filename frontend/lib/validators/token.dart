@@ -4,9 +4,10 @@ import 'package:shared_preferences/shared_preferences.dart';
 class TokenService {
   static const String _tokenKey = 'auth_token';
   static const String _userIdKey = 'auth_user_id';
-  static const String _emailKey = 'auth_email'; // ✅ Store Email
+  static const String _emailKey = 'auth_email';
+  static const String _disabilityKey = 'auth_disability'; 
 
-  /// Save the JWT token and extract user ID & email
+  /// Save the JWT token and extract user ID, email, and disability
   static Future<void> saveToken(String token) async {
     final prefs = await SharedPreferences.getInstance();
     await prefs.setString(_tokenKey, token);
@@ -15,18 +16,24 @@ class TokenService {
     print("Decoded Token: $decodedToken"); // Debugging
 
     String? userId = decodedToken['_id'];
-    String? email = decodedToken['email']; // ✅ Extract Email
+    String? email = decodedToken['email'];
+    String? disability = decodedToken['disability'] ?? decodedToken['disability'];
 
     if (userId != null) {
       await prefs.setString(_userIdKey, userId);
       print("User ID Saved: $userId");
-    } else {
+    } else {  
       print("Error: _id not found in token!");
     }
 
     if (email != null) {
       await prefs.setString(_emailKey, email);
       print("Email Saved: $email");
+    }
+
+    if (disability != null) {
+      await prefs.setString(_disabilityKey, disability);
+      print("Disability Saved: $disability");
     }
   }
 
@@ -42,13 +49,21 @@ class TokenService {
     return prefs.getString(_userIdKey);
   }
 
-  /// Logout - Clear token, user ID, and email
+  /// Get the stored disability
+  static Future<String?> getDisability() async {
+    final prefs = await SharedPreferences.getInstance();
+    return prefs.getString(_disabilityKey);
+  }
+
+
+  /// Logout - Clear all stored user data
   static Future<void> logout() async {
     final prefs = await SharedPreferences.getInstance();
     await prefs.remove(_tokenKey);
     await prefs.remove(_userIdKey);
     await prefs.remove(_emailKey);
-    print("User logged out, token, email, and user ID removed.");
+    await prefs.remove(_disabilityKey); // Clear disability on logout
+    print("User logged out, all data cleared.");
   }
 
   /// Get the stored JWT token
@@ -61,5 +76,16 @@ class TokenService {
   static Future<bool> isUserLoggedIn() async {
     final token = await getToken();
     return token != null && !JwtDecoder.isExpired(token);
+  }
+
+  /// Get all user data at once
+  static Future<Map<String, String?>> getUserData() async {
+    final prefs = await SharedPreferences.getInstance();
+    return {
+      'token': prefs.getString(_tokenKey),
+      'userId': prefs.getString(_userIdKey),
+      'email': prefs.getString(_emailKey),
+      'disability': prefs.getString(_disabilityKey),
+    };
   }
 }

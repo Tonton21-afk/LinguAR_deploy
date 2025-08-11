@@ -1,3 +1,4 @@
+from bson import ObjectId
 from flask import Blueprint, request, jsonify
 from werkzeug.security import generate_password_hash, check_password_hash
 from pymongo import MongoClient
@@ -38,15 +39,12 @@ def register():
     data = request.get_json()
     email = data.get('email')
     password = data.get('password')
-    disabilities = data.get('disabilities', [])  # New field, default to empty list
+    disability = data.get('disability')  # Remove default value here
 
     # Validate email and password
     if not email or not password:
         return jsonify({'message': 'Email and password are required'}), 400
 
-    # Check if the email is a Gmail account
-    if not email.endswith('@gmail.com'):
-        return jsonify({'message': 'Only Gmail accounts are allowed'}), 400
 
     # Check if the email already exists in the database
     if users_collection.find_one({'email': email}):
@@ -56,16 +54,13 @@ def register():
     if not is_valid_password(password):
         return jsonify({'message': 'Password must contain at least 1 uppercase letter, 1 number, 1 special character, and be 8-12 characters long'}), 400
 
-    # Validate disabilities is a list if provided
-    if disabilities and not isinstance(disabilities, list):
-        return jsonify({'message': 'Disabilities must be provided as an array'}), 400
 
-    # Hash the password and save the user with disabilities
+    # Hash the password and save the user with 
     hashed_password = generate_password_hash(password, method='pbkdf2:sha256')
     users_collection.insert_one({
         'email': email, 
         'password': hashed_password,
-        'disabilities': disabilities  # Add disabilities to user document
+        'disability': disability  # This will be None if not provided
     })
     return jsonify({'message': 'User registered successfully'}), 201
 
@@ -144,6 +139,51 @@ def reset_email():
     otp_storage.pop(email, None)
 
     return jsonify({'message': 'email change successfully'}), 200
+
+
+@auth_bp.route('/update-disability', methods=['POST'])
+def update_disability():
+    data = request.get_json()
+    token = request.headers.get('Authorization')
+    new_disability = data.get('disability')  # Can be None
+    
+    # Validate input
+    if not token:
+        return jsonify({'message': 'Authorization token is required'}), 401
+    
+    try:
+        # Verify JWT token
+        decoded = jwt.decode(
+            token.split()[1],  # Remove 'Bearer ' prefix
+            '79e026c5eaee509133e45e5004d457b0500cbbdc62c50b5f539497fdbd14e0d3',
+            algorithms=['HS256']
+        )
+        
+        user_id = decoded['_id']
+        
+        # Update disability in database
+        result = users_collection.update_one(
+            {'_id': ObjectId(user_id)},
+            {'$set': {'disability': new_disability}}
+        )
+        
+        if result.modified_count == 1:
+            return jsonify({
+                'message': 'Disability updated successfully',
+                'disability': new_disability
+            }), 200
+        else:
+            return jsonify({'message': 'User not found or no changes made'}), 404
+            
+    except jwt.ExpiredSignatureError:
+        return jsonify({'message': 'Token has expired'}), 401
+    except jwt.InvalidTokenError:
+        return jsonify({'message': 'Invalid token'}), 401
+    except Exception as e:
+        return jsonify({'message': f'Error updating disability: {str(e)}'}), 500
+
+
+
 # Function to register routes with the app
 def create_auth_routes(app):
     app.register_blueprint(auth_bp, url_prefix='/auth')

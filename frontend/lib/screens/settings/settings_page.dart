@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:lingua_arv1/bloc/Change_disability/change_disability_bloc.dart';
 import 'package:lingua_arv1/bloc/Change_email/change_email_bloc.dart';
 import 'package:lingua_arv1/bloc/Change_password/change_password_bloc.dart';
 import 'package:lingua_arv1/bloc/Otp/otp_bloc.dart';
+import 'package:lingua_arv1/repositories/change_disability_repositories/change_disability_repository_impl.dart';
 import 'package:lingua_arv1/repositories/change_email_repositories/change_email_repository_impl.dart';
 import 'package:lingua_arv1/repositories/change_password_repositories/reset_password_repository.dart';
 import 'package:lingua_arv1/repositories/change_password_repositories/reset_password_repository_impl.dart';
@@ -10,6 +12,7 @@ import 'package:lingua_arv1/repositories/otp_repositories/otp_repository_impl.da
 import 'package:lingua_arv1/screens/authentication/login/login_page.dart';
 import 'package:lingua_arv1/screens/settings/Dialog/dialogs.dart';
 import 'package:lingua_arv1/screens/settings/Lists/setting_list_tile.dart';
+import 'package:lingua_arv1/screens/settings/Update_Accounts/update_disability_page.dart';
 import 'package:lingua_arv1/screens/settings/Update_Accounts/update_email_page.dart';
 import 'package:lingua_arv1/screens/settings/Update_Accounts/update_password_page.dart';
 import 'package:lingua_arv1/screens/settings/theme/theme_provider.dart';
@@ -24,10 +27,12 @@ class SettingsPage extends StatefulWidget {
 class _SettingsPageState extends State<SettingsPage> {
   String? userId;
   Map<String, String> settings = {};
+  
 
   Future<void> _loadUserId() async {
     String? fetchedUserId = await TokenService.getUserId();
     String? fetchedEmail = await TokenService.getEmail();
+    String? fetchedDisability = await TokenService.getDisability();
     bool isDarkMode = Theme.of(context).brightness == Brightness.dark;
 
     if (mounted) {
@@ -35,6 +40,7 @@ class _SettingsPageState extends State<SettingsPage> {
         userId = fetchedUserId ?? 'Unknown';
         settings['Email'] = fetchedEmail ?? 'No Email Found';
         settings['Theme'] = isDarkMode ? 'Dark' : 'Light';
+        settings['Disability'] = fetchedDisability ?? 'None'; // Add this line
       });
     }
   }
@@ -46,18 +52,17 @@ class _SettingsPageState extends State<SettingsPage> {
   void initState() {
     super.initState();
     _scrollController = ScrollController();
-    _scrollController.addListener(() {
-      bool isDarkMode = Theme.of(context).brightness == Brightness.dark;
-
-      setState(() {
-        appBarColor = _scrollController.offset > 50
-            ? const Color(0xFF4A90E2) // Scrolled color
-            : (isDarkMode
-                ? Color(0xFF273236)
-                : const Color(0xFFFEFFFE)); // ✅ Black in dark mode
-      });
-    });
+    _scrollController.addListener(_onScroll);
     _loadUserId();
+  }
+
+  void _onScroll() {
+    bool isDarkMode = Theme.of(context).brightness == Brightness.dark;
+    setState(() {
+      appBarColor = _scrollController.offset > 50
+          ? const Color(0xFF4A90E2)
+          : (isDarkMode ? Color(0xFF273236) : const Color(0xFFFEFFFE));
+    });
   }
 
   @override
@@ -66,7 +71,6 @@ class _SettingsPageState extends State<SettingsPage> {
     super.dispose();
   }
 
-  // Function to show the Update Email Modal
   void _showUpdateEmailModal(BuildContext context) {
     showModalBottomSheet(
       context: context,
@@ -80,7 +84,7 @@ class _SettingsPageState extends State<SettingsPage> {
           BlocProvider(
               create: (context) => ResetEmailBloc(ResetEmailRepositoryImpl())),
         ],
-        child: UpdateEmailModal(), // Now it's correctly provided.
+        child: UpdateEmailModal(), 
       ),
     );
   }
@@ -134,13 +138,15 @@ class _SettingsPageState extends State<SettingsPage> {
         providers: [
           BlocProvider(create: (context) => OtpBloc(OtpRepositoryImpl())),
           BlocProvider(
-              create: (context) =>
-                  ChangePasswordBloc(PasswordRepositoryImpl(), resetPasswordRepository: null)),
+              create: (context) => ChangePasswordBloc(PasswordRepositoryImpl(),
+                  resetPasswordRepository: null)),
         ],
         child: UpdatePasswordModal(), // Now it's correctly provided.
       ),
     );
   }
+
+ 
 
   @override
   Widget build(BuildContext context) {
@@ -149,12 +155,13 @@ class _SettingsPageState extends State<SettingsPage> {
     bool isDarkMode = Theme.of(context).brightness == Brightness.dark;
 
     if (_scrollController.hasClients && _scrollController.offset > 50) {
-      appBarColor = const Color(0xFF4A90E2); // ✅ Keeps blue if already scrolled
+      appBarColor = const Color(0xFF4A90E2);
     } else {
       appBarColor = isDarkMode
           ? const Color.fromARGB(255, 29, 29, 29)
           : const Color(0xFFFEFFFE);
     }
+
     final subtitleFontSize = screenWidth * 0.04;
     final listTileFontSize = screenWidth * 0.035;
     final sectionHeaderPadding = EdgeInsets.symmetric(
@@ -187,15 +194,14 @@ class _SettingsPageState extends State<SettingsPage> {
                   style: TextStyle(
                     fontSize: screenWidth * 0.045,
                     color: Theme.of(context).brightness == Brightness.dark
-                        ? Colors.white // ✅ Always white in dark mode
+                        ? Colors.white
                         : (appBarColor == const Color(0xFFFEFFFE)
                             ? Colors.black
                             : Colors.white),
-                  ),
                 ),
               ),
             ),
-          ];
+      ),];
         },
         body: ListView(
           children: [
@@ -207,26 +213,25 @@ class _SettingsPageState extends State<SettingsPage> {
               icon: Icons.brightness_6,
               onTap: () => _showThemeDialog(context),
             ),
-            // SettingListTile(
-            //   title: 'Language',
-            //   value: settings['Language'] ?? 'English',
-            //   icon: Icons.language,
-            //   options: ['English', 'Spanish', 'French', 'Filipino'],
-            //   settings: settings,
-            // ),
             _buildSectionHeader(
                 'ACCOUNT', sectionHeaderPadding, subtitleFontSize),
             SettingListTile(
               title: 'Email',
               value: settings['Email'] ?? 'No Email Found',
               icon: Icons.email,
-              onTap: () => _showUpdateEmailModal(context), // ✅ Show modal
+              onTap: () => _showUpdateEmailModal(context),
             ),
             SettingListTile(
               title: 'Password',
               value: settings['Password'] ?? '********',
               icon: Icons.lock,
-              onTap: () => _showUpdatePasswordlModal(context), // ✅ Show modal
+              onTap: () => _showUpdatePasswordlModal(context),
+            ),
+            SettingListTile(
+              title: 'Disability',  
+              value: settings['Disability'] ?? 'None',
+              icon: Icons.accessibility,
+             
             ),
             _buildSectionHeader(
                 'About and Support', sectionHeaderPadding, subtitleFontSize),
@@ -265,7 +270,7 @@ class _SettingsPageState extends State<SettingsPage> {
         title,
         style: TextStyle(
           color: Theme.of(context).brightness == Brightness.dark
-              ? Colors.white // White button in dark mode
+              ? Colors.white
               : Colors.grey,
           fontWeight: FontWeight.bold,
           fontSize: fontSize,

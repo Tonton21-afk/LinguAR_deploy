@@ -2,13 +2,13 @@ class Authentication {
   final String token;
   final String email;
   final String message;
-  final List<String> disabilities; // New field
+  final String? disability; // Changed to nullable String (singular form)
 
   Authentication({
     required this.token,
     required this.email,
     required this.message,
-    this.disabilities = const [], // Default empty list
+    this.disability, // Now nullable with no default value
   });
 
   /// Factory constructor to create an Authentication object from JSON
@@ -17,7 +17,7 @@ class Authentication {
       token: json['token'] ?? '', // Ensures token is not null
       email: json['email'] ?? '', // Ensures email is not null
       message: json['message'] ?? 'No message provided', // Default message
-      disabilities: List<String>.from(json['disabilities'] ?? []), // Handle null or missing disabilities
+      disability: json['disability'], // Can be null if not provided
     );
   }
 
@@ -27,13 +27,13 @@ class Authentication {
       'token': token,
       'email': email,
       'message': message,
-      'disabilities': disabilities, // Include disabilities in JSON output
+      'disability': disability, // Will be null if not set
     };
   }
 
   /// Override toString for better debugging
   @override
   String toString() {
-    return 'Authentication(token: $token, email: $email, message: $message, disabilities: $disabilities)';
+    return 'Authentication(token: $token, email: $email, message: $message, disability: $disability)';
   }
 }

@@ -1,13 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:lingua_arv1/bloc/Change_disability/change_disability_bloc.dart';
 import 'package:lingua_arv1/bloc/Change_password/change_password_bloc.dart';
 import 'package:lingua_arv1/bloc/Login/login_bloc.dart';
 import 'package:lingua_arv1/bloc/Otp/otp_bloc.dart';
 import 'package:lingua_arv1/bloc/Register/register_bloc.dart';
+import 'package:lingua_arv1/repositories/Register_repositories/register_repository_impl.dart';
+import 'package:lingua_arv1/repositories/change_disability_repositories/change_disability_repository_impl.dart';
 import 'package:lingua_arv1/repositories/change_password_repositories/reset_password_repository_impl.dart';
 import 'package:lingua_arv1/repositories/login_repositories/login_repository_impl.dart';
 import 'package:lingua_arv1/repositories/otp_repositories/otp_repository_impl.dart';
-import 'package:lingua_arv1/repositories/register_repositories/register_repository_impl.dart';
 import 'package:lingua_arv1/screens/settings/theme/theme_provider.dart';
 import 'package:provider/provider.dart';
 import 'package:lingua_arv1/screens/splash/splash_screen.dart';
@@ -30,11 +32,15 @@ void main() {
           BlocProvider<RegisterBloc>(
             create: (context) => RegisterBloc(RegisterRepositoryImpl()),
           ),
-          BlocProvider(create: (context) => OtpBloc(OtpRepositoryImpl())
+          BlocProvider(create: (context) => OtpBloc(OtpRepositoryImpl())),
+          BlocProvider(
+              create: (context) => ChangePasswordBloc(PasswordRepositoryImpl(),
+                  resetPasswordRepository: null)),
+          BlocProvider(
+            create: (context) => ChangeDisabilityBloc(
+              disabilityRepository: DisabilityRepositoryImpl(),
+            ),
           ),
-          BlocProvider(create: (context) => ChangePasswordBloc(PasswordRepositoryImpl(), resetPasswordRepository: null)
-          ),
-
         ],
         child: MyApp(),
       ),
