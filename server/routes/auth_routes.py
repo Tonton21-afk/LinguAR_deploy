@@ -77,11 +77,15 @@ def login():
     user = users_collection.find_one({'email': email})
     if not user or not check_password_hash(user['password'], password):
         return jsonify({'message': 'Invalid email or password'}), 400
+    
+    disability = user.get('disability', None)
+
 
     # ✅ Fix: Include _id in JWT payload
     token = jwt.encode({
-        '_id': str(user['_id']),  # Convert ObjectId to string
+        '_id': str(user['_id']),  
         'email': email,
+        'disability': disability,
         'exp': datetime.datetime.utcnow() + datetime.timedelta(hours=1)
     }, '79e026c5eaee509133e45e5004d457b0500cbbdc62c50b5f539497fdbd14e0d3', algorithm='HS256')
 

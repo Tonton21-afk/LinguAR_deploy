@@ -2,13 +2,13 @@ class Authentication {
   final String token;
   final String email;
   final String message;
-  final String? disability; // Changed to nullable String (singular form)
+  final String? disability; 
 
   Authentication({
     required this.token,
     required this.email,
     required this.message,
-    this.disability, // Now nullable with no default value
+    this.disability, 
   });
 
   /// Factory constructor to create an Authentication object from JSON

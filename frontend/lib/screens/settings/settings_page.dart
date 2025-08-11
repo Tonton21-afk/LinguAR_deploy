@@ -27,7 +27,6 @@ class SettingsPage extends StatefulWidget {
 class _SettingsPageState extends State<SettingsPage> {
   String? userId;
   Map<String, String> settings = {};
-  
 
   Future<void> _loadUserId() async {
     String? fetchedUserId = await TokenService.getUserId();
@@ -40,7 +39,7 @@ class _SettingsPageState extends State<SettingsPage> {
         userId = fetchedUserId ?? 'Unknown';
         settings['Email'] = fetchedEmail ?? 'No Email Found';
         settings['Theme'] = isDarkMode ? 'Dark' : 'Light';
-        settings['Disability'] = fetchedDisability ?? 'None'; // Add this line
+        settings['Disability'] = fetchedDisability ?? 'None';
       });
     }
   }
@@ -84,7 +83,7 @@ class _SettingsPageState extends State<SettingsPage> {
           BlocProvider(
               create: (context) => ResetEmailBloc(ResetEmailRepositoryImpl())),
         ],
-        child: UpdateEmailModal(), 
+        child: UpdateEmailModal(),
       ),
     );
   }
@@ -146,8 +145,6 @@ class _SettingsPageState extends State<SettingsPage> {
     );
   }
 
- 
-
   @override
   Widget build(BuildContext context) {
     final screenWidth = MediaQuery.of(context).size.width;
@@ -198,10 +195,11 @@ class _SettingsPageState extends State<SettingsPage> {
                         : (appBarColor == const Color(0xFFFEFFFE)
                             ? Colors.black
                             : Colors.white),
+                  ),
                 ),
               ),
             ),
-      ),];
+          ];
         },
         body: ListView(
           children: [
@@ -228,10 +226,9 @@ class _SettingsPageState extends State<SettingsPage> {
               onTap: () => _showUpdatePasswordlModal(context),
             ),
             SettingListTile(
-              title: 'Disability',  
+              title: 'Disability',
               value: settings['Disability'] ?? 'None',
               icon: Icons.accessibility,
-             
             ),
             _buildSectionHeader(
                 'About and Support', sectionHeaderPadding, subtitleFontSize),

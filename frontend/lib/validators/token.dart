@@ -5,7 +5,7 @@ class TokenService {
   static const String _tokenKey = 'auth_token';
   static const String _userIdKey = 'auth_user_id';
   static const String _emailKey = 'auth_email';
-  static const String _disabilityKey = 'auth_disability'; 
+  static const String _disabilityKey = 'auth_disability';
 
   /// Save the JWT token and extract user ID, email, and disability
   static Future<void> saveToken(String token) async {
@@ -17,12 +17,12 @@ class TokenService {
 
     String? userId = decodedToken['_id'];
     String? email = decodedToken['email'];
-    String? disability = decodedToken['disability'] ?? decodedToken['disability'];
+    String? disability = decodedToken['disability']?.toString().trim();
 
     if (userId != null) {
       await prefs.setString(_userIdKey, userId);
       print("User ID Saved: $userId");
-    } else {  
+    } else {
       print("Error: _id not found in token!");
     }
 
@@ -55,14 +55,13 @@ class TokenService {
     return prefs.getString(_disabilityKey);
   }
 
-
   /// Logout - Clear all stored user data
   static Future<void> logout() async {
     final prefs = await SharedPreferences.getInstance();
     await prefs.remove(_tokenKey);
     await prefs.remove(_userIdKey);
     await prefs.remove(_emailKey);
-    await prefs.remove(_disabilityKey); // Clear disability on logout
+    await prefs.remove(_disabilityKey);
     print("User logged out, all data cleared.");
   }
 
