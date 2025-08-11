@@ -5,7 +5,7 @@ class TokenService {
   static const String _tokenKey = 'auth_token';
   static const String _userIdKey = 'auth_user_id';
   static const String _emailKey = 'auth_email';
-  static const String _disabilityKey = 'auth_disability';
+  static const String disabilityKey = 'auth_disability';
 
   /// Save the JWT token and extract user ID, email, and disability
   static Future<void> saveToken(String token) async {
@@ -32,7 +32,7 @@ class TokenService {
     }
 
     if (disability != null) {
-      await prefs.setString(_disabilityKey, disability);
+      await prefs.setString(disabilityKey, disability);
       print("Disability Saved: $disability");
     }
   }
@@ -52,8 +52,17 @@ class TokenService {
   /// Get the stored disability
   static Future<String?> getDisability() async {
     final prefs = await SharedPreferences.getInstance();
-    return prefs.getString(_disabilityKey);
+    return prefs.getString(disabilityKey);
   }
+
+static Future<void> saveDisability(String? disability) async {
+  final prefs = await SharedPreferences.getInstance();
+  if (disability != null) {
+    await prefs.setString(disabilityKey, disability);
+  } else {
+    await prefs.remove(disabilityKey);
+  }
+}
 
   /// Logout - Clear all stored user data
   static Future<void> logout() async {
@@ -61,7 +70,7 @@ class TokenService {
     await prefs.remove(_tokenKey);
     await prefs.remove(_userIdKey);
     await prefs.remove(_emailKey);
-    await prefs.remove(_disabilityKey);
+    await prefs.remove(disabilityKey);
     print("User logged out, all data cleared.");
   }
 
@@ -84,7 +93,7 @@ class TokenService {
       'token': prefs.getString(_tokenKey),
       'userId': prefs.getString(_userIdKey),
       'email': prefs.getString(_emailKey),
-      'disability': prefs.getString(_disabilityKey),
+      'disability': prefs.getString(disabilityKey),
     };
   }
 }

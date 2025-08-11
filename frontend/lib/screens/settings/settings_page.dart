@@ -145,6 +145,26 @@ class _SettingsPageState extends State<SettingsPage> {
     );
   }
 
+  // void _showUpdateDisabilityModal(BuildContext context) {
+  //   showModalBottomSheet(
+  //     context: context,
+  //     isScrollControlled: true,
+  //     shape: RoundedRectangleBorder(
+  //       borderRadius: BorderRadius.vertical(top: Radius.circular(16)),
+  //     ),
+  //     builder: (context) => MultiBlocProvider(
+  //       providers: [
+  //         BlocProvider(
+  //           create: (context) => ChangeDisabilityBloc(
+  //             DisabilityRepositoryImpl(),
+  //           ),
+  //         ),
+  //       ],
+  //       child: UpdateDisabilityForm(), // Make sure this is a Widget, not void
+  //     ),
+  //   );
+  // }
+
   @override
   Widget build(BuildContext context) {
     final screenWidth = MediaQuery.of(context).size.width;
@@ -229,6 +249,10 @@ class _SettingsPageState extends State<SettingsPage> {
               title: 'Disability',
               value: settings['Disability'] ?? 'None',
               icon: Icons.accessibility,
+              onTap: () async {
+                await showUpdateDisabilityModal(context);
+                _loadUserId(); // refresh after bottom sheet closes
+              },
             ),
             _buildSectionHeader(
                 'About and Support', sectionHeaderPadding, subtitleFontSize),

@@ -38,7 +38,7 @@ void main() {
                   resetPasswordRepository: null)),
           BlocProvider(
             create: (context) => ChangeDisabilityBloc(
-              disabilityRepository: DisabilityRepositoryImpl(),
+              DisabilityRepositoryImpl(),
             ),
           ),
         ],

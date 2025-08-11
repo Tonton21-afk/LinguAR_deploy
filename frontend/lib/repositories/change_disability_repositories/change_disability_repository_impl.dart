@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:lingua_arv1/repositories/Config.dart';
 import 'package:lingua_arv1/repositories/change_disability_repositories/change_disability_repository.dart';
+import 'package:lingua_arv1/validators/token.dart';
 
 class DisabilityRepositoryImpl implements DisabilityRepository {
   String url = BasicUrl.baseURL;
@@ -12,11 +13,16 @@ class DisabilityRepositoryImpl implements DisabilityRepository {
     required String? disability,
   }) async {
     try {
+      final token = await TokenService.getToken();
+      if (token == null || token.isEmpty) {
+        throw Exception("Token not found");
+      }
+
       final response = await http.post(
         Uri.parse('$url/auth/update-disability'),
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': 'Bearer ${await _getToken()}',
+          'Authorization': 'Bearer $token',
         },
         body: jsonEncode({
           'disability': disability,
@@ -32,12 +38,5 @@ class DisabilityRepositoryImpl implements DisabilityRepository {
     } catch (e) {
       throw Exception('Failed to update disability: ${e.toString()}');
     }
-  }
-
-  Future<String> _getToken() async {
-    // Implement your token retrieval logic here
-    // For example:
-    // return await TokenService.getToken();
-    throw UnimplementedError('Token retrieval not implemented');
   }
 }

@@ -1,38 +1,42 @@
 import 'package:bloc/bloc.dart';
-import 'package:lingua_arv1/repositories/change_disability_repositories/change_disability_repository.dart';
+import 'package:equatable/equatable.dart';
+import 'package:lingua_arv1/repositories/change_disability_repositories/change_disability_repository_impl.dart';
+import 'package:lingua_arv1/validators/token.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 part 'change_disability_event.dart';
 part 'change_disability_state.dart';
 
-class ChangeDisabilityBloc extends Bloc<ChangeDisabilityEvent, ChangeDisabilityState> {
-  final DisabilityRepository disabilityRepository;
+class ChangeDisabilityBloc
+    extends Bloc<ChangeDisabilityEvent, ChangeDisabilityState> {
+  final DisabilityRepositoryImpl _disabilityRepository;
 
-  ChangeDisabilityBloc({required this.disabilityRepository}) 
+  ChangeDisabilityBloc(this._disabilityRepository)
       : super(ChangeDisabilityInitial()) {
-    on<UpdateDisabilityEvent>((event, emit) async {
-      emit(ChangeDisabilityLoading());
-      try {
-        // Get user ID from your token service or similar
-        final userId = await _getUserId();
-        
-        final success = await disabilityRepository.updateDisability(
-          userId: userId,
-          disability: event.disability,
-        );
-
-        if (success) {
-          emit(ChangeDisabilitySuccess(event.disability));
-        } else {
-          emit(ChangeDisabilityFailure('Failed to update disability'));
-        }
-      } catch (e) {
-        emit(ChangeDisabilityFailure(e.toString()));
-      }
-    });
+    on<UpdateDisabilityEvent>(_onUpdateDisability);
   }
 
-  Future<String> _getUserId() async {
-    // Implement your actual user ID retrieval logic
-    // Example: return await TokenService.getUserId();
-    throw UnimplementedError('User ID retrieval not implemented');
+  Future<void> _onUpdateDisability(
+    UpdateDisabilityEvent event,
+    Emitter<ChangeDisabilityState> emit,
+  ) async {
+    emit(ChangeDisabilityLoading());
+    try {
+      final success = await _disabilityRepository.updateDisability(
+        userId: event.userId,
+        disability: event.disability,
+      );
+
+      if (success) {
+        final updatedDisability = event.disability ?? "None";
+
+        await TokenService.saveDisability(updatedDisability);
+
+        emit(ChangeDisabilitySuccess(updatedDisability));
+      } else {
+        emit(const ChangeDisabilityFailure("Failed to update disability"));
+      }
+    } catch (e) {
+      emit(ChangeDisabilityFailure(e.toString()));
+    }
   }
 }
