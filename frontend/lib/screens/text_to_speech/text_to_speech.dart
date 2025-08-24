@@ -117,13 +117,8 @@ class _TextToSpeechState extends State<TextToSpeech>
           ? Color(0xFF273236)
           : Colors.white,
       appBar: AppBar(
-        title: Text(
-          'LinguaVoice',
-          style: TextStyle(
-            fontSize: screenWidth * 0.045,
-          ),
-        ),
         centerTitle: true,
+        automaticallyImplyLeading: false,
         backgroundColor: Theme.of(context).brightness == Brightness.dark
             ? Color(0xFF273236)
             : Colors.white,
