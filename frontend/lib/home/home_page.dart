@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:lingua_arv1/home/favorites/FavoritesList.dart';
+import 'package:lingua_arv1/screens/text_to_speech/tts_tab.dart';
 import '../screens/gesture/gesture_translator.dart';
 import '../screens/text_to_speech/text_to_speech.dart';
 import 'package:lingua_arv1/validators/token.dart';
@@ -146,7 +147,7 @@ class _HomePageState extends State<HomePage> {
                               Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                  builder: (context) => TextToSpeech(),
+                                  builder: (context) => LinguaTabs(),
                                 ),
                               );
                             },

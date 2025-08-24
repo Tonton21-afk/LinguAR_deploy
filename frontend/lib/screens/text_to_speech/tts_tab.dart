@@ -1,21 +1,17 @@
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
-import 'package:lingua_arv1/screens/gesture/text_to_3dAnimation.dart';
+import 'package:lingua_arv1/screens/text_to_speech/text_to_speech.dart';
 import 'package:lingua_arv1/screens/text_to_speech/gesture_voice_translator.dart';
-import 'package:lingua_arv1/screens/gesture/gesture_word_tab.dart';
 
-class GestureTranslator extends StatefulWidget {
+class LinguaTabs extends StatefulWidget {
   @override
-  _GestureTranslatorState createState() => _GestureTranslatorState();
+  _LinguaTabsState createState() => _LinguaTabsState();
 }
 
-class _GestureTranslatorState extends State<GestureTranslator>
+class _LinguaTabsState extends State<LinguaTabs>
     with SingleTickerProviderStateMixin {
   late TabController _tabController;
-  final List<CameraDescription>? _cameras;
   int _currentTabIndex = 0;
-
-  _GestureTranslatorState() : _cameras = null;
 
   @override
   void initState() {
@@ -44,15 +40,20 @@ class _GestureTranslatorState extends State<GestureTranslator>
     return Scaffold(
       backgroundColor: Colors.black,
       appBar: AppBar(
-        title: const Text('Gesture Translator'),
+        title: const Text('LinguaVoice'),
         centerTitle: true,
-        backgroundColor: Colors.black,
+        backgroundColor: Theme.of(context).brightness == Brightness.dark
+            ? const Color.fromARGB(255, 29, 29, 29)
+            : Colors.white,
         elevation: 0,
         bottom: TabBar(
           controller: _tabController,
-          tabs: [
-            Tab(text: 'Word'),
-            Tab(text: '3D Text'),
+          labelColor: Theme.of(context).brightness == Brightness.dark
+              ? Colors.white
+              : Colors.black,
+          tabs: const [
+            Tab(text: 'Text to Speech'),
+            Tab(text: 'Gesture Voice'),
           ],
         ),
       ),
@@ -66,17 +67,15 @@ class _GestureTranslatorState extends State<GestureTranslator>
             return TabBarView(
               controller: _tabController,
               children: [
-                GestureWordTab(
+                TextToSpeech(),
+                GestureVoiceTab(
                   cameras: snapshot.data!,
-                  isActive: _currentTabIndex == 0,
-                ),
-                TextTo3DTab(
                   isActive: _currentTabIndex == 1,
                 ),
               ],
             );
           }
-          return Center(child: CircularProgressIndicator());
+          return const Center(child: CircularProgressIndicator());
         },
       ),
     );
