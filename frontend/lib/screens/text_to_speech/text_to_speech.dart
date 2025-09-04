@@ -1,6 +1,8 @@
+import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:speech_to_text/speech_to_text.dart' as stt;
 import 'package:flutter_tts/flutter_tts.dart';
+import 'package:lingua_arv1/api/3d_models_mapping.dart';
 
 class TextToSpeech extends StatefulWidget {
   @override
@@ -9,15 +11,21 @@ class TextToSpeech extends StatefulWidget {
 
 class _TextToSpeechState extends State<TextToSpeech>
     with SingleTickerProviderStateMixin {
-  stt.SpeechToText _speech = stt.SpeechToText();
+  final stt.SpeechToText _speech = stt.SpeechToText();
+  final FlutterTts _flutterTts = FlutterTts();
+
   bool _isListening = false;
   String _recognizedText = 'Kumusta ka aking kaibigan!';
   bool _isMaleVoice = true;
 
-  FlutterTts _flutterTts = FlutterTts();
-
   late AnimationController _animationController;
   late Animation<double> _animation;
+
+  // NEW: 3D/GIF model state
+  List<String> _modelsToShow = [];
+  int _currentModelIndex = 0;
+  Timer? _modelTimer;
+  final Duration _modelFrameDuration = const Duration(seconds: 3);
 
   @override
   void initState() {
@@ -27,32 +35,31 @@ class _TextToSpeechState extends State<TextToSpeech>
 
     _animationController = AnimationController(
       vsync: this,
-      duration: Duration(milliseconds: 800),
+      duration: const Duration(milliseconds: 1200),
     );
 
-    _animation = Tween<double>(begin: 0.0, end: 1.7).animate(
-      CurvedAnimation(
-        parent: _animationController,
-        curve: Curves.easeInOut,
-      ),
+    _animation = CurvedAnimation(
+      parent: _animationController,
+      curve: Curves.easeInOut,
     );
+
+    _refreshModelsFromText(_recognizedText);
   }
 
   @override
   void dispose() {
+    _modelTimer?.cancel();
     _animationController.dispose();
     super.dispose();
   }
 
   void _initializeSpeech() async {
     bool available = await _speech.initialize(
-      onStatus: (status) => print('Speech status: $status'),
-      onError: (error) => print('Speech error: $error'),
+      onStatus: (status) => debugPrint('Speech status: $status'),
+      onError: (error) => debugPrint('Speech error: $error'),
     );
-    if (available) {
-      print('Speech-to-Text initialized');
-    } else {
-      print('Speech-to-Text not available');
+    if (!available) {
+      debugPrint('Speech-to-Text not available');
     }
   }
 
@@ -65,16 +72,12 @@ class _TextToSpeechState extends State<TextToSpeech>
 
   void _setVoice() async {
     List<dynamic> voices = await _flutterTts.getVoices;
-    if (voices.isEmpty) {
-      print("No available voices found.");
-      return;
-    }
+    if (voices.isEmpty) return;
 
     String? selectedVoice =
         _isMaleVoice ? "fil-ph-x-fie-local" : "fil-ph-x-fic-local";
 
     await _flutterTts.setVoice({"name": selectedVoice, "locale": "fil-PH"});
-    print("Voice set to: $selectedVoice");
   }
 
   void _speakText(String text) async {
@@ -83,26 +86,44 @@ class _TextToSpeechState extends State<TextToSpeech>
   }
 
   void _startListening() async {
-    if (!_isListening) {
-      bool available = await _speech.initialize();
-      if (available) {
-        setState(() => _isListening = true);
-        _speech.listen(
-          onResult: (result) => setState(() {
-            _recognizedText = result.recognizedWords;
-          }),
-        );
-        _animationController.repeat(reverse: true);
-      }
-    }
+    if (_isListening) return;
+    bool available = await _speech.initialize();
+    if (!available) return;
+
+    setState(() => _isListening = true);
+    _speech.listen(
+      onResult: (result) => setState(() {
+        _recognizedText = result.recognizedWords;
+        _refreshModelsFromText(_recognizedText);
+      }),
+    );
+    _animationController.repeat(reverse: true);
   }
 
   void _stopListening() async {
-    if (_isListening) {
-      setState(() => _isListening = false);
-      _speech.stop();
-      _animationController.stop();
-      _animationController.reset();
+    if (!_isListening) return;
+    setState(() => _isListening = false);
+    _speech.stop();
+    _animationController.stop();
+    _animationController.reset();
+  }
+
+  void _refreshModelsFromText(String text) {
+    final models = findMatchingModels(text);
+
+    _modelTimer?.cancel();
+    setState(() {
+      _modelsToShow = models;
+      _currentModelIndex = 0;
+    });
+
+    if (_modelsToShow.length > 1) {
+      _modelTimer = Timer.periodic(_modelFrameDuration, (_) {
+        if (!mounted || _modelsToShow.isEmpty) return;
+        setState(() {
+          _currentModelIndex = (_currentModelIndex + 1) % _modelsToShow.length;
+        });
+      });
     }
   }
 
@@ -114,13 +135,13 @@ class _TextToSpeechState extends State<TextToSpeech>
 
     return Scaffold(
       backgroundColor: Theme.of(context).brightness == Brightness.dark
-          ? Color(0xFF273236)
+          ? const Color(0xFF273236)
           : Colors.white,
       appBar: AppBar(
         centerTitle: true,
         automaticallyImplyLeading: false,
         backgroundColor: Theme.of(context).brightness == Brightness.dark
-            ? Color(0xFF273236)
+            ? const Color(0xFF273236)
             : Colors.white,
         actions: [
           IconButton(
@@ -130,7 +151,6 @@ class _TextToSpeechState extends State<TextToSpeech>
                 _isMaleVoice = !_isMaleVoice;
               });
               _setVoice();
-              print("Voice switched to ${_isMaleVoice ? 'Male' : 'Female'}");
             },
           ),
         ],
@@ -142,20 +162,40 @@ class _TextToSpeechState extends State<TextToSpeech>
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
-              Image.asset(
-                'assets/illustrations/mic.png',
-                width: isSmallScreen ? 150 : 190,
-                height: isSmallScreen ? 150 : 190,
+              SizedBox(
+                width: isSmallScreen ? 220 : 300, 
+                height: isSmallScreen ? 170 : 200,
+                child: _modelsToShow.isEmpty
+                    ? Image.asset(
+                        'assets/illustrations/mic.png',
+                        fit: BoxFit.contain,
+                      )
+                    : Image.network(
+                        letterModels[_modelsToShow[_currentModelIndex]] ?? '',
+                        fit: BoxFit.contain,
+                        errorBuilder: (context, error, stackTrace) {
+                          return const Icon(Icons.error,
+                              size: 60, color: Colors.red);
+                        },
+                        loadingBuilder: (context, child, progress) {
+                          if (progress == null) return child;
+                          return const Center(
+                              child: CircularProgressIndicator());
+                        },
+                      ),
               ),
-              const SizedBox(height: 20),
+
+              const SizedBox(height: 40),
               const Text('Hold the button and speak to display the text.'),
               const SizedBox(height: 20),
+
+              // text box
               Container(
                 width: screenWidth * 0.9,
                 height: screenHeight * 0.2,
                 padding: const EdgeInsets.all(16.0),
                 decoration: BoxDecoration(
-                  color: Colors.blueAccent.withOpacity(0.2),
+                  color: Colors.blueAccent.withValues(alpha: 0.2),
                   borderRadius: BorderRadius.circular(8.0),
                   border: Border.all(color: Colors.blueAccent, width: 2),
                 ),
@@ -171,8 +211,9 @@ class _TextToSpeechState extends State<TextToSpeech>
                     setState(() {
                       _recognizedText = value;
                     });
+                    _refreshModelsFromText(value);
                   },
-                  decoration: InputDecoration(
+                  decoration: const InputDecoration(
                     border: InputBorder.none,
                   ),
                 ),
@@ -187,49 +228,47 @@ class _TextToSpeechState extends State<TextToSpeech>
                     size: isSmallScreen ? 28 : 32,
                   ),
                   const SizedBox(width: 20),
-                  Stack(
-                    alignment: Alignment.center,
-                    children: [
-                      AnimatedBuilder(
-                        animation: _animation,
-                        builder: (context, child) {
-                          return Container(
-                            width: 80 +
-                                (_animation.value *
-                                    (isSmallScreen ? 30 : 50)),
-                            height: 80 +
-                                (_animation.value *
-                                    (isSmallScreen ? 30 : 50)),
-                            decoration: BoxDecoration(
+                  SizedBox(
+                    width: 120, 
+                    height: 120, 
+                    child: Stack(
+                      alignment: Alignment.center,
+                      children: [
+                        AnimatedBuilder(
+                          animation: _animation,
+                          builder: (context, child) {
+                            return Transform.scale(
+                              scale: 0.4 +
+                                  (_animation.value *
+                                      0.8), 
+                              child: Container(
+                                decoration: BoxDecoration(
+                                  shape: BoxShape.circle,
+                                  color:
+                                      Colors.blueAccent.withValues(alpha: 0.2),
+                                ),
+                              ),
+                            );
+                          },
+                        ),
+                        GestureDetector(
+                          onTapDown: (_) => _startListening(),
+                          onTapUp: (_) => _stopListening(),
+                          child: Container(
+                            padding: const EdgeInsets.all(12.0),
+                            decoration: const BoxDecoration(
+                              color: Colors.blueAccent,
                               shape: BoxShape.circle,
-                              color: Colors.blueAccent.withOpacity(0.2),
                             ),
-                          );
-                        },
-                      ),
-                      GestureDetector(
-                        onTapDown: (_) {
-                          _startListening();
-                          print('Mic button pressed');
-                        },
-                        onTapUp: (_) {
-                          _stopListening();
-                          print('Mic button released');
-                        },
-                        child: Container(
-                          padding: const EdgeInsets.all(12.0),
-                          decoration: BoxDecoration(
-                            color: Colors.blueAccent,
-                            shape: BoxShape.circle,
-                          ),
-                          child: Icon(
-                            _isListening ? Icons.mic : Icons.mic_none,
-                            size: isSmallScreen ? 50 : 60,
-                            color: Colors.white,
+                            child: Icon(
+                              _isListening ? Icons.mic : Icons.mic_none,
+                              size: isSmallScreen ? 50 : 60,
+                              color: Colors.white,
+                            ),
                           ),
                         ),
-                      ),
-                    ],
+                      ],
+                    ),
                   ),
                   const SizedBox(width: 20),
                   _buildIconButton(
@@ -238,7 +277,7 @@ class _TextToSpeechState extends State<TextToSpeech>
                       setState(() {
                         _recognizedText = '';
                       });
-                      print("Reset button clicked");
+                      _refreshModelsFromText('');
                     },
                     size: isSmallScreen ? 28 : 32,
                   ),
@@ -251,10 +290,11 @@ class _TextToSpeechState extends State<TextToSpeech>
     );
   }
 
-  Widget _buildIconButton(
-      {required IconData icon,
-      required VoidCallback onTap,
-      required double size}) {
+  Widget _buildIconButton({
+    required IconData icon,
+    required VoidCallback onTap,
+    required double size,
+  }) {
     return GestureDetector(
       onTap: onTap,
       child: Container(
@@ -264,7 +304,7 @@ class _TextToSpeechState extends State<TextToSpeech>
           shape: BoxShape.circle,
           boxShadow: [
             BoxShadow(
-              color: Colors.grey.withOpacity(0.4),
+              color: Colors.grey.withValues(alpha: 0.4),
               spreadRadius: 2,
               blurRadius: 5,
             ),
