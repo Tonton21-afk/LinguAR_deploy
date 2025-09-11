@@ -2,8 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_vector_icons/flutter_vector_icons.dart';
 import 'package:lingua_arv1/home/home_page.dart';
 import 'package:lingua_arv1/screens/fsl_guide/fsl_guide_page.dart';
-import 'package:lingua_arv1/screens/fsl_translate/fsl_translate_page.dart';
+import 'package:lingua_arv1/screens/gesture/gesture_translator.dart';
 import 'package:lingua_arv1/screens/settings/settings_page.dart';
+import 'package:lingua_arv1/screens/home/favoritesPage.dart';
 
 class HomeScreen extends StatefulWidget {
   @override
@@ -15,7 +16,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
   final List<Widget> _pages = [
     HomePage(),
-    FSLTranslatePage(),
+    GestureTranslator(),
     FSLGuidePage(),
     SettingsPage(),
   ];
@@ -26,7 +27,7 @@ class _HomeScreenState extends State<HomeScreen> {
       appBar: _currentIndex == 0
           ? AppBar(
               backgroundColor: Theme.of(context).brightness == Brightness.dark
-                  ? const Color.fromARGB(255, 29, 29, 29) // ✅ Darker gray
+                  ? const Color.fromARGB(255, 29, 29, 29)
                   : Colors.white,
               elevation: 0,
               title: Padding(
@@ -43,7 +44,7 @@ class _HomeScreenState extends State<HomeScreen> {
                           style: TextStyle(
                               color: Theme.of(context).brightness ==
                                       Brightness.dark
-                                  ? Colors.white // Dark mode color
+                                  ? Colors.white
                                   : Colors.black)),
                       TextSpan(
                           text: 'AR',
@@ -53,6 +54,23 @@ class _HomeScreenState extends State<HomeScreen> {
                 ),
               ),
               automaticallyImplyLeading: false,
+              actions: [
+                IconButton(
+                  tooltip: 'Favorites',
+                  icon: Icon(
+                    Icons.star_border_rounded,
+                    color: Theme.of(context).brightness == Brightness.dark
+                        ? Colors.white
+                        : Colors.black,
+                  ),
+                  onPressed: () {
+                    Navigator.of(context).push(
+                      MaterialPageRoute(builder: (_) => const FavoritesPage()),
+                    );
+                  },
+                ),
+                const SizedBox(width: 4),
+              ],
             )
           : null,
       body: _pages[_currentIndex],
@@ -72,8 +90,8 @@ class _HomeScreenState extends State<HomeScreen> {
             label: 'Home',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Feather.book),
-            label: 'Lessons',
+            icon: Icon(MaterialCommunityIcons.translate),
+            label: 'Translate',
           ),
           BottomNavigationBarItem(
             icon: Icon(MaterialCommunityIcons.book_open),

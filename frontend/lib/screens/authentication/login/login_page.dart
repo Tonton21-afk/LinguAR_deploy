@@ -99,12 +99,12 @@ class _LoginPageState extends State<LoginPage> {
                               Center(child: CircularProgressIndicator()),
                         );
                       } else if (state is LoginSuccess) {
-                        Navigator.pop(context); // Close the loading dialog
+                        Navigator.pop(context); 
                         await TokenService.saveToken(state.authentication
-                            .token); // ✅ FIXED: Correct token saving
-                        _showSuccessDialog(context); // Show success dialog
+                            .token); 
+                        _showSuccessDialog(context); 
                       } else if (state is LoginFailure) {
-                        Navigator.pop(context); // Close the loading dialog
+                        Navigator.pop(context); 
                         setState(() {
                           emailError = state.errorMessage.contains('email')
                               ? 'Invalid email or password'
@@ -119,7 +119,7 @@ class _LoginPageState extends State<LoginPage> {
                     builder: (context, state) {
                       return Padding(
                         padding: const EdgeInsets.symmetric(
-                            horizontal: 24, vertical: 40),
+                            horizontal: 24, vertical: 80),
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
