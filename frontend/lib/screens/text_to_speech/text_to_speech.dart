@@ -185,11 +185,10 @@ class _TextToSpeechState extends State<TextToSpeech>
                       ),
               ),
 
-              const SizedBox(height: 40),
+              const SizedBox(height: 25),
               const Text('Hold the button and speak to display the text.'),
               const SizedBox(height: 20),
 
-              // text box
               Container(
                 width: screenWidth * 0.9,
                 height: screenHeight * 0.2,
