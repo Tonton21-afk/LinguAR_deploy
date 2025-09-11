@@ -1,5 +1,5 @@
 final Map<String, String> pronounsMappings = {
-  "Mga Ito": "LinguaAR/Dal/Basic Phrases/These",
+  // "Mga Ito": "LinguaAR/Dal/Basic Phrases/These", please fix later, can't get the GIF
   "Sila": "LinguaAR/Dal/Basic Phrases/Sila",
   "Ito": "LinguaAR/Dal/Basic Phrases/It",
   "Aking Sarili/Sarili ko": "LinguaAR/Dal/Basic Phrases/Myself",
