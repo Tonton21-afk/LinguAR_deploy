@@ -1,7 +1,7 @@
 import 'package:equatable/equatable.dart';
 import 'package:lingua_arv1/model/Quiz_result.dart';
 
-// Base class for quiz states
+
 abstract class QuizState extends Equatable {
   const QuizState();
 
@@ -9,17 +9,17 @@ abstract class QuizState extends Equatable {
   List<Object?> get props => [];
 }
 
-// Initial state before the quiz starts
+
 class QuizInitial extends QuizState {}
 
-// State when loading (e.g., GIF fetch)
+
 class QuizLoading extends QuizState {}
 
-// State when a new question is displayed
+
 class QuestionLoaded extends QuizState {
   final String gifUrl;
   final Map<String, String> question;
-  final bool? isCorrect; // Nullable to track answer correctness
+  final bool? isCorrect; 
 
   const QuestionLoaded({required this.gifUrl, required this.question, this.isCorrect});
 
@@ -27,7 +27,7 @@ class QuestionLoaded extends QuizState {
   List<Object?> get props => [gifUrl, question, isCorrect];
 }
 
-// State for handling errors
+
 class QuizError extends QuizState {
   final String message;
 
@@ -36,7 +36,7 @@ class QuizError extends QuizState {
   @override
   List<Object?> get props => [message];
 }
-// State for complete  quiz
+
 class QuizCompleted extends QuizState {
   final QuizResult result;
 
@@ -44,4 +44,13 @@ class QuizCompleted extends QuizState {
 
   @override
   List<Object> get props => [result];
+}
+
+//keep this _--------------------------------------------------
+class TeachLoaded extends QuizState {
+  final String gifUrl;
+  final Map<String, String> question; // same item the quiz will ask
+  const TeachLoaded({required this.gifUrl, required this.question});
+  @override
+  List<Object?> get props => [gifUrl, question];
 }
