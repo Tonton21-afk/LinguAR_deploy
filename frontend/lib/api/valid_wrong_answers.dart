@@ -22,6 +22,17 @@ final Map<String, List<String>> validWrongAnswers = {
   "Sayo": ["Ako", "Ikaw", "Akin"],
 
 
+  // ===================== NEW: Daily Communication & Basic Phrases =====================
+  // (These match your `basicPhrasesMappings` keys)
+  "Magandang Gabi": ["Magandang Hapon", "Magandang Umaga",],
+  "Magandang Hapon": ["Magandang Gabi", "Magandang Umaga",],
+  "Magandang Umaga": ["Magandang Hapon", "Magandang Gabi",],
+  "Tara Kain!": ["Magandang Hapon", "Paalam",],
+  "Kumusta": ["Magandang Umaga", "Paalam"],
+  "Anong Pangalan Mo?": ["Taga saan ka?", "Ilang taon ka na?"],
+  "Matulog ka nang mahimbing": ["Magandang gabi", "Tara Kain!"],
+  "Are you deaf?": ["Anong Pangalan Mo?", "Taga saan ka?"],
+
    // Family & Relationships
   "Lola": ["Lolo", "Mama", "Tita"],
   "Lolo": ["Lola", "Papa", "Tito"],
@@ -158,6 +169,46 @@ final Map<String, List<String>> validWrongAnswers = {
   "Ginto": ["Abo", "Itim", "Kayumanggi"],
   "Paresukat": ["Bilog", "Abo", "Kayumanggi"], 
   "Bilog": ["Paresukat", "Kahel", "Berde"], 
+  // ===================== NEW: Alphabet and Numbers Wrong Answers =====================
+  "A": ["B", "C"],
+  "B": ["A", "D"],
+  "C": ["A", "E"],
+  "D": ["B", "F"],
+  "E": ["C", "G"],
+  "F": ["D", "H"],
+  "G": ["E", "I"],
+  "H": ["F", "J"],
+  "I": ["G", "K"],
+  "J": ["H", "L"],
+  "K": ["I", "M"],
+  "L": ["J", "N"],
+  "M": ["K", "O"],
+  "N": ["L", "P"],
+  "O": ["M", "Q"],
+  "P": ["N", "R"],
+  "Q": ["O", "S"],
+  "R": ["P", "T"],
+  "S": ["Q", "U"],
+  "T": ["R", "V"],
+  "U": ["S", "W"],
+  "V": ["T", "X"],
+  "W": ["U", "Y"],
+  "X": ["V", "Z"],
+  "Y": ["W", "Z"],
+  "Z": ["X", "Y"],
+
+  "Isa": ["Dalawa", "Tatlo"],
+  "Dalawa": ["Isa", "Apat"],
+  "Tatlo": ["Dalawa", "Lima"],
+  "Apat": ["Tatlo", "Lima"],
+  "Lima": ["Apat", "Anim"],
+  "Anim": ["Lima", "Pito"],
+  "Pito": ["Anim", "Walo"],
+  "Walo": ["Pito", "Siyam"],
+  "Siyam": ["Walo", "Sampu"],
+  "Sampu": ["Siyam", "Isa"],
 
 
 };
+
+
