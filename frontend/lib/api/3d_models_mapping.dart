@@ -59,7 +59,9 @@ final Map<String, String> letterModels = {
   'UNIPORME': 'https://drive.google.com/uc?export=download&id=1EoxNTkSiWHkgRjKAzZYR_DDf0EsKT6wL',
   'UPUAN': 'https://drive.google.com/uc?export=download&id=1YC_vzxGMZAAD5NN5q1z45qw_YhPdCGtR',
   'WATAWAT': 'https://drive.google.com/uc?export=download&id=10H_r6e4jqVpRil-K_dyBAmgAii5C1GyD',
+  
 
+  // Relationship
   'BULAKLAK': 'https://drive.google.com/uc?export=download&id=1uW9wESl3OesZy2IAKOdC0YmW62HgEgWb',
   'PAGHANGA': 'https://drive.google.com/uc?export=download&id=1CnoZ3LYxcg2hsjM68AQHhQUxvOM7yHxP',
   'GUSTO': 'https://drive.google.com/uc?export=download&id=1lqJ708lRRAcrZIosOG_Cl53goRXqeJjV',
@@ -75,6 +77,23 @@ final Map<String, String> letterModels = {
   'VALENTINES BOOK': 'https://drive.google.com/uc?export=download&id=1h_whGi43P2WdnQJjb_Vzt-J2Iy_0E4nC',
   'VALENTINES CARD': 'https://drive.google.com/uc?export=download&id=1r1zNlWOXoKCpIzZf3CYPlGFOkyW4UVYs',
   'YAKAP': 'https://drive.google.com/uc?export=download&id=1Tzfk4dEWe35uY1f8H894NONSx24m8cNp',
+
+  //Profession
+  'MANG AAWIT': 'https://drive.google.com/uc?export=download&id=1uAQls9xW7azZs2qVU_d0lmI47FSlSRpz',
+  'PULIS': 'https://drive.google.com/uc?export=download&id=1O7CcaTcVk8fG_dAM_XW89Ek23kFhhh-d',
+  'PILOTO': 'https://drive.google.com/uc?export=download&id=TmRVsC15E9WVFGd3Eyq8o1X43G0uXKn',
+  'NURSE': 'https://drive.google.com/uc?export=download&id=102r14ZQ44dvI8IHUBpAn9LOi5d71xZUL',
+  'MAGSASAKA': 'https://drive.google.com/uc?export=download&id=1WDjW4ov_0oSPkgythHPM_1-TH-In1QXy',
+  'ELECTRECIAN': 'https://drive.google.com/uc?export=download&id=1xrilVhsAIcVUq2NuPvGBg-yrYXriU85c',
+  'DOKTOR': 'https://drive.google.com/uc?export=download&id=1W9ocPbpOeznC308ns8yL4frBbzwyYlnw',
+  'DENTISTA': 'https://drive.google.com/uc?export=download&id=14j34iBHsHgGw9xk5Ls3wURQ-LluKwjo_',
+  'MANANAYAW': 'https://drive.google.com/uc?export=download&id=1CTE-VXhnLd-PULPmLKJMYxvUc_6ASkAM',
+  'KARPINTERO': 'https://drive.google.com/uc?export=download&id=1yGLcqR0jXr1bm4oj5HcvPxWYmdoVOrgF',
+  'BUMBERO': 'https://drive.google.com/uc?export=download&id=1OSjpulwvB14Wr6tmJ6w72ZX5CNTDaJaM',
+  
+
+
+
 
 
 };
