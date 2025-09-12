@@ -1,18 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-
-import 'package:lingua_arv1/Widgets/guide_overlay.dart';
 import 'package:lingua_arv1/bloc/Gif/gif_bloc.dart';
 import 'package:lingua_arv1/bloc/Gif/gif_event.dart';
 import 'package:lingua_arv1/bloc/Gif/gif_state.dart';
+import 'package:lingua_arv1/Widgets/guide_overlay.dart';
 
-class CardPage4 extends StatefulWidget {
+class SignLearningScreen extends StatefulWidget {
   final String phrase;
   final String gifPath;
   final VoidCallback onNext;
 
-  const CardPage4({
+  const SignLearningScreen({
     super.key,
     required this.phrase,
     required this.gifPath,
@@ -20,10 +19,10 @@ class CardPage4 extends StatefulWidget {
   });
 
   @override
-  State<CardPage4> createState() => _CardPage4State();
+  _SignLearningScreenState createState() => _SignLearningScreenState();
 }
 
-class _CardPage4State extends State<CardPage4> {
+class _SignLearningScreenState extends State<SignLearningScreen> {
   bool _showGuide = false;
 
   @override
@@ -34,10 +33,11 @@ class _CardPage4State extends State<CardPage4> {
 
   Future<void> _checkFirstTimeUser() async {
     final prefs = await SharedPreferences.getInstance();
-    if (!(prefs.getBool("hasSeenCardPageGuide") ?? false)) {
-      if (!mounted) return; // ✅ avoid setState after dispose
+    final hasSeen = prefs.getBool("hasSeenSignLearningGuide") ?? false;
+    if (!hasSeen) {
+      if (!mounted) return;
       setState(() => _showGuide = true);
-      await prefs.setBool("hasSeenCardPageGuide", true);
+      await prefs.setBool("hasSeenSignLearningGuide", true);
     }
   }
 
@@ -46,14 +46,14 @@ class _CardPage4State extends State<CardPage4> {
     final isDark = Theme.of(context).brightness == Brightness.dark;
 
     return BlocProvider(
-      key: const ValueKey('cardpage4_gifbloc'),
-      create: (_) =>
-          GifBloc()..add(FetchGif(publicId: widget.gifPath, phrase: widget.phrase)),
+      key: const ValueKey('cardpage1_gifbloc'),
+      create: (_) => GifBloc()
+        ..add(FetchGif(publicId: widget.gifPath, phrase: widget.phrase)),
       child: Scaffold(
-        backgroundColor: isDark ? const Color(0xFF273236) : const Color(0xFFFCEEFF),
+        backgroundColor: isDark ? const Color(0xFF273236) : Colors.white,
         appBar: AppBar(
           title: Text(
-            "Travel, Food, and Environment",
+            "Daily Communication & Basic Phrases",
             style: TextStyle(
               fontSize: 20,
               fontWeight: FontWeight.bold,
@@ -61,15 +61,18 @@ class _CardPage4State extends State<CardPage4> {
             ),
           ),
           centerTitle: true,
-          backgroundColor: isDark ? const Color(0xFF1D1D1D) : Colors.white,
+          backgroundColor:
+              isDark ? const Color.fromARGB(255, 29, 29, 29) : Colors.white,
           elevation: 0,
           leading: IconButton(
-            icon: Icon(Icons.arrow_back, color: isDark ? Colors.white : Colors.black),
+            icon: Icon(Icons.arrow_back,
+                color: isDark ? Colors.white : Colors.black),
             onPressed: () => Navigator.pop(context),
           ),
           actions: [
             IconButton(
-              icon: Icon(Icons.help_outline, color: isDark ? Colors.white : Colors.black),
+              icon: Icon(Icons.help_outline,
+                  color: isDark ? Colors.white : Colors.black),
               onPressed: () => setState(() => _showGuide = true),
             ),
           ],
@@ -77,6 +80,7 @@ class _CardPage4State extends State<CardPage4> {
         body: Stack(
           children: [
             Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 SizedBox(
                   width: 500,
@@ -90,7 +94,7 @@ class _CardPage4State extends State<CardPage4> {
                           margin: const EdgeInsets.all(8),
                           decoration: BoxDecoration(
                             border: Border.all(color: Colors.grey),
-                            borderRadius: BorderRadius.circular(12), 
+                            borderRadius: BorderRadius.circular(12),
                           ),
                           clipBehavior: Clip.antiAlias,
                           child: Image.network(
@@ -114,22 +118,33 @@ class _CardPage4State extends State<CardPage4> {
                   ),
                 ),
                 const SizedBox(height: 30),
-                Container(
-                  width: 150,
-                  height: 60,
-                  alignment: Alignment.center,
-                  decoration: BoxDecoration(
-                    border: Border.all(color: isDark ? Colors.white : Colors.black),
-                    borderRadius: BorderRadius.circular(10),
-                    color: isDark ? const Color(0xFF273236) : Colors.white,
+                ConstrainedBox(
+                  constraints: const BoxConstraints(
+                    minHeight: 48,
+                    maxWidth: 260, 
                   ),
-                  child: Text(
-                    widget.phrase,
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                      fontSize: 25,
-                      fontWeight: FontWeight.bold,
-                      color: isDark ? Colors.white : Colors.black,
+                  child: Container(
+                    padding:
+                        const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+                    alignment: Alignment.center,
+                    decoration: BoxDecoration(
+                      border: Border.all(
+                          color: isDark ? Colors.white : Colors.black,
+                          width: 1),
+                      borderRadius: BorderRadius.circular(10),
+                      color: isDark ? const Color(0xFF273236) : Colors.white,
+                    ),
+                    child: Text(
+                      widget.phrase,
+                      textAlign: TextAlign.center,
+                      maxLines: 2,
+                      overflow: TextOverflow
+                          .ellipsis, 
+                      style: const TextStyle(
+                        fontSize: 22, 
+                        fontWeight: FontWeight.bold,
+                        height: 1.2, 
+                      ),
                     ),
                   ),
                 ),
@@ -137,15 +152,19 @@ class _CardPage4State extends State<CardPage4> {
                 Padding(
                   padding: const EdgeInsets.only(bottom: 30),
                   child: ElevatedButton(
-                    onPressed: widget.onNext,
+                    onPressed: widget.onNext, 
                     style: ElevatedButton.styleFrom(
                       backgroundColor: const Color(0xFF4A90E2),
-                      padding: const EdgeInsets.symmetric(vertical: 15, horizontal: 80),
+                      padding: const EdgeInsets.symmetric(
+                          vertical: 15, horizontal: 80),
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(30),
                       ),
                     ),
-                    child: const Text("NEXT", style: TextStyle(fontSize: 18, color: Colors.white)),
+                    child: const Text(
+                      "NEXT",
+                      style: TextStyle(fontSize: 18, color: Colors.white),
+                    ),
                   ),
                 ),
               ],

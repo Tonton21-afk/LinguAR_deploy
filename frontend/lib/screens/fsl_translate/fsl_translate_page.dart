@@ -1,11 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:lingua_arv1/screens/fsl_Quiz/signLearningScreen.dart';
-import '../fsl_Quiz/cards/sample_page.dart';
-import '../fsl_Quiz/cards/card_page2.dart';
-import '../fsl_Quiz/cards/card_page3.dart';
-import '../fsl_Quiz/cards/card_page4.dart';
-import '../fsl_Quiz/cards/card_page5.dart';
-import 'package:lingua_arv1/Widgets/topic_section.dart';
+import 'package:lingua_arv1/Widgets/ChapterTimelineList.dart';
+import 'package:lingua_arv1/Widgets/unitHeader.dart';
+import 'package:lingua_arv1/screens/fsl_Quiz/lesson_flow_page.dart';
+import 'package:lingua_arv1/services/progress_store.dart';
 
 class FSLTranslatePage extends StatefulWidget {
   @override
@@ -13,125 +10,172 @@ class FSLTranslatePage extends StatefulWidget {
 }
 
 class _FSLTranslatePageState extends State<FSLTranslatePage> {
-  late ScrollController _scrollController;
-  Color appBarColor = const Color(0xFFFEFFFE);
+  static const String _trackKey = 'fsl_translate_track';
+
+  late final ScrollController _scrollController;
+  Color _appBarColor = const Color(0xFFFEFFFE);
+  bool _isScrolled = false;
+
+  int _currentIndex = 0;
 
   final List<Map<String, dynamic>> topics = [
     {
       'title': 'Daily Communication',
       'description': 'Essential phrases for everyday conversations.',
-      'page': SignLearningScreen()
+      'page':
+          const LessonFlowPage(category: "Daily Communication & Basic Phrases"),
     },
     {
-      'title': 'Family, Relationships, and Social Life',
-      'description': 'Express feelings and connect with loved ones.',
-      'page': CardPage2()
+      'title': 'Family',
+      'description': 'Connect with loved ones.',
+      'page': const LessonFlowPage(category: "Family"),
+    },
+    {
+      'title': 'Relationships',
+      'description': 'Express feelings.',
+      'page': const LessonFlowPage(
+          category: "Relationships"), // <-- no leading space
+    },
+    {
+      'title': 'Travel, Food, and Environment',
+      'description': 'Essential phrases for Travel',
+      'page': const LessonFlowPage(category: "Travel, Food, and Environment"),
     },
     {
       'title': 'Learning, Work, and Technology',
       'description':
           'Communicate in academic, professional, and digital settings.',
-      'page': CardPage3()
+      'page': const LessonFlowPage(category: "Learning, Work & Technology"),
     },
     {
-      'title': 'Travel, Food, and Environment',
-      'description': 'Navigate new places, order food, and discuss nature.',
-      'page': CardPage4()
+      'title': 'Colors, numbers & Alphabet',
+      'description': 'Basics of FSL.',
+      'page': const LessonFlowPage(category: "Colors, numbers & Alphabet"),
     },
     {
       'title': 'Interactive Learning and Emergency',
       'description':
           'Engage in learning activities and handle urgent situations.',
-      'page': CardPage5()
+      'page': const LessonFlowPage(category: "Emergency"),
     },
   ];
 
   @override
   void initState() {
     super.initState();
-    _scrollController = ScrollController();
-    _scrollController.addListener(_onScroll);
+    _scrollController = ScrollController()..addListener(_onScroll);
+    _loadProgress();
+  }
+
+  Future<void> _loadProgress() async {
+    final idx = await ProgressStore.getCurrentIndex(_trackKey);
+    if (!mounted) return;
+    setState(() => _currentIndex = idx.clamp(0, topics.length - 1));
   }
 
   void _onScroll() {
-    bool isDarkMode = Theme.of(context).brightness == Brightness.dark;
-
-    setState(() {
-      appBarColor = _scrollController.offset > 50
-          ? const Color(0xFF4A90E2) // Scrolled color
-          : (isDarkMode
-              ? const Color.fromARGB(255, 29, 29, 29)
-              : const Color(0xFFFEFFFE)); // ✅ Black in dark mode
-    });
+    final now = _scrollController.hasClients && _scrollController.offset > 50;
+    if (now != _isScrolled) setState(() => _isScrolled = now);
   }
 
   @override
   void dispose() {
-    _scrollController.removeListener(_onScroll);
-    _scrollController.dispose();
+    _scrollController
+      ..removeListener(_onScroll)
+      ..dispose();
     super.dispose();
+  }
+
+  void _showLockedSnack() {
+    ScaffoldMessenger.of(context).showSnackBar(
+      const SnackBar(
+        content: Text('Finish the previous lesson to unlock this one.'),
+        duration: Duration(milliseconds: 1400),
+      ),
+    );
   }
 
   @override
   Widget build(BuildContext context) {
-    final screenWidth = MediaQuery.of(context).size.width;
-    final screenHeight = MediaQuery.of(context).size.height;
-    // ✅ Ensure the initial app bar color is correct for dark mode
-    bool isDarkMode = Theme.of(context).brightness == Brightness.dark;
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+    _appBarColor = _isScrolled
+        ? const Color(0xFF4A90E2)
+        : (isDark ? const Color(0xFF1D1D1D) : const Color(0xFFFEFFFE));
 
-    if (_scrollController.hasClients && _scrollController.offset > 50) {
-      appBarColor = const Color(0xFF4A90E2); // ✅ Keeps blue if already scrolled
-    } else {
-      appBarColor = isDarkMode ? const Color.fromARGB(255, 29, 29, 29) : const Color(0xFFFEFFFE);
-    }
     return Scaffold(
-      backgroundColor: Theme.of(context).brightness == Brightness.dark
-          ? Color(0xFF273236)
-          // Dark mode color
-          : const Color(0xFFFEFFFE),
+      backgroundColor:
+          isDark ? const Color(0xFF273236) : const Color(0xFFFEFFFE),
       body: NestedScrollView(
         controller: _scrollController,
-        headerSliverBuilder: (context, innerBoxIsScrolled) {
-          return [
-            SliverAppBar(
-              pinned: true,
-              automaticallyImplyLeading: false,
-              backgroundColor: appBarColor,
-              elevation: 4,
-              expandedHeight: kToolbarHeight,
-              flexibleSpace: FlexibleSpaceBar(
-                centerTitle: true,
-                title: Text(
-                  'Filipino Sign Language Lessons',
-                  style: TextStyle(
-                    fontSize: screenWidth * 0.045,
-                    color: Theme.of(context).brightness == Brightness.dark
-                        ? Colors.white // ✅ Always white in dark mode
-                        : (appBarColor == const Color(0xFFFEFFFE)
-                            ? Colors.black
-                            : Colors.white),
-                  ),
+        headerSliverBuilder: (context, _) => [
+          SliverAppBar(
+            pinned: true,
+            automaticallyImplyLeading: false,
+            backgroundColor: _appBarColor,
+            scrolledUnderElevation: 4,
+            expandedHeight: kToolbarHeight,
+            flexibleSpace: FlexibleSpaceBar(
+              centerTitle: true,
+              title: Text(
+                'Filipino Sign Language Lessons',
+                style: TextStyle(
+                  fontSize: MediaQuery.of(context).size.width * 0.045,
+                  color: isDark
+                      ? Colors.white
+                      : (_isScrolled ? Colors.white : Colors.black),
                 ),
               ),
             ),
-          ];
-        },
-        body: ListView(
-          padding: EdgeInsets.all(screenWidth * 0.04),
-          physics: ClampingScrollPhysics(),
-          //  smooth scrolling
-          children: [
-            // Topics Section (From Widgets Folder)
-            TopicSection(
-              screenWidth: screenWidth,
-              screenHeight: screenHeight,
-              topics: topics,
-            ),
-          ],
+          ),
+        ],
+        body: SafeArea(
+          top: false,
+          child: Column(
+            children: [
+              UnitHeader(
+                title: 'Chapter: Filipino Sign Language Lessons',
+                currentIndex: _currentIndex,
+                total: topics.length,
+                dense: true,
+                padding: const EdgeInsets.fromLTRB(
+                    32, 8, 16, 10), 
+              ),
+              Expanded(
+                child: Padding(
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                  child: ChapterTimelineList(
+                    topics: topics,
+                    currentIndex: _currentIndex,
+                    onOpen: (index, topic) async {
+                      if (index > _currentIndex) {
+                        _showLockedSnack();
+                        return;
+                      }
+
+                      final bool? completed =
+                          await Navigator.of(context).push<bool>(
+                        MaterialPageRoute(
+                            builder: (_) => topic['page'] as Widget),
+                      );
+
+                      if (completed == true) {
+                        final next = (_currentIndex < topics.length - 1)
+                            ? _currentIndex + 1
+                            : _currentIndex;
+                        if (next != _currentIndex) {
+                          await ProgressStore.setCurrentIndex(_trackKey, next);
+                          await _loadProgress();
+                        }
+                      }
+                    },
+                  ),
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );
   }
 }
-
-

@@ -4,13 +4,24 @@ import 'package:lingua_arv1/screens/fsl_Quiz/answerFeedback.dart';
 
 class QuizResultScreen extends StatelessWidget {
   final QuizResult result;
-
   const QuizResultScreen({Key? key, required this.result}) : super(key: key);
+
+  // 🔐 Robust finisher: pop current; if not, pop root
+  void _finishWithSuccess(BuildContext context) {
+    final nav = Navigator.of(context);
+    if (nav.canPop()) {
+      print('DEBUG[Result]: pop(true) via local navigator');
+      nav.pop(true);
+    } else {
+      print('DEBUG[Result]: local cannot pop; pop(true) via root navigator');
+      Navigator.of(context, rootNavigator: true).pop(true);
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
-    int totalQuestions = result.correctAnswers + result.wrongAnswers;
-    double scorePercentage =
+    final int totalQuestions = result.correctAnswers + result.wrongAnswers;
+    final double scorePercentage =
         totalQuestions > 0 ? (result.correctAnswers / totalQuestions) * 100 : 0;
 
     String feedbackMessage;
@@ -26,56 +37,66 @@ class QuizResultScreen extends StatelessWidget {
       feedbackColor = Colors.red;
     }
 
-    return Scaffold(
-      backgroundColor: Theme.of(context).brightness == Brightness.dark
-          ? Color(0xFF273236) // White button in dark mode
-          : Colors.grey[100],
-      appBar: AppBar(
+    return WillPopScope(
+      onWillPop: () async {
+        // System/gesture back should also unlock & go back to FSLTranslate.
+        print('DEBUG[Result]: system/back -> finishing with success');
+        _finishWithSuccess(context);
+        return false; // we handled the pop
+      },
+      child: Scaffold(
         backgroundColor: Theme.of(context).brightness == Brightness.dark
-            ? Color(0xFF273236) // White button in dark mode
-            : Colors.white,
-        elevation: 1,
-        toolbarHeight: 0,
-      ),
-      body: Padding(
-        padding: const EdgeInsets.all(20.0),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Icon(Icons.emoji_events, size: 36, color: Colors.amber),
-                const SizedBox(width: 10),
-                Text(
-                  "Your Results",
-                  style: TextStyle(
-                    fontSize: 28,
-                    fontWeight: FontWeight.bold,
-                    color: Theme.of(context).brightness == Brightness.dark
-                        ? Colors.amber // White button in dark mode
-                        : Colors.black87,
+            ? const Color(0xFF273236)
+            : Colors.grey[100],
+        appBar: AppBar(
+          // Keep invisible app bar; WillPopScope covers system back.
+          automaticallyImplyLeading: false,
+          backgroundColor: Theme.of(context).brightness == Brightness.dark
+              ? const Color(0xFF273236)
+              : Colors.white,
+          elevation: 1,
+          toolbarHeight: 0,
+        ),
+        body: Padding(
+          padding: const EdgeInsets.all(20.0),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  const Icon(Icons.emoji_events, size: 36, color: Colors.amber),
+                  const SizedBox(width: 10),
+                  Text(
+                    "Your Results",
+                    style: TextStyle(
+                      fontSize: 28,
+                      fontWeight: FontWeight.bold,
+                      color: Theme.of(context).brightness == Brightness.dark
+                          ? Colors.amber
+                          : Colors.black87,
+                    ),
                   ),
-                ),
-              ],
-            ),
-            const SizedBox(height: 20),
-            _buildFeedbackCard(feedbackMessage, feedbackColor),
-            const SizedBox(height: 20),
-            _buildScoreCard(scorePercentage, context),
-            const SizedBox(height: 30),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                _buildAnswerStat("Correct", result.correctAnswers,
-                    Icons.check_circle, Colors.green),
-                _buildAnswerStat(
-                    "Wrong", result.wrongAnswers, Icons.cancel, Colors.red),
-              ],
-            ),
-            const SizedBox(height: 40),
-            _buildActionButtons(context),
-          ],
+                ],
+              ),
+              const SizedBox(height: 20),
+              _buildFeedbackCard(feedbackMessage, feedbackColor),
+              const SizedBox(height: 20),
+              _buildScoreCard(scorePercentage, context),
+              const SizedBox(height: 30),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  _buildAnswerStat("Correct", result.correctAnswers,
+                      Icons.check_circle, Colors.green),
+                  _buildAnswerStat(
+                      "Wrong", result.wrongAnswers, Icons.cancel, Colors.red),
+                ],
+              ),
+              const SizedBox(height: 40),
+              _buildActionButtons(context),
+            ],
+          ),
         ),
       ),
     );
@@ -108,12 +129,11 @@ class QuizResultScreen extends StatelessWidget {
   }
 
   Widget _buildScoreCard(double percentage, BuildContext context) {
-    bool isDarkMode = Theme.of(context).brightness == Brightness.dark;
-
+    final bool isDarkMode = Theme.of(context).brightness == Brightness.dark;
     return Container(
       padding: const EdgeInsets.all(20),
       decoration: BoxDecoration(
-        color: isDarkMode ? Color.fromARGB(255, 57, 65, 65) : Colors.white,
+        color: isDarkMode ? const Color.fromARGB(255, 57, 65, 65) : Colors.white,
         borderRadius: BorderRadius.circular(20),
         boxShadow: [
           BoxShadow(
@@ -134,6 +154,7 @@ class QuizResultScreen extends StatelessWidget {
             ),
           ),
           const SizedBox(height: 10),
+          const SizedBox(height: 4),
           Text(
             "${percentage.toStringAsFixed(1)}%",
             style: const TextStyle(
@@ -178,6 +199,8 @@ class QuizResultScreen extends StatelessWidget {
       children: [
         ElevatedButton(
           onPressed: () {
+            // Restart stays within the lesson flow; no unlock signal needed here.
+            print('DEBUG[Result]: pushReplacement -> AnswerFeedback(category=${result.category})');
             Navigator.pushReplacement(
               context,
               MaterialPageRoute(
@@ -188,31 +211,24 @@ class QuizResultScreen extends StatelessWidget {
           style: ElevatedButton.styleFrom(
             backgroundColor: Colors.deepPurple,
             padding: const EdgeInsets.symmetric(horizontal: 40, vertical: 16),
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(10),
-            ),
+            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
           ),
-          child: const Text(
-            "Restart Quiz",
-            style: TextStyle(fontSize: 18, color: Colors.white),
-          ),
+          child: const Text("Restart Quiz",
+              style: TextStyle(fontSize: 18, color: Colors.white)),
         ),
         const SizedBox(height: 20),
         OutlinedButton(
           onPressed: () {
-            Navigator.pop(context);
+            print('DEBUG[Result]: submit -> finish & return true');
+            _finishWithSuccess(context); // ✅ go back to FSLTranslatePage via chain
           },
           style: OutlinedButton.styleFrom(
             padding: const EdgeInsets.symmetric(horizontal: 40, vertical: 16),
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(10),
-            ),
+            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
             side: const BorderSide(color: Colors.purple, width: 2),
           ),
-          child: const Text(
-            "Back",
-            style: TextStyle(fontSize: 18, color: Colors.purple),
-          ),
+          child: const Text("Submit",
+              style: TextStyle(fontSize: 18, color: Colors.purple)),
         ),
       ],
     );

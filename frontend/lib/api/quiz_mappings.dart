@@ -11,8 +11,7 @@ import 'package:lingua_arv1/api/food_drinks.dart';
 import 'package:lingua_arv1/api/work_profession.dart';
 import 'package:lingua_arv1/api/emergency.dart';
 import 'package:lingua_arv1/api/shapes_colors.dart';
-
-
+import 'package:lingua_arv1/api/alphabet_numbers_gif_mappings.dart';
 
 List<Map<String, String>> generateQuizData(String category) {
   final Random random = Random();
@@ -26,26 +25,38 @@ List<Map<String, String>> generateQuizData(String category) {
   Map<String, String> selectedMappings = {};
 
   switch (category) {
-    case "Daily Communication":
-      selectedMappings = pronounsMappings;
+    case "Daily Communication & Basic Phrases":
+      selectedMappings = {...pronounsMappings, ...basicPhrasesMappings};
       break;
-    case "Family & Relationships":
-      selectedMappings = {...familyFriendsMappings, ...relationshipMappings};
+    case "Family":
+      selectedMappings = {...familyFriendsMappings};
       break;
-    case "Learning, Work, and Technology":
-      selectedMappings = {...workProfessionMappings, ...technologyMappings, ...educationMappings};
+    case "Relationships":
+      selectedMappings = {...relationshipMappings};
+      break;
+    case "Learning, Work & Technology":
+      selectedMappings = {
+        ...educationMappings,
+        ...workProfessionMappings,
+        ...technologyMappings,
+      };
       break;
     case "Travel, Food, and Environment":
       selectedMappings = {...fooddrinksMappings, ...transportationMappings};
       break;
     case "Emergency":
-      selectedMappings = {...emergencyNatureMappings, ...shapeColorsMappings};
+      selectedMappings = {...emergencyNatureMappings};
+      break;
+    case "Colors, numbers & Alphabet":
+      selectedMappings = {...shapeColorsMappings, ...alphabetNumbersMappings};
+      break;
     default:
       throw Exception("Invalid category: $category");
   }
 
   // Debug: Print the selected mappings for the category
-  print("DEBUG: Selected Phrases for $category -> ${selectedMappings.keys.toList()}");
+  print(
+      "DEBUG: Selected Phrases for $category -> ${selectedMappings.keys.toList()}");
 
   final List<String> allPhrases = selectedMappings.keys.toList();
   allPhrases.shuffle(random);
@@ -93,8 +104,10 @@ List<Map<String, String>> generateQuizData(String category) {
     });
 
     // Debug: Ensure correct data integrity
-    assert(choices.contains(phrase), 'ERROR: Correct answer missing for phrase: $phrase');
-    assert(correctGifPath.isNotEmpty, 'ERROR: Missing GIF path for phrase: $phrase');
+    assert(choices.contains(phrase),
+        'ERROR: Correct answer missing for phrase: $phrase');
+    assert(correctGifPath.isNotEmpty,
+        'ERROR: Missing GIF path for phrase: $phrase');
   }
 
   // Debug: Quiz generation completed

@@ -1,8 +1,8 @@
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
-import 'package:lingua_arv1/screens/gesture/text_to_3dAnimation.dart';
+import 'package:flutter/services.dart';
 import 'package:lingua_arv1/screens/text_to_speech/gesture_voice_translator.dart';
-import 'package:lingua_arv1/screens/gesture/gesture_word_tab.dart';
+import 'package:lingua_arv1/screens/text_to_speech/text_to_speech.dart';
 
 class GestureTranslator extends StatefulWidget {
   @override
@@ -12,10 +12,7 @@ class GestureTranslator extends StatefulWidget {
 class _GestureTranslatorState extends State<GestureTranslator>
     with SingleTickerProviderStateMixin {
   late TabController _tabController;
-  final List<CameraDescription>? _cameras;
   int _currentTabIndex = 0;
-
-  _GestureTranslatorState() : _cameras = null;
 
   @override
   void initState() {
@@ -26,9 +23,7 @@ class _GestureTranslatorState extends State<GestureTranslator>
 
   void _handleTabChange() {
     if (!_tabController.indexIsChanging) {
-      setState(() {
-        _currentTabIndex = _tabController.index;
-      });
+      setState(() => _currentTabIndex = _tabController.index);
     }
   }
 
@@ -41,16 +36,28 @@ class _GestureTranslatorState extends State<GestureTranslator>
 
   @override
   Widget build(BuildContext context) {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+
+    
+    SystemChrome.setSystemUIOverlayStyle(
+      isDark
+          ? SystemUiOverlayStyle.light
+          : SystemUiOverlayStyle.dark,
+    );
+
     return Scaffold(
-      backgroundColor: Colors.black,
+      backgroundColor: isDark ? const Color(0xFF1D1D1D) : Colors.white,
       appBar: AppBar(
         title: const Text('Gesture Translator'),
         centerTitle: true,
-        backgroundColor: Colors.black,
+        backgroundColor: isDark ? const Color(0xFF1D1D1D) : Colors.white,
         elevation: 0,
         bottom: TabBar(
           controller: _tabController,
-          tabs: [
+          labelColor: isDark ? Colors.white : Colors.black,
+          unselectedLabelColor: isDark ? Colors.white70 : Colors.black54,
+          indicatorColor: isDark ? Colors.purpleAccent : Colors.deepPurple,
+          tabs: const [
             Tab(text: 'Word'),
             Tab(text: '3D Text'),
           ],
@@ -63,20 +70,19 @@ class _GestureTranslatorState extends State<GestureTranslator>
             if (snapshot.hasError) {
               return Center(child: Text('Error: ${snapshot.error}'));
             }
+            final cameras = snapshot.data!;
             return TabBarView(
               controller: _tabController,
               children: [
-                GestureWordTab(
-                  cameras: snapshot.data!,
+                GestureVoiceTab(
+                  cameras: cameras,
                   isActive: _currentTabIndex == 0,
                 ),
-                TextTo3DTab(
-                  isActive: _currentTabIndex == 1,
-                ),
+                TextToSpeech(),
               ],
             );
           }
-          return Center(child: CircularProgressIndicator());
+          return const Center(child: CircularProgressIndicator());
         },
       ),
     );

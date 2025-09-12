@@ -21,7 +21,8 @@ class GestureVoiceTab extends StatefulWidget {
   _GestureVoiceTabState createState() => _GestureVoiceTabState();
 }
 
-class _GestureVoiceTabState extends State<GestureVoiceTab> with WidgetsBindingObserver {
+class _GestureVoiceTabState extends State<GestureVoiceTab>
+    with WidgetsBindingObserver {
   CameraController? _cameraController;
   int _cameraIndex = 1;
   String predictedCharacter = "";
@@ -59,7 +60,7 @@ class _GestureVoiceTabState extends State<GestureVoiceTab> with WidgetsBindingOb
   @override
   void didChangeAppLifecycleState(AppLifecycleState state) {
     if (!_isMounted) return;
-    
+
     if (state == AppLifecycleState.inactive) {
       _stopCamera();
     } else if (state == AppLifecycleState.resumed && widget.isActive) {
@@ -108,7 +109,7 @@ class _GestureVoiceTabState extends State<GestureVoiceTab> with WidgetsBindingOb
       );
 
       await _cameraController!.initialize();
-      
+
       if (!_isMounted || !widget.isActive) return;
 
       setState(() {
@@ -139,7 +140,11 @@ class _GestureVoiceTabState extends State<GestureVoiceTab> with WidgetsBindingOb
   }
 
   Future<void> _predictGesture() async {
-    if (isPredicting || !_isMounted || !_isCameraReady || _stopPrediction || !widget.isActive) {
+    if (isPredicting ||
+        !_isMounted ||
+        !_isCameraReady ||
+        _stopPrediction ||
+        !widget.isActive) {
       return;
     }
 
@@ -149,7 +154,8 @@ class _GestureVoiceTabState extends State<GestureVoiceTab> with WidgetsBindingOb
       XFile? imageFile = await _cameraController!.takePicture();
       Uint8List imageBytes = await imageFile.readAsBytes();
 
-      var request = http.MultipartRequest('POST', Uri.parse('$url/gesture/hands'));
+      var request =
+          http.MultipartRequest('POST', Uri.parse('$url/gesture/hands'));
       request.files.add(http.MultipartFile.fromBytes('file', imageBytes,
           filename: "gesture.jpg"));
 
@@ -158,9 +164,11 @@ class _GestureVoiceTabState extends State<GestureVoiceTab> with WidgetsBindingOb
         var jsonResponse = jsonDecode(await response.stream.bytesToString());
         String character = jsonResponse["predicted_character"];
 
-        if (character.isNotEmpty && character != predictedCharacter && _isMounted) {
+        if (character.isNotEmpty &&
+            character != predictedCharacter &&
+            _isMounted) {
           setState(() => predictedCharacter = character);
-          
+
           if (character != lastSpokenCharacter) {
             await flutterTts.stop();
             await flutterTts.speak(character);
@@ -207,32 +215,27 @@ class _GestureVoiceTabState extends State<GestureVoiceTab> with WidgetsBindingOb
     return Stack(
       children: [
         if (_isCameraReady && _cameraController != null)
-          Center(
-            child: AspectRatio(
-              aspectRatio: _cameraController!.value.aspectRatio,
-              child: CameraPreview(_cameraController!),
-            ),
-          )
+          _buildFullscreenPreview(context) // << replaced here
         else
-          Center(child: CircularProgressIndicator()),
+          const Center(child: CircularProgressIndicator()),
         Positioned(
           bottom: 20,
           left: 0,
           right: 0,
           child: Container(
-            padding: EdgeInsets.all(16),
+            padding: const EdgeInsets.all(16),
             decoration: BoxDecoration(
-              color: Colors.black.withOpacity(0.7),
+              color: Colors.black.withValues(alpha:0.7),
               borderRadius: BorderRadius.circular(12),
             ),
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: [
-                Text("Predicted Character:",
+                const Text("Predicted Character:",
                     style: TextStyle(fontSize: 18, color: Colors.white)),
-                SizedBox(height: 8),
+                const SizedBox(height: 8),
                 Text(predictedCharacter,
-                    style: TextStyle(
+                    style: const TextStyle(
                         fontSize: 24,
                         fontWeight: FontWeight.bold,
                         color: Colors.greenAccent)),
@@ -244,11 +247,31 @@ class _GestureVoiceTabState extends State<GestureVoiceTab> with WidgetsBindingOb
           top: 8,
           right: 8,
           child: IconButton(
-            icon: Icon(Icons.cameraswitch, color: Colors.white),
+            icon: const Icon(Icons.cameraswitch, color: Colors.white),
             onPressed: _flipCamera,
           ),
         ),
       ],
+    );
+  }
+
+ 
+  Widget _buildFullscreenPreview(BuildContext context) {
+    final size = MediaQuery.of(context).size;
+
+    final previewSize = _cameraController!.value.previewSize!;
+    final previewRatio = previewSize.height / previewSize.width;
+    final deviceRatio = size.width / size.height;
+    final scale = previewRatio / deviceRatio;
+
+    return Transform.scale(
+      scale: scale,
+      child: Center(
+        child: AspectRatio(
+          aspectRatio: previewRatio,
+          child: CameraPreview(_cameraController!),
+        ),
+      ),
     );
   }
 }

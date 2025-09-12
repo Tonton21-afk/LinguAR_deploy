@@ -1,6 +1,6 @@
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
-import 'package:lingua_arv1/screens/text_to_speech/text_to_speech.dart';
+import 'package:lingua_arv1/screens/gesture/text_to_3dAnimation.dart';
 import 'package:lingua_arv1/screens/text_to_speech/gesture_voice_translator.dart';
 
 class LinguaTabs extends StatefulWidget {
@@ -67,11 +67,13 @@ class _LinguaTabsState extends State<LinguaTabs>
             return TabBarView(
               controller: _tabController,
               children: [
-                TextToSpeech(),
                 GestureVoiceTab(
                   cameras: snapshot.data!,
                   isActive: _currentTabIndex == 1,
                 ),
+                TextTo3DTab(isActive: _currentTabIndex == 0,
+                ),
+                
               ],
             );
           }
