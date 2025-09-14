@@ -92,12 +92,26 @@ final Map<String, String> letterModels = {
   'KARPINTERO': 'https://drive.google.com/uc?export=download&id=1yGLcqR0jXr1bm4oj5HcvPxWYmdoVOrgF',
   'BUMBERO': 'https://drive.google.com/uc?export=download&id=1OSjpulwvB14Wr6tmJ6w72ZX5CNTDaJaM',
 
-  '': 'https://drive.google.com/uc?export=download&id=',
-  '': 'https://drive.google.com/uc?export=download&id=',
-  '': 'https://drive.google.com/uc?export=download&id=',
-  '': 'https://drive.google.com/uc?export=download&id=',
-  '': 'https://drive.google.com/uc?export=download&id=',
-  '': 'https://drive.google.com/uc?export=download&id=',
+
+  //FOOD AND DRINKS
+  'BREAKFAST': 'https://drive.google.com/uc?export=download&id=1IHmBST07gUnomziEdutHxdQsGovxexw5',
+  'CEREAL': 'https://drive.google.com/uc?export=download&id=1WR-d0mhuIzuX4euNwDJxdg5Eol8X0XUC',
+  'GUTOM': 'https://drive.google.com/uc?export=download&id=1thdZIORNZO62NLiRbQSBaDctyux_aIxC',
+  'HAM': 'https://drive.google.com/uc?export=download&id=1kIdUJzmaneyAGPsiy0C6v_J3uoWn8RRU',
+  'HAPUNAN': 'https://drive.google.com/uc?export=download&id=1Ib8dI9pJ-yqBlY6pVzprE5AGNDEmCdZe',
+  'HOTDOG': 'https://drive.google.com/uc?export=download&id=1uged-CXse8UvnjAQXJz73JWhEy-6ljOd',
+  'INUMIN': 'https://drive.google.com/uc?export=download&id=1VMN93Du5bVOvCIfmtvjy1OwPcbyZE-mL',
+  'ITLOG': 'https://drive.google.com/uc?export=download&id=1-Wrsww9fbhdRLcr7DDvDHQp4TZr7Z_Pg',
+  'JUICE': 'https://drive.google.com/uc?export=download&id=1UC6P5O8EI7oq7O0crwgFx6czvGCL00Cs',
+  'KAPE': 'https://drive.google.com/uc?export=download&id=1MtC3gn0Ahrg6eaJnCNrbgpZ3lN5Qh74r',
+  'MANTIKA': 'https://drive.google.com/uc?export=download&id=1tqQi6blaOk1la6pe5Hvdm955ly05JZud',
+  'MAYONNAISE': 'https://drive.google.com/uc?export=download&id=1LLlWqaMwxNUP8phIJViQ_Z2uLqu1bN__',
+  'PAGKAIN': 'https://drive.google.com/uc?export=download&id=10UmN5tRQokbs3xfYbqjrSCKjimjwkkfQ',
+  'PANCAKE': 'https://drive.google.com/uc?export=download&id=1tVwMhKKB4XGbeYo9kUJbmJNtNu3eHheR',
+  'SODA': 'https://drive.google.com/uc?export=download&id=1jU8qqFIB3frkgh6q2ENrA9gIvRrEyu7d',
+  'TANGHALIAN': 'https://drive.google.com/uc?export=download&id=16dmo8lcTJA0OFzq4H0XCV-ofxzegrKRh',
+  'TINAPAY': 'https://drive.google.com/uc?export=download&id=1DKB3fLnghp4nscLX2WYMdmMVkyucLDbk',
+  'TSAA': 'https://drive.google.com/uc?export=download&id=1muE68ANg5MxiCGYaGCkG8unb3oNpRYDz',
   
 
 
