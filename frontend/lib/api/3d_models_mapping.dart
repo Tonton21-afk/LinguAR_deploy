@@ -112,6 +112,35 @@ final Map<String, String> letterModels = {
   'TANGHALIAN': 'https://drive.google.com/uc?export=download&id=16dmo8lcTJA0OFzq4H0XCV-ofxzegrKRh',
   'TINAPAY': 'https://drive.google.com/uc?export=download&id=1DKB3fLnghp4nscLX2WYMdmMVkyucLDbk',
   'TSAA': 'https://drive.google.com/uc?export=download&id=1muE68ANg5MxiCGYaGCkG8unb3oNpRYDz',
+
+
+
+  //FAMILY
+  'ANAK NA BABAE': 'https://drive.google.com/uc?export=download&id=16vZWL4xbiHEO58fm8JqaznEgRx1ptSTj',
+  'ANAK NA LALAKI': 'https://drive.google.com/uc?export=download&id=1POQjiuY1Ftxf96nVTgsuuAtwF_SMod0c',
+  'ATE': 'https://drive.google.com/uc?export=download&id=1uml3pdoMcO7Yqbxf61H4Ay1iULMnMbcu',
+  'BATA': 'https://drive.google.com/uc?export=download&id=1LoI0Rk-9wFIX51W_pHzORItwRy40aBZE',
+  'BUNTIS': 'https://drive.google.com/uc?export=download&id=13KZnZWfL2uq-lgtTSFS0H4Xxp1epcfeI',
+  'KUYA': 'https://drive.google.com/uc?export=download&id=17-q9I01EYCXyB8MR-IbAofQukTdsTI8d',
+  'LOLA': 'https://drive.google.com/uc?export=download&id=1D_H5gkDkAENsxrEf7izeQ5KW8w-9DPHq',
+  'LOLO': 'https://drive.google.com/uc?export=download&id=1cdICJFR3eov0jwYrPYhQOCa7ecXQ71IC',
+  'MAMA': 'https://drive.google.com/uc?export=download&id=1MmxATI4RUgH5Y7xCEKAWUkYbPkeFPmLI',
+  'MGA BATA': 'https://drive.google.com/uc?export=download&id=1Rp4U8o-kPwT_cVLIxj4NQ83jXL4R5MBY',
+  'NINANG': 'https://drive.google.com/uc?export=download&id=1_KpK8tRfyXLwLJJ6nRAg35r24DzwcNSI',
+  'NINONG': 'https://drive.google.com/uc?export=download&id=1MABAUBQa-Lg4olB2JKcD9OC5coUoeh1I',
+  'OPO': 'https://drive.google.com/uc?export=download&id=1miihuXwvuPPHldk6QQ3C5ftL5TAPAoyx',
+  'PAMILYA': 'https://drive.google.com/uc?export=download&id=188tS4R8AL-2jGbr4rxeeZyjWWULhOskG',
+  'PAPA': 'https://drive.google.com/uc?export=download&id=1dvvaB3z7BaWtJs8yJNcKq3XblFfKjrRi',
+  'PINSAN': 'https://drive.google.com/uc?export=download&id=1qjOp4zRPKWBTpSpI-m0PzJGm3DTnDi4Y',
+  'TEENAGER': 'https://drive.google.com/uc?export=download&id=1oybMJNr8lOw0nfgKfDmj_zRZqbShmDFc',
+  'TITA': 'https://drive.google.com/uc?export=download&id=1g2zQxiQAxEFD6KoEXU6rUuFKI7aLb6du',
+  'TITO': 'https://drive.google.com/uc?export=download&id=1fUl-xjoT5ZIhoBrpdChD9FWKJu-5-50W',
+  
+
+
+
+
+
   
 
 
