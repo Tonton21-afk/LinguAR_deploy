@@ -149,8 +149,18 @@ final Map<String, String> letterModels = {
   'SUNOG': 'https://drive.google.com/uc?export=download&id=1H2rr78c9sW_uO9Fo7xTkil70uqppz-us',
   'TULUNGAN MO SILA': 'https://drive.google.com/uc?export=download&id=1FRMRCpYU1ywbkVjMKjpLSoB0OFdKvAmw',
   'ULAN': 'https://drive.google.com/uc?export=download&id=1ovdYx3NwL2Q7rdgKRNBgAzzyKeH2u577',
-  '': 'https://drive.google.com/uc?export=download&id=',
 
+
+
+  //COLOR AND SHAPES
+  'ASUL': 'https://drive.google.com/uc?export=download&id=1X53Nl5qOqD1RZSqx6RNe91gv7aX9HGts',
+  'BILOG': 'https://drive.google.com/uc?export=download&id=1cYBavqoLJEvWBnp9i9HXcfnNHkArNyy-',
+  'GINTO': 'https://drive.google.com/uc?export=download&id=1bgvVBM4H4TpxzjZdXRreQN-T0r6v2Niu',
+  'ITIM': 'https://drive.google.com/uc?export=download&id=1jpuQ3TmYIEL-hRsHlcB2H2n7Jp_einxs',
+  'KAHEL': 'https://drive.google.com/uc?export=download&id=1Q7AVLp2W0PNfDHMNifQiDKLIGjGRkQUa',
+  'KAYUMANGGI': 'https://drive.google.com/uc?export=download&id=1-L5wMqa-c3JBxg894AwU4FRc_wjHsbEh',
+  'PARISUKAT': 'https://drive.google.com/uc?export=download&id=1vs4L5R27i84Z6c2m5iQ0mkPjGeTXdS6m',
+  'ROSAS': 'https://drive.google.com/uc?export=download&id=1A98c6ejia92tVPjb3Y8WljfnLHtEPx6P',
 
 
   
