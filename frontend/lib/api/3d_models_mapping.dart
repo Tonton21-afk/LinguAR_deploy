@@ -138,6 +138,18 @@ final Map<String, String> letterModels = {
   
 
 
+  //EMERGENCY AND NATURE
+  'BAGYO': 'https://drive.google.com/uc?export=download&id=1sEJO4BTUFCHWJm6_UQfEBTG7Pim4u5Em',
+  'BAHA': 'https://drive.google.com/uc?export=download&id=1sIzJnuOAsKylDA8cXB9rvEWYbJnMw_dq',
+  'TULONG': 'https://drive.google.com/uc?export=download&id=1u4NjaGIBHu_H8Gen1TwVgz-isNxB2gAU',
+  'EMERGENCY': 'https://drive.google.com/uc?export=download&id=1urPaoNaIsM1yEabYoLJEwEFzprHtwdhh',
+  'LINDOL': 'https://drive.google.com/uc?export=download&id=1HcokvMXDPaWgtKeMSonO02a6HK_i_bvB',
+  'MAGNANAKAW': 'https://drive.google.com/uc?export=download&id=1fM5TPn65hF15rF9wfDn_zBtCs0PfnurM',
+  'RESCUE': 'https://drive.google.com/uc?export=download&id=1KPe229c_rJK_jNW9uC_nVZLsSWg7XY8r',
+  'SUNOG': 'https://drive.google.com/uc?export=download&id=1H2rr78c9sW_uO9Fo7xTkil70uqppz-us',
+  'TULUNGAN MO SILA': 'https://drive.google.com/uc?export=download&id=1FRMRCpYU1ywbkVjMKjpLSoB0OFdKvAmw',
+  'ULAN': 'https://drive.google.com/uc?export=download&id=1ovdYx3NwL2Q7rdgKRNBgAzzyKeH2u577',
+  '': 'https://drive.google.com/uc?export=download&id=',
 
 
 
