@@ -1,15 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:lingua_arv1/Widgets/fsl_lesson_section.dart';
-import 'package:lingua_arv1/home/favorites/FavoritesList.dart';
-import 'package:lingua_arv1/screens/text_to_speech/tts_tab.dart';
-import '../screens/gesture/gesture_translator.dart';
-import '../screens/text_to_speech/text_to_speech.dart';
-import 'package:lingua_arv1/validators/token.dart';
-import 'package:http/http.dart' as http;
-import 'dart:convert';
-import 'package:lingua_arv1/repositories/Config.dart';
-import 'package:flutter/material.dart';
-import 'package:lingua_arv1/Widgets/fsl_lesson_section.dart';
 import 'package:lingua_arv1/screens/fsl_Quiz/lesson_flow_page.dart';
 
 
@@ -27,7 +17,6 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   static const String _trackKey = 'fsl_translate_track';
 
-  // Same topics you used in FSLTranslatePage
   final List<Map<String, dynamic>> topics = const [
     {
       'title': 'Daily Communication',
@@ -77,7 +66,6 @@ class _HomePageState extends State<HomePage> {
         child: FslLessonsSection(
           trackKey: _trackKey,
           topics: topics,
-          // Optional: set a custom progress color here
           progressColor: const Color(0xFF4A90E2),
         ),
       ),
