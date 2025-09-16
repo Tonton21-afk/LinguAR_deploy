@@ -15,7 +15,6 @@ class LessonFlowPage extends StatelessWidget {
   Widget build(BuildContext context) {
     final quizData = generateQuizData(category);
 
-    //avoid crash on empty data
     if (quizData.isEmpty) {
       return Scaffold(
         appBar: AppBar(title: const Text('Lesson')),
@@ -42,8 +41,6 @@ class LessonFlowPage extends StatelessWidget {
       final bloc = QuizBloc(quizData: quizData, category: category);
       bloc.add(ProceedToQuiz());
 
-      print(
-          'DEBUG[LessonFlow]: push -> AnswerFeedbackPage(category=$category) ...');
       final bool? completed = await Navigator.push<bool>(
         context,
         MaterialPageRoute(
@@ -55,12 +52,6 @@ class LessonFlowPage extends StatelessWidget {
       );
       await bloc.close();
 
-      print(
-          'DEBUG[LessonFlow]: pop <- AnswerFeedbackPage completed=$completed');
-      if (completed == true) {
-        print('DEBUG[LessonFlow]: forwarding true to FSLTranslatePage');
-        if (context.mounted) Navigator.pop(context, true); // ✅ forward upstream
-      }
     }
 
     return Learningcardpage(
