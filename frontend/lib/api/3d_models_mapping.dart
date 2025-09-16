@@ -1,4 +1,6 @@
 final Map<String, String> letterModels = {
+
+  //Letters
   "A": "https://drive.google.com/uc?export=download&id=18PK5QZADTA2TdXUv6hG7iCaLiP7zIgxJ",
   "B": "https://drive.google.com/uc?export=download&id=15JpKabuYvDLtNtBt4wLmoj7LV7fXYYXo",
   "C": "https://drive.google.com/uc?export=download&id=1P7_XSFccunfmF0oJyaDt62DrMyfRKL7o",
@@ -162,7 +164,7 @@ final Map<String, String> letterModels = {
   'PARISUKAT': 'https://drive.google.com/uc?export=download&id=1vs4L5R27i84Z6c2m5iQ0mkPjGeTXdS6m',
   'ROSAS': 'https://drive.google.com/uc?export=download&id=1A98c6ejia92tVPjb3Y8WljfnLHtEPx6P',
 
-
+  
   
 
 
