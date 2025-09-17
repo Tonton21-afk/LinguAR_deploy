@@ -14,7 +14,7 @@ It helps students, educators, and the Deaf community learn and practice FSL thro
 - 🖼️ **3D/AR Models & AR Overlays** – Sign language gestures displayed in augmented reality.  
 - 🤖 **Machine Learning Model** – Trained models to recognize and classify sign language gestures.  
 - 📊 **Progress Tracking** – Monitor completed lessons and learning achievements.  
-
+- 🔊 **Sign-to-Voice Translation** – Recognized FSL gestures are instantly translated into spoken voice for real-time communication.  
 ---
 
 ## 🛠️ Tech Stack
