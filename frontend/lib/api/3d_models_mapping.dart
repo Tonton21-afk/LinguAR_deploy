@@ -174,7 +174,11 @@ final Map<String, String> letterModels = {
   'SUICIDE': 'https://drive.google.com/uc?export=download&id=1RbvpeXRRlCdKu_dmWSe3GIB1Jr2ZRoOO',
   'TRAUMA': 'https://drive.google.com/uc?export=download&id=11pplTH7ps7amNuQZBqzoMoBla-J6M4yV',
 
-
+  // SELF-CARE
+  'BREATH': 'https://drive.google.com/uc?export=download&id=1yO85br5y-sEcqmIL-3iFBGrWmCFz8oPT',
+  'REST': 'https://drive.google.com/uc?export=download&id=1yQk9SZxUwiyOVXRR5JY83QvoL0Z0SL1n',
+  'SUPPORT': 'https://drive.google.com/uc?export=download&id=1RnHLH267Hs9TGJixWyo3OqlMD_3qRHxE',
+  'THERAPY': 'https://drive.google.com/uc?export=download&id=1j7TNJ9_sFId--FStUsZdNvs5vE-yuVYp',
 
 
 
