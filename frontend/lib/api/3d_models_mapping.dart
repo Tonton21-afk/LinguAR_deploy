@@ -181,6 +181,14 @@ final Map<String, String> letterModels = {
   'THERAPY': 'https://drive.google.com/uc?export=download&id=1j7TNJ9_sFId--FStUsZdNvs5vE-yuVYp',
 
 
+  //GREETINGS
+  'GOOD': 'https://drive.google.com/uc?export=download&id=1pAgH5sevW-Ay1XylUqHPIgGbRRjsmHNS',
+  'AFTERNOON': 'https://drive.google.com/uc?export=download&id=1vOPGqkiEu1w99okqRFBOulI6RWvydJoS',
+  'MORNING': 'https://drive.google.com/uc?export=download&id=1YUChj8qUFjGV53HPQhrGHE-TSavUZMyQ',
+  'NIGHT': 'https://drive.google.com/uc?export=download&id=1KpfQrm0BGoII3rQBVo2myORiZMZnRTOS',
+
+
+
 
 };
 
