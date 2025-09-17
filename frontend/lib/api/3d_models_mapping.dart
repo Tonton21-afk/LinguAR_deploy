@@ -164,8 +164,15 @@ final Map<String, String> letterModels = {
   'PARISUKAT': 'https://drive.google.com/uc?export=download&id=1vs4L5R27i84Z6c2m5iQ0mkPjGeTXdS6m',
   'ROSAS': 'https://drive.google.com/uc?export=download&id=1A98c6ejia92tVPjb3Y8WljfnLHtEPx6P',
 
-  
-  
+  //MENTAL HEALTH
+  'ADDICTION': 'https://drive.google.com/uc?export=download&id=1F54ay_duAtz5wS65fnlsWGUOCfcLyVK7',
+  'ANXIETY': 'https://drive.google.com/uc?export=download&id=1qDM3ntow8CKt8Njh13OXEFQ__-eMGIrO',
+  'DEPRESSION': 'https://drive.google.com/uc?export=download&id=13Gtoylsfu6xAYfUhVgKBVSnUY2tEHGF8',
+  'DISORDER': 'https://drive.google.com/uc?export=download&id=1HP8auofrTQcZumJCK1QMY03bNPQkXfAo',
+  'MENTAL HEALTH': 'https://drive.google.com/uc?export=download&id=1RikWRVrvzhZFl6kML9mjPyce-vGe-D8H',
+  'STRESS': 'https://drive.google.com/uc?export=download&id=1HIHJFmVQSNUJq2OhtZo_3NT0ahgqvPqG',
+  'SUICIDE': 'https://drive.google.com/uc?export=download&id=1RbvpeXRRlCdKu_dmWSe3GIB1Jr2ZRoOO',
+  'TRAUMA': 'https://drive.google.com/uc?export=download&id=11pplTH7ps7amNuQZBqzoMoBla-J6M4yV',
 
 
 
