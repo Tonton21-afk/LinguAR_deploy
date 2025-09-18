@@ -18,11 +18,11 @@ def create_app():
     CORS(app, origins=allowed or "*", supports_credentials=True)
 
     # ---- Register lightweight routes (always on) ----
-    from server.routes.auth_routes import create_auth_routes
-    from server.routes.videos_routes import create_cloudinary_routes
-    from server.routes.otp import create_otp_routes
-    from server.routes.touch import create_touch_routes
-    from server.routes.favotites import create_favorites_routes  # file should be favorites.py
+    from routes.auth_routes import create_auth_routes
+    from routes.videos_routes import create_cloudinary_routes
+    from routes.otp import create_otp_routes
+    from routes.touch import create_touch_routes
+    from routes.favotites import create_favorites_routes  # file should be favorites.py
 
     create_auth_routes(app)
     create_cloudinary_routes(app)
@@ -32,11 +32,11 @@ def create_app():
 
     # ---- Conditionally register heavy routes ----
     if ENABLE_GESTURE:
-        from server.routes.gesture_routes import create_gesture_routes
+        from routes.gesture_routes import create_gesture_routes
         create_gesture_routes(app)
 
     if ENABLE_SPEECH:
-        from server.routes.speech_recognition_routes import create_speech_recognition_routes
+        from routes.speech_recognition_routes import create_speech_recognition_routes
         create_speech_recognition_routes(app)
 
     # ---- Health & error handlers ----
