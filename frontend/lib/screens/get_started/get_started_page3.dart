@@ -18,7 +18,7 @@ class _GetStartedPage3State extends State<GetStartedPage3> {
   List<CameraDescription>? cameras;
   Timer? _timer; // Timer for automatic detection
   bool isNavigating = false; // Flag to track if navigation has already occurred
-  String url = BasicUrl.baseURL;
+  String url = GestureUrl.baseURL;
 
   @override
   void initState() {
