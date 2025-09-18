@@ -21,7 +21,6 @@ def create_app():
     from routes.auth_routes import create_auth_routes
     from routes.videos_routes import create_cloudinary_routes
     from routes.otp import create_otp_routes
-    from routes.touch import create_touch_routes
     from routes.favotites import create_favorites_routes  # file should be favorites.py
 
     create_auth_routes(app)
