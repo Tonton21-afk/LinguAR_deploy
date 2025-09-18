@@ -4,6 +4,7 @@ import 'dart:convert';
 import 'dart:typed_data';
 import 'package:camera/camera.dart';
 import 'package:lingua_arv1/repositories/Config.dart';
+import 'package:lingua_arv1/screens/home/home_screen.dart';
 import 'get_started_page4.dart';
 import 'dart:async'; // Import for Timer
 
@@ -95,7 +96,7 @@ class _GetStartedPage3State extends State<GetStartedPage3> {
           });
           Navigator.push(
             context,
-            MaterialPageRoute(builder: (context) => GetStartedPage4()),
+            MaterialPageRoute(builder: (context) => HomeScreen()),//change this to homescreen for a while
           ).then((_) {
             // This callback runs when the user returns to this page
             print("Navigated back to GetStartedPage3.");
