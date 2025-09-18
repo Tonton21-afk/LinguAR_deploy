@@ -8,7 +8,7 @@ import 'package:lingua_arv1/repositories/hand_gesture/hand_repository.dart';
 
 
 class HandRepositoryImpl implements HandRepository {
-  String baseUrl = gestureUrl.baseURL;
+  String baseUrl = GestureUrl.baseURL;
 
   @override
   Future<GestureModel> recognizeGesture(String imagePath) async {
