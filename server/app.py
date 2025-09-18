@@ -17,11 +17,9 @@ def create_app():
 
     # Register routes
     create_auth_routes(app)
-    create_gesture_routes(app)
     create_speech_recognition_routes(app)  
     create_cloudinary_routes(app)
     create_otp_routes(app)
-    create_touch_routes(app)
     create_favorites_routes(app)
 
 
