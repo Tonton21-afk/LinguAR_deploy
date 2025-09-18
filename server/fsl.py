@@ -13,7 +13,9 @@ def create_app():
     create_gesture_routes(app)
     create_touch_routes(app)
 
-
+ @app.route("/")
+    def home():
+        return "Gesture API is running. Use POST /gesture/detect"
 
 
     return app
