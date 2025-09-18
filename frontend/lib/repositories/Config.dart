@@ -6,6 +6,6 @@ class BasicUrl {
   static const String baseURL = "https://linguar-deploy.onrender.com";
 }
 
-class gestureUrl{
+class GestureUrl{
   static const String baseURL = "https://d9a8b0a76857.ngrok-free.app";
 }
