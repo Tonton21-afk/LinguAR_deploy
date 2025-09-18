@@ -6,6 +6,7 @@ from routes.touch import create_touch_routes
 
 def create_app():
     app = Flask(__name__)
+    CORS(app)
 
 
     # Register routes
