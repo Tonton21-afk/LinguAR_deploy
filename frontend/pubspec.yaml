@@ -30,6 +30,7 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
+    
 
 
   # The following adds the Cupertino Icons font to your application.
@@ -93,7 +94,9 @@ flutter:
     - assets/icons/camera-02.1024x918.png
     - assets/icons/home-simple.1024x989.png
     - assets/icons/fsl.svg
+    - assets/icons/fsl.png 
     - assets/animations/fslBlue.json
+    
 
   fonts:
     - family: Jost
