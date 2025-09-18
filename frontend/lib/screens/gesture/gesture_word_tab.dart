@@ -25,7 +25,7 @@ class _GestureWordTabState extends State<GestureWordTab> with WidgetsBindingObse
   int _cameraIndex = 1;
   String predictedCharacter = "";
   bool isPredicting = false;
-  String url = BasicUrl.baseURL;
+  String url = gestureUrl.baseURL;
   String formedWord = "";
   bool _isFlipping = false;
   bool _isMounted = true;
