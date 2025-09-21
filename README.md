@@ -1,4 +1,4 @@
-# README
+# Deployment
 
-This README is for **deployment purposes** on Render.  
-Refer to `requirements.txt`, `runtime.txt`, and the start command in the Render settings.  
+This repository is configured for **deployment on Render**.  
+This README exists for deployment purposes only. 
