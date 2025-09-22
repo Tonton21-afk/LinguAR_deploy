@@ -11,12 +11,7 @@ Deployment repository for **LinguAR**, an Augmented Reality–based learning pla
 - **scikit-learn / Mediapipe** (Gesture recognition)
 - **MongoDB** (Data storage)
 
-## 🚀 Deployment (Render)
-1. Push latest changes to GitHub:
-   ```bash
-   git add .
-   git commit -m "Deploy update"
-   git push origin main
+
 
 
    
