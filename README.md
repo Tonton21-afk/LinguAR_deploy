@@ -1,4 +1,7 @@
 # Deployment
 
-This repository is configured for **deployment on Render**.  
-This README exists for deployment purposes only. 
+# 🚀 LinguAR_deploy
+Deployment repository for **LinguAR**, an Augmented Reality–based learning platform for Filipino Sign Language (FSL). This repo focuses on backend deployment setup, including Flask server, APIs, and Render deployment configuration.
+
+## 📂 Project Structure
+
